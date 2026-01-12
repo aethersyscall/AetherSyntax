@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="eclipse">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherSyntax Rust</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        
+    /* 
+         * AETHER AMETHYST ENGINE
+         * V3.2.0 - Stable Release
+         */
+    :root {
+      --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-md: 8px;
+      --radius-sm: 4px;
+      --trans-speed: 0.2s;
+      --header-height: 56px;
+      --footer-height: 32px;
+    }
+
+    /* PALETTE DEFINITIONS */
+    [data-theme="eclipse"] {
+      --bg: #13111B;
+      --surface: #1B1824;
+      --element: #252130;
+      --active: #2F2942;
+      --border: #2E283B;
+      --tx-primary: #EDE8F5;
+      --tx-secondary: #9B94A8;
+      --tx-muted: #5C5269;
+      --syn-keyword: #9580FF;
+      --syn-func: #FF70B8;
+      --syn-type: #D2A8FF;
+      --syn-str: #FF9CE6;
+      --syn-num: #C26BFF;
+      --syn-op: #80FFEA;
+      --sem-warn: #E0AF68;
+      --sem-succ: #80FFEA;
+      --scroll-track: #13111B;
+      --scroll-thumb: #2E283B;
+    }
+
+    [data-theme="bliss"] {
+      --bg: #FDF7FF;
+      --surface: #F4EBFA;
+      --element: #EADCF5;
+      --active: #DCC2F0;
+      --border: #DCC2F0;
+      --tx-primary: #3E3245;
+      --tx-secondary: #746880;
+      --tx-muted: #9E94A8;
+      --syn-keyword: #624CAB;
+      --syn-func: #D1006B;
+      --syn-type: #8839CE;
+      --syn-str: #C22085;
+      --syn-num: #7B1FA2;
+      --syn-op: #008B8B;
+      --sem-warn: #C79200;
+      --sem-succ: #008B8B;
+      --scroll-track: #FDF7FF;
+      --scroll-thumb: #DCC2F0;
+    }
+
+    /* RESET & UTILS */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--tx-primary);
+      font-family: var(--font-ui);
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background-color var(--trans-speed), color var(--trans-speed);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    /* HEADER */
+    .app-header {
+      height: var(--header-height);
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--syn-keyword);
+    }
+
+    .brand span {
+      color: var(--tx-primary);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      background: var(--element);
+      color: var(--tx-secondary);
+      border: 1px solid transparent;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--active);
+      color: var(--tx-primary);
+      border-color: var(--border);
+    }
+
+    .btn.primary {
+      background: var(--syn-keyword);
+      color: #fff;
+    }
+
+    .btn-icon-only {
+      padding: 8px;
+    }
+
+    .btn span {
+      display: none;
+    }
+
+    /* WORKSPACE LAYOUT */
+    .workspace {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+    }
+
+    .pane-preview {
+      flex: 1;
+      order: -1;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .pane-editor {
+      flex: 1;
+      background: var(--bg);
+    }
+
+    .pane-header {
+      height: 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tx-muted);
+      justify-content: space-between;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    textarea#source-input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      resize: none;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--tx-primary);
+      caret-color: var(--syn-keyword);
+    }
+
+    .preview-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* TYPOGRAPHY & CODE */
+    .markdown-body {
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--tx-primary);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
+      color: var(--syn-keyword);
+      margin-top: 1.2em;
+      margin-bottom: 0.5em;
+    }
+
+    .markdown-body h1 {
+      font-size: 1.8em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-body a {
+      color: var(--syn-op);
+      text-decoration: none;
+    }
+
+    .code-wrapper {
+      margin-bottom: 1.5em;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--element);
+      overflow: hidden;
+    }
+
+    .code-header {
+      padding: 4px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--tx-muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .markdown-body pre {
+      padding: 12px;
+      overflow-x: auto;
+      margin: 0;
+      background: transparent;
+    }
+
+    .markdown-body code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    /* SYNTAX HIGHLIGHTING (Aether Palette) */
+    .hljs-keyword,
+    .hljs-selector-tag {
+      color: var(--syn-keyword);
+      font-weight: 600;
+    }
+
+    .hljs-function,
+    .hljs-title {
+      color: var(--syn-func);
+    }
+
+    .hljs-type,
+    .hljs-built_in,
+    .hljs-class {
+      color: var(--syn-type);
+    }
+
+    .hljs-string,
+    .hljs-regexp {
+      color: var(--syn-str);
+    }
+
+    .hljs-number,
+    .hljs-literal {
+      color: var(--syn-num);
+    }
+
+    .hljs-operator,
+    .hljs-link {
+      color: var(--syn-op);
+    }
+
+    .hljs-comment,
+    .hljs-quote {
+      color: var(--tx-muted);
+      font-style: italic;
+    }
+
+    @media (min-width: 768px) {
+      .workspace {
+        flex-direction: row;
+      }
+
+      .pane {
+        flex: 1;
+        height: auto;
+      }
+
+      .pane-preview {
+        order: 0;
+        border-left: 1px solid var(--border);
+        border-bottom: none;
+      }
+
+      .btn span {
+        display: inline;
+      }
+
+      .preview-container {
+        padding: 40px;
+      }
+
+      .pane-header {
+        border-top: none;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--scroll-track);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scroll-thumb);
+      border-radius: 4px;
+      border: 2px solid var(--scroll-track);
+    }
+  
+        body { overflow-y: auto; height: auto; padding: 40px 20px; display: block; }
+        .theme-switch-fab {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--syn-keyword); color: #fff;
+            border: none; padding: 12px 20px; border-radius: 99px;
+            font-family: var(--font-ui); font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <h1>Rust</h1>
+<p><strong>Safety. Speed. Concurrency.</strong></p>
+<p>Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety. It achieves this without a garbage collector by using a novel system called <strong>Ownership</strong>.</p>
+<hr>
+<h2>I. Novice (The Foundation)</h2>
+<p>Rust looks like C++ but behaves very differently. It enforces discipline at compile time.</p>
+<h3>Variables &amp; Mutability</h3>
+<p>By default, variables are <strong>immutable</strong>. This is a safety feature to prevent accidental state changes.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">main</span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">5</span>;
+    <span class="hljs-comment">// x = 6; // Compile Error!</span>
+    
+    <span class="hljs-comment">// Use 'mut' to allow changes</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">y</span> = <span class="hljs-number">10</span>;
+    y = <span class="hljs-number">20</span>;
+    
+    <span class="hljs-comment">// Constants must represent values known at compile-time</span>
+    <span class="hljs-keyword">const</span> MAX_POINTS: <span class="hljs-type">u32</span> = <span class="hljs-number">100_000</span>;
+}</code></pre></div><h3>Data Types</h3>
+<p>Rust is statically typed, but can often infer types.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">a</span>: <span class="hljs-type">i32</span> = <span class="hljs-number">42</span>;        <span class="hljs-comment">// Signed 32-bit integer</span>
+<span class="hljs-keyword">let</span> <span class="hljs-variable">b</span>: <span class="hljs-type">f64</span> = <span class="hljs-number">3.14</span>;      <span class="hljs-comment">// 64-bit Float</span>
+<span class="hljs-keyword">let</span> <span class="hljs-variable">c</span>: <span class="hljs-type">bool</span> = <span class="hljs-literal">true</span>;     <span class="hljs-comment">// Boolean</span>
+<span class="hljs-keyword">let</span> <span class="hljs-variable">d</span>: <span class="hljs-type">char</span> = <span class="hljs-string">'z'</span>;      <span class="hljs-comment">// Unicode scalar value (4 bytes)</span>
+
+<span class="hljs-comment">// Tuples</span>
+<span class="hljs-keyword">let</span> <span class="hljs-variable">t</span>: (<span class="hljs-type">i32</span>, <span class="hljs-type">f64</span>) = (<span class="hljs-number">500</span>, <span class="hljs-number">6.4</span>);
+<span class="hljs-keyword">let</span> (x, y) = t; <span class="hljs-comment">// Destructuring</span></code></pre></div><h3>Control Flow (Expressions)</h3>
+<p>In Rust, <code>if</code> is an expression, meaning it returns a value.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">number</span> = <span class="hljs-number">3</span>;
+<span class="hljs-keyword">let</span> <span class="hljs-variable">result</span> = <span class="hljs-keyword">if</span> number &lt; <span class="hljs-number">5</span> { <span class="hljs-string">"small"</span> } <span class="hljs-keyword">else</span> { <span class="hljs-string">"big"</span> };
+
+<span class="hljs-comment">// Loops</span>
+<span class="hljs-keyword">loop</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Infinite"</span>);
+    <span class="hljs-keyword">break</span>; <span class="hljs-comment">// Exit loop</span>
+}
+
+<span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..<span class="hljs-number">4</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, i); <span class="hljs-comment">// 1, 2, 3</span>
+}</code></pre></div><hr>
+<h2>II. Apprentice (Ownership)</h2>
+<p>This is the barrier to entry. Understand this, and you understand Rust.</p>
+<h3>The Rules</h3>
+<ol>
+<li>Each value in Rust has a variable that’s called its <strong>owner</strong>.</li>
+<li>There can only be one owner at a time.</li>
+<li>When the owner goes out of scope, the value will be dropped.</li>
+</ol>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust">{
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">s1</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hello"</span>);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">s2</span> = s1; 
+    <span class="hljs-comment">// s1 is MOVED to s2. s1 is now invalid.</span>
+    
+    <span class="hljs-comment">// println!("{}", s1); // Error: value borrowed after move</span>
+} <span class="hljs-comment">// s2 goes out of scope and is freed.</span></code></pre></div><h3>Borrowing (References)</h3>
+<p>We can view data without taking ownership using references (<code>&amp;</code>).</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">calculate_len</span>(s: &amp;<span class="hljs-type">String</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+    s.<span class="hljs-title function_ invoke__">len</span>()
+} <span class="hljs-comment">// s goes out of scope, but since it's a reference, nothing happens.</span>
+
+<span class="hljs-keyword">let</span> <span class="hljs-variable">s1</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hello"</span>);
+<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = <span class="hljs-title function_ invoke__">calculate_len</span>(&amp;s1);</code></pre></div><h3>Mutable References</h3>
+<p>You can have <strong>one</strong> mutable reference OR <strong>many</strong> immutable references, but not both at the same time. This prevents data races.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">s</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hello"</span>);
+
+<span class="hljs-keyword">let</span> <span class="hljs-variable">r1</span> = &amp;<span class="hljs-keyword">mut</span> s;
+<span class="hljs-comment">// let r2 = &amp;mut s; // Error: cannot borrow as mutable more than once</span>
+r1.<span class="hljs-title function_ invoke__">push_str</span>(<span class="hljs-string">", world"</span>);</code></pre></div><hr>
+<h2>III. Journeyman (Structure &amp; Enums)</h2>
+<p>Rust has rich data modeling capabilities.</p>
+<h3>Structs</h3>
+<p>Standard data structures.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">User</span> {
+    username: <span class="hljs-type">String</span>,
+    active: <span class="hljs-type">bool</span>,
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-variable">user1</span> = User {
+    username: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"Shadow"</span>),
+    active: <span class="hljs-literal">true</span>,
+};</code></pre></div><h3>Enums &amp; Matching</h3>
+<p>Enums in Rust are algebraic data types. They can hold data. <code>match</code> forces you to handle every possibility.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">enum</span> <span class="hljs-title class_">Message</span> {
+    Quit,
+    Move { x: <span class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span> },
+    <span class="hljs-title function_ invoke__">Write</span>(<span class="hljs-type">String</span>),
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-variable">msg</span> = Message::<span class="hljs-title function_ invoke__">Write</span>(<span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"Hello"</span>));
+
+<span class="hljs-keyword">match</span> msg {
+    Message::Quit =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Quit"</span>),
+    Message::Move { x, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Move to {}, {}"</span>, x, y),
+    Message::<span class="hljs-title function_ invoke__">Write</span>(text) =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Text: {}"</span>, text),
+}</code></pre></div><h3>Error Handling</h3>
+<p>Rust has no exceptions. It uses <code>Result</code> (Success/Failure) and <code>Option</code> (Something/Nothing).</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">use</span> std::fs::File;
+
+<span class="hljs-comment">// The ? operator propagates errors automatically</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_file</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;<span class="hljs-type">String</span>, std::io::Error&gt; {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">f</span> = File::<span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>)?;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">s</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">new</span>();
+    <span class="hljs-comment">// ... read file ...</span>
+    <span class="hljs-title function_ invoke__">Ok</span>(s)
+}</code></pre></div><hr>
+<h2>IV. Expert (Abstraction)</h2>
+<p>Writing generic, reusable code using Traits (similar to interfaces).</p>
+<h3>Traits</h3>
+<p>Defining shared behavior.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">pub</span> <span class="hljs-keyword">trait</span> <span class="hljs-title class_">Summary</span> {
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">summarize</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span>;
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Summary</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">User</span> {
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">summarize</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span> {
+        <span class="hljs-built_in">format!</span>(<span class="hljs-string">"User: {}"</span>, <span class="hljs-keyword">self</span>.username)
+    }
+}
+
+<span class="hljs-comment">// Trait Bounds (Generics)</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">notify</span>&lt;T: Summary&gt;(item: &amp;T) {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"News: {}"</span>, item.<span class="hljs-title function_ invoke__">summarize</span>());
+}</code></pre></div><h3>Lifetimes</h3>
+<p>Ensuring references are valid as long as we need them. Usually inferred, but sometimes explicit.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-comment">// 'a tells the compiler: the return value lives as long as the inputs</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">longest</span>&lt;<span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>, y: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span> {
+    <span class="hljs-keyword">if</span> x.<span class="hljs-title function_ invoke__">len</span>() &gt; y.<span class="hljs-title function_ invoke__">len</span>() { x } <span class="hljs-keyword">else</span> { y }
+}</code></pre></div><h3>Iterators &amp; Closures</h3>
+<p>Functional programming features.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">v1</span> = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+
+<span class="hljs-comment">// .map() is lazy, .collect() consumes the iterator</span>
+<span class="hljs-keyword">let</span> <span class="hljs-variable">v2</span>: <span class="hljs-type">Vec</span>&lt;_&gt; = v1.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|x| x + <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">collect</span>();</code></pre></div><hr>
+<h2>V. Grandmaster (Systems &amp; Concurrency)</h2>
+<p>Fearless concurrency and low-level control.</p>
+<h3>Smart Pointers</h3>
+<ul>
+<li><code>Box&lt;T&gt;</code>: Allocate values on the Heap.</li>
+<li><code>Rc&lt;T&gt;</code>: Reference Counting (Multiple owners).</li>
+<li><code>Arc&lt;T&gt;</code>: Atomic Reference Counting (Thread-safe multiple owners).</li>
+</ul>
+<h3>Concurrency (Threads &amp; Channels)</h3>
+<p>Messaging passing is preferred over shared state.</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">use</span> std::thread;
+<span class="hljs-keyword">use</span> std::sync::mpsc; <span class="hljs-comment">// Multiple Producer, Single Consumer</span>
+
+<span class="hljs-keyword">let</span> (tx, rx) = mpsc::<span class="hljs-title function_ invoke__">channel</span>();
+
+thread::<span class="hljs-title function_ invoke__">spawn</span>(<span class="hljs-keyword">move</span> || {
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hi"</span>);
+    tx.<span class="hljs-title function_ invoke__">send</span>(val).<span class="hljs-title function_ invoke__">unwrap</span>();
+});
+
+<span class="hljs-keyword">let</span> <span class="hljs-variable">received</span> = rx.<span class="hljs-title function_ invoke__">recv</span>().<span class="hljs-title function_ invoke__">unwrap</span>();</code></pre></div><h3>Unsafe Rust</h3>
+<p>Opting out of safety guarantees for hardware interaction or FFI (Foreign Function Interface).</p>
+<div class="code-wrapper"><div class="code-header"><span>rust</span></div><pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">num</span> = <span class="hljs-number">5</span>;
+
+<span class="hljs-comment">// Raw pointers</span>
+<span class="hljs-keyword">let</span> <span class="hljs-variable">r1</span> = &amp;num <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-type">i32</span>;
+
+<span class="hljs-keyword">unsafe</span> {
+    <span class="hljs-comment">// Dereferencing raw pointers is unsafe</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"r1 is: {}"</span>, *r1);
+}</code></pre></div>
+    </div>
+    <button class="theme-switch-fab" onclick="toggle()">Switch Theme</button>
+    <script>
+        function toggle() {
+            const h = document.documentElement;
+            const current = h.getAttribute('data-theme');
+            h.setAttribute('data-theme', current === 'eclipse' ? 'bliss' : 'eclipse');
+        }
+    </script>
+</body>
+</html>

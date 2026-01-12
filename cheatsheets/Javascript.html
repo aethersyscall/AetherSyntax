@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="eclipse">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherSyntax JS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        
+    /* 
+         * AETHER AMETHYST ENGINE
+         * V3.2.0 - Stable Release
+         */
+    :root {
+      --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-md: 8px;
+      --radius-sm: 4px;
+      --trans-speed: 0.2s;
+      --header-height: 56px;
+      --footer-height: 32px;
+    }
+
+    /* PALETTE DEFINITIONS */
+    [data-theme="eclipse"] {
+      --bg: #13111B;
+      --surface: #1B1824;
+      --element: #252130;
+      --active: #2F2942;
+      --border: #2E283B;
+      --tx-primary: #EDE8F5;
+      --tx-secondary: #9B94A8;
+      --tx-muted: #5C5269;
+      --syn-keyword: #9580FF;
+      --syn-func: #FF70B8;
+      --syn-type: #D2A8FF;
+      --syn-str: #FF9CE6;
+      --syn-num: #C26BFF;
+      --syn-op: #80FFEA;
+      --sem-warn: #E0AF68;
+      --sem-succ: #80FFEA;
+      --scroll-track: #13111B;
+      --scroll-thumb: #2E283B;
+    }
+
+    [data-theme="bliss"] {
+      --bg: #FDF7FF;
+      --surface: #F4EBFA;
+      --element: #EADCF5;
+      --active: #DCC2F0;
+      --border: #DCC2F0;
+      --tx-primary: #3E3245;
+      --tx-secondary: #746880;
+      --tx-muted: #9E94A8;
+      --syn-keyword: #624CAB;
+      --syn-func: #D1006B;
+      --syn-type: #8839CE;
+      --syn-str: #C22085;
+      --syn-num: #7B1FA2;
+      --syn-op: #008B8B;
+      --sem-warn: #C79200;
+      --sem-succ: #008B8B;
+      --scroll-track: #FDF7FF;
+      --scroll-thumb: #DCC2F0;
+    }
+
+    /* RESET & UTILS */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--tx-primary);
+      font-family: var(--font-ui);
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background-color var(--trans-speed), color var(--trans-speed);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    /* HEADER */
+    .app-header {
+      height: var(--header-height);
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--syn-keyword);
+    }
+
+    .brand span {
+      color: var(--tx-primary);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      background: var(--element);
+      color: var(--tx-secondary);
+      border: 1px solid transparent;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--active);
+      color: var(--tx-primary);
+      border-color: var(--border);
+    }
+
+    .btn.primary {
+      background: var(--syn-keyword);
+      color: #fff;
+    }
+
+    .btn-icon-only {
+      padding: 8px;
+    }
+
+    .btn span {
+      display: none;
+    }
+
+    /* WORKSPACE LAYOUT */
+    .workspace {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+    }
+
+    .pane-preview {
+      flex: 1;
+      order: -1;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .pane-editor {
+      flex: 1;
+      background: var(--bg);
+    }
+
+    .pane-header {
+      height: 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tx-muted);
+      justify-content: space-between;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    textarea#source-input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      resize: none;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--tx-primary);
+      caret-color: var(--syn-keyword);
+    }
+
+    .preview-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* TYPOGRAPHY & CODE */
+    .markdown-body {
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--tx-primary);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
+      color: var(--syn-keyword);
+      margin-top: 1.2em;
+      margin-bottom: 0.5em;
+    }
+
+    .markdown-body h1 {
+      font-size: 1.8em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-body a {
+      color: var(--syn-op);
+      text-decoration: none;
+    }
+
+    .code-wrapper {
+      margin-bottom: 1.5em;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--element);
+      overflow: hidden;
+    }
+
+    .code-header {
+      padding: 4px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--tx-muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .markdown-body pre {
+      padding: 12px;
+      overflow-x: auto;
+      margin: 0;
+      background: transparent;
+    }
+
+    .markdown-body code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    /* SYNTAX HIGHLIGHTING (Aether Palette) */
+    .hljs-keyword,
+    .hljs-selector-tag {
+      color: var(--syn-keyword);
+      font-weight: 600;
+    }
+
+    .hljs-function,
+    .hljs-title {
+      color: var(--syn-func);
+    }
+
+    .hljs-type,
+    .hljs-built_in,
+    .hljs-class {
+      color: var(--syn-type);
+    }
+
+    .hljs-string,
+    .hljs-regexp {
+      color: var(--syn-str);
+    }
+
+    .hljs-number,
+    .hljs-literal {
+      color: var(--syn-num);
+    }
+
+    .hljs-operator,
+    .hljs-link {
+      color: var(--syn-op);
+    }
+
+    .hljs-comment,
+    .hljs-quote {
+      color: var(--tx-muted);
+      font-style: italic;
+    }
+
+    @media (min-width: 768px) {
+      .workspace {
+        flex-direction: row;
+      }
+
+      .pane {
+        flex: 1;
+        height: auto;
+      }
+
+      .pane-preview {
+        order: 0;
+        border-left: 1px solid var(--border);
+        border-bottom: none;
+      }
+
+      .btn span {
+        display: inline;
+      }
+
+      .preview-container {
+        padding: 40px;
+      }
+
+      .pane-header {
+        border-top: none;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--scroll-track);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scroll-thumb);
+      border-radius: 4px;
+      border: 2px solid var(--scroll-track);
+    }
+  
+        body { overflow-y: auto; height: auto; padding: 40px 20px; display: block; }
+        .theme-switch-fab {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--syn-keyword); color: #fff;
+            border: none; padding: 12px 20px; border-radius: 99px;
+            font-family: var(--font-ui); font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <h1>JavaScript: Logic</h1>
+<p><strong>The Behavior of the Web.</strong></p>
+<p>HTML builds the house. CSS paints it. JavaScript makes the lights turn on, the doors open, and the elevators move. It is an event-driven, dynamic language.</p>
+<hr>
+<h2>I. Novice (The Basics)</h2>
+<p>Forget <code>var</code>. Modern JavaScript relies on strict variable declarations to prevent bugs.</p>
+<h3>Variables</h3>
+<ul>
+<li><strong><code>const</code></strong>: The default. Use this if the value won't be reassigned.</li>
+<li><strong><code>let</code></strong>: Use this only if the value <em>must</em> change (e.g., counters).</li>
+</ul>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> appName = <span class="hljs-string">"AetherSyntax"</span>; <span class="hljs-comment">// Cannot be changed</span>
+<span class="hljs-keyword">let</span> userCount = <span class="hljs-number">0</span>;              <span class="hljs-comment">// Can change</span>
+
+userCount++; <span class="hljs-comment">// 1</span></code></pre></div><h3>The Console</h3>
+<p>Your primary tool for debugging.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"System initialized."</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">"Connection failed."</span>);
+
+<span class="hljs-comment">// Displays data as a clean table</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">table</span>([
+  { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">status</span>: <span class="hljs-string">"Active"</span> },
+  { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">status</span>: <span class="hljs-string">"Offline"</span> }
+]);</code></pre></div><h3>Data Types</h3>
+<p>JavaScript is loosely typed (you don't declare types), but types still exist.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> name = <span class="hljs-string">"Forge"</span>;       <span class="hljs-comment">// String</span>
+<span class="hljs-keyword">const</span> score = <span class="hljs-number">98.5</span>;         <span class="hljs-comment">// Number</span>
+<span class="hljs-keyword">const</span> isActive = <span class="hljs-literal">true</span>;      <span class="hljs-comment">// Boolean</span>
+<span class="hljs-keyword">const</span> empty = <span class="hljs-literal">null</span>;         <span class="hljs-comment">// Explicitly empty</span>
+<span class="hljs-keyword">const</span> unknown = <span class="hljs-literal">undefined</span>;  <span class="hljs-comment">// Implicitly empty</span></code></pre></div><hr>
+<h2>II. Apprentice (Modern Syntax)</h2>
+<p>ES6 (2015) revolutionized JavaScript. Writing "Old JS" is now considered a bad practice.</p>
+<h3>Template Literals</h3>
+<p>Stop using <code>+</code> to join strings. Use backticks <code>`</code> and <code>${}</code>.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> user = <span class="hljs-string">"Shadow"</span>;
+<span class="hljs-keyword">const</span> level = <span class="hljs-number">5</span>;
+
+<span class="hljs-comment">// The Old Way (Bad)</span>
+<span class="hljs-comment">// const msg = "User " + user + " is level " + level;</span>
+
+<span class="hljs-comment">// The Modern Way (Good)</span>
+<span class="hljs-keyword">const</span> msg = <span class="hljs-string">`User <span class="hljs-subst">${user}</span> is level <span class="hljs-subst">${level}</span>`</span>;</code></pre></div><h3>Arrow Functions</h3>
+<p>A concise syntax for writing functions.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-comment">// Traditional Function</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">a, b</span>) {
+  <span class="hljs-keyword">return</span> a + b;
+}
+
+<span class="hljs-comment">// Arrow Function (Implicit Return)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;
+
+<span class="hljs-comment">// Block Body (Requires 'return')</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">process</span> = (<span class="hljs-params">data</span>) =&gt; {
+  <span class="hljs-keyword">const</span> result = data * <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">return</span> result;
+};</code></pre></div><hr>
+<h2>III. Journeyman (The DOM)</h2>
+<p>The <strong>D</strong>ocument <strong>O</strong>bject <strong>M</strong>odel is how JS talks to HTML.</p>
+<h3>Selection (<code>querySelector</code>)</h3>
+<p>The Swiss Army Knife of selecting elements. It uses CSS selectors.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-comment">// Select by ID</span>
+<span class="hljs-keyword">const</span> header = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">"#main-header"</span>);
+
+<span class="hljs-comment">// Select by Class (Returns first match)</span>
+<span class="hljs-keyword">const</span> card = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">".card"</span>);
+
+<span class="hljs-comment">// Select All (Returns a NodeList/Array)</span>
+<span class="hljs-keyword">const</span> allButtons = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">"button"</span>);</code></pre></div><h3>Event Listeners</h3>
+<p>Waiting for the user to do something.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> btn = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">"#submit-btn"</span>);
+
+btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">"click"</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+  event.<span class="hljs-title function_">preventDefault</span>(); <span class="hljs-comment">// Stop form from reloading page</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Button clicked!"</span>);
+  
+  <span class="hljs-comment">// Modify styles directly</span>
+  btn.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = <span class="hljs-string">"#9580FF"</span>;
+});</code></pre></div><hr>
+<h2>IV. Expert (Data Manipulation)</h2>
+<p>Handling complex data structures efficiently is the hallmark of a senior engineer.</p>
+<h3>Destructuring</h3>
+<p>Unpacking values from objects or arrays into distinct variables.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">theme</span>: <span class="hljs-string">"Eclipse"</span>,
+  <span class="hljs-attr">version</span>: <span class="hljs-string">"2.0"</span>,
+  <span class="hljs-attr">debug</span>: <span class="hljs-literal">true</span>
+};
+
+<span class="hljs-comment">// Extract 'theme' and 'version' into variables</span>
+<span class="hljs-keyword">const</span> { theme, version } = config;
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(theme); <span class="hljs-comment">// "Eclipse"</span></code></pre></div><h3>The Spread Operator (<code>...</code>)</h3>
+<p>Copying or merging data without mutating the original source.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> baseStats = { <span class="hljs-attr">hp</span>: <span class="hljs-number">100</span>, <span class="hljs-attr">mp</span>: <span class="hljs-number">50</span> };
+<span class="hljs-keyword">const</span> buffedStats = { ...baseStats, <span class="hljs-attr">hp</span>: <span class="hljs-number">150</span>, <span class="hljs-attr">armor</span>: <span class="hljs-number">20</span> };
+
+<span class="hljs-comment">// Result: { hp: 150, mp: 50, armor: 20 }</span>
+
+<span class="hljs-keyword">const</span> nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+<span class="hljs-keyword">const</span> allNums = [...nums, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>];</code></pre></div><h3>Array Methods</h3>
+<p>Loops (<code>for</code>) are verbose. Use functional methods instead.</p>
+<ul>
+<li><strong><code>map</code></strong>: Transform every item.</li>
+<li><strong><code>filter</code></strong>: Select specific items.</li>
+</ul>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> prices = [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>];
+
+<span class="hljs-comment">// Double every price</span>
+<span class="hljs-keyword">const</span> doubled = prices.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">price</span> =&gt;</span> price * <span class="hljs-number">2</span>);
+<span class="hljs-comment">// [20, 40, 60, 80]</span>
+
+<span class="hljs-comment">// Keep only prices over 25</span>
+<span class="hljs-keyword">const</span> expensive = prices.<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">price</span> =&gt;</span> price &gt; <span class="hljs-number">25</span>);
+<span class="hljs-comment">// [30, 40]</span></code></pre></div><hr>
+<h2>V. Grandmaster (Async &amp; Network)</h2>
+<p>JavaScript is single-threaded, but it handles long tasks (like fetching data) using the <strong>Event Loop</strong>.</p>
+<h3>Fetch API</h3>
+<p>Getting data from a server.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-title function_">fetch</span>(<span class="hljs-string">"https://api.aether.com/users"</span>)
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.<span class="hljs-title function_">json</span>())
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data))
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">"Network Error:"</span>, error));</code></pre></div><h3>Async / Await</h3>
+<p>Syntactic sugar over Promises. It makes asynchronous code look synchronous and readable.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">loadUserData</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">"https://api.aether.com/users"</span>);
+    
+    <span class="hljs-keyword">if</span> (!response.<span class="hljs-property">ok</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">"Server Error"</span>);
+    
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();
+    <span class="hljs-keyword">return</span> data;
+    
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">"Failed to load:"</span>, error);
+  }
+}
+
+<span class="hljs-comment">// Usage</span>
+<span class="hljs-title function_">loadUserData</span>();</code></pre></div><h3>Modules</h3>
+<p>Splitting code into multiple files.</p>
+<div class="code-wrapper"><div class="code-header"><span>javascript</span></div><pre><code class="hljs language-javascript"><span class="hljs-comment">// math.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;
+
+<span class="hljs-comment">// main.js</span>
+<span class="hljs-keyword">import</span> { add } <span class="hljs-keyword">from</span> <span class="hljs-string">'./math.js'</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">add</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>));</code></pre></div>
+    </div>
+    <button class="theme-switch-fab" onclick="toggle()">Switch Theme</button>
+    <script>
+        function toggle() {
+            const h = document.documentElement;
+            const current = h.getAttribute('data-theme');
+            h.setAttribute('data-theme', current === 'eclipse' ? 'bliss' : 'eclipse');
+        }
+    </script>
+</body>
+</html>

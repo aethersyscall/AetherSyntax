@@ -1,0 +1,62 @@
+[
+  {
+    "title": "C Logic",
+    "description": "Manual memory management, pointers, and zero-cost abstractions.",
+    "tags": [
+      "Systems",
+      "Performance",
+      "Legacy"
+    ],
+    "path": "./cheatsheets/C.html"
+  },
+  {
+    "title": "C++ Logic",
+    "description": "Manual memory management, pointers, and zero-cost abstractions.",
+    "tags": [
+      "Systems",
+      "Performance",
+      "Legacy"
+    ],
+    "path": "./cheatsheets/C++.html"
+  },
+  {
+    "title": "Rust Flow",
+    "description": "Ownership, Borrowing, and Lifetimes visualized through synesthetic color mapping.",
+    "tags": [
+      "Systems",
+      "Safety",
+      "Backend"
+    ],
+    "path": "./cheatsheets/Rust.html"
+  },
+  {
+    "title": "HTML Structure",
+    "description": "The semantic skeleton of the web. DOM hierarchy and accessibility patterns.",
+    "tags": [
+      "Web",
+      "UI",
+      "Frontend"
+    ],
+    "path": "./cheatsheets/HTML.html"
+  },
+  {
+    "title": "CSS3 Logic",
+    "description": "The visual language of the web. Flexbox architectures, Grid systems, and kinetic motion.",
+    "tags": [
+      "Web",
+      "Design",
+      "Frontend"
+    ],
+    "path": "./cheatsheets/CSS3.html"
+  },
+  {
+    "title": "JavaScript Logic",
+    "description": "The behavior of the web. Asynchronous flows, DOM manipulation, and modern ES6+ paradigms.",
+    "tags": [
+      "Web",
+      "Logic",
+      "Frontend"
+    ],
+    "path": "./cheatsheets/Javascript.html"
+  }
+]

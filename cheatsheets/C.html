@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="eclipse">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherSyntax C</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        
+    /* 
+         * AETHER AMETHYST ENGINE
+         * V3.2.0 - Stable Release
+         */
+    :root {
+      --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-md: 8px;
+      --radius-sm: 4px;
+      --trans-speed: 0.2s;
+      --header-height: 56px;
+      --footer-height: 32px;
+    }
+
+    /* PALETTE DEFINITIONS */
+    [data-theme="eclipse"] {
+      --bg: #13111B;
+      --surface: #1B1824;
+      --element: #252130;
+      --active: #2F2942;
+      --border: #2E283B;
+      --tx-primary: #EDE8F5;
+      --tx-secondary: #9B94A8;
+      --tx-muted: #5C5269;
+      --syn-keyword: #9580FF;
+      --syn-func: #FF70B8;
+      --syn-type: #D2A8FF;
+      --syn-str: #FF9CE6;
+      --syn-num: #C26BFF;
+      --syn-op: #80FFEA;
+      --sem-warn: #E0AF68;
+      --sem-succ: #80FFEA;
+      --scroll-track: #13111B;
+      --scroll-thumb: #2E283B;
+    }
+
+    [data-theme="bliss"] {
+      --bg: #FDF7FF;
+      --surface: #F4EBFA;
+      --element: #EADCF5;
+      --active: #DCC2F0;
+      --border: #DCC2F0;
+      --tx-primary: #3E3245;
+      --tx-secondary: #746880;
+      --tx-muted: #9E94A8;
+      --syn-keyword: #624CAB;
+      --syn-func: #D1006B;
+      --syn-type: #8839CE;
+      --syn-str: #C22085;
+      --syn-num: #7B1FA2;
+      --syn-op: #008B8B;
+      --sem-warn: #C79200;
+      --sem-succ: #008B8B;
+      --scroll-track: #FDF7FF;
+      --scroll-thumb: #DCC2F0;
+    }
+
+    /* RESET & UTILS */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--tx-primary);
+      font-family: var(--font-ui);
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background-color var(--trans-speed), color var(--trans-speed);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    /* HEADER */
+    .app-header {
+      height: var(--header-height);
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--syn-keyword);
+    }
+
+    .brand span {
+      color: var(--tx-primary);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      background: var(--element);
+      color: var(--tx-secondary);
+      border: 1px solid transparent;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--active);
+      color: var(--tx-primary);
+      border-color: var(--border);
+    }
+
+    .btn.primary {
+      background: var(--syn-keyword);
+      color: #fff;
+    }
+
+    .btn-icon-only {
+      padding: 8px;
+    }
+
+    .btn span {
+      display: none;
+    }
+
+    /* WORKSPACE LAYOUT */
+    .workspace {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+    }
+
+    .pane-preview {
+      flex: 1;
+      order: -1;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .pane-editor {
+      flex: 1;
+      background: var(--bg);
+    }
+
+    .pane-header {
+      height: 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tx-muted);
+      justify-content: space-between;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    textarea#source-input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      resize: none;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--tx-primary);
+      caret-color: var(--syn-keyword);
+    }
+
+    .preview-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* TYPOGRAPHY & CODE */
+    .markdown-body {
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--tx-primary);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
+      color: var(--syn-keyword);
+      margin-top: 1.2em;
+      margin-bottom: 0.5em;
+    }
+
+    .markdown-body h1 {
+      font-size: 1.8em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3em;
+    }
+
+    .markdown-body a {
+      color: var(--syn-op);
+      text-decoration: none;
+    }
+
+    .code-wrapper {
+      margin-bottom: 1.5em;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--element);
+      overflow: hidden;
+    }
+
+    .code-header {
+      padding: 4px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--tx-muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .markdown-body pre {
+      padding: 12px;
+      overflow-x: auto;
+      margin: 0;
+      background: transparent;
+    }
+
+    .markdown-body code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    /* SYNTAX HIGHLIGHTING (Aether Palette) */
+    .hljs-keyword,
+    .hljs-selector-tag {
+      color: var(--syn-keyword);
+      font-weight: 600;
+    }
+
+    .hljs-function,
+    .hljs-title {
+      color: var(--syn-func);
+    }
+
+    .hljs-type,
+    .hljs-built_in,
+    .hljs-class {
+      color: var(--syn-type);
+    }
+
+    .hljs-string,
+    .hljs-regexp {
+      color: var(--syn-str);
+    }
+
+    .hljs-number,
+    .hljs-literal {
+      color: var(--syn-num);
+    }
+
+    .hljs-operator,
+    .hljs-link {
+      color: var(--syn-op);
+    }
+
+    .hljs-comment,
+    .hljs-quote {
+      color: var(--tx-muted);
+      font-style: italic;
+    }
+
+    @media (min-width: 768px) {
+      .workspace {
+        flex-direction: row;
+      }
+
+      .pane {
+        flex: 1;
+        height: auto;
+      }
+
+      .pane-preview {
+        order: 0;
+        border-left: 1px solid var(--border);
+        border-bottom: none;
+      }
+
+      .btn span {
+        display: inline;
+      }
+
+      .preview-container {
+        padding: 40px;
+      }
+
+      .pane-header {
+        border-top: none;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--scroll-track);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scroll-thumb);
+      border-radius: 4px;
+      border: 2px solid var(--scroll-track);
+    }
+  
+        body { overflow-y: auto; height: auto; padding: 40px 20px; display: block; }
+        .theme-switch-fab {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--syn-keyword); color: #fff;
+            border: none; padding: 12px 20px; border-radius: 99px;
+            font-family: var(--font-ui); font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <h1>C Programming</h1>
+<p><strong>The Mother of Modern Languages.</strong></p>
+<p>C provides low-level access to memory, a small keyword set, and a clean style. It is the language of operating systems, embedded architectures, and high-performance computing. It trusts the programmer implicitly—for better or worse.</p>
+<hr>
+<h2>I. Novice (The Foundation)</h2>
+<p>C is a compiled language. Every program starts execution at the <code>main</code> function.</p>
+<h3>The Structure</h3>
+<p>Header files are required to access standard library functions like printing.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-comment">// Include standard Input/Output library</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Hello, Forge!\n"</span>);
+    
+    <span class="hljs-comment">// Return 0 indicates success to the OS</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; 
+}</code></pre></div><h3>Variables &amp; Types</h3>
+<p>C is statically typed. Types dictate how much memory is allocated.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">int</span> id = <span class="hljs-number">42</span>;          <span class="hljs-comment">// Integer (usually 4 bytes)</span>
+<span class="hljs-type">float</span> pi = <span class="hljs-number">3.14</span>;      <span class="hljs-comment">// Floating point</span>
+<span class="hljs-type">double</span> precise = <span class="hljs-number">3.14159</span>; <span class="hljs-comment">// Double precision</span>
+<span class="hljs-type">char</span> grade = <span class="hljs-string">'A'</span>;     <span class="hljs-comment">// Single character (1 byte)</span>
+
+<span class="hljs-comment">// Constants</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_USERS = <span class="hljs-number">100</span>;</code></pre></div><h3>Input &amp; Output</h3>
+<p>Use format specifiers to match the variable type.</p>
+<ul>
+<li><code>%d</code>: Integer</li>
+<li><code>%f</code>: Float</li>
+<li><code>%c</code>: Char</li>
+<li><code>%s</code>: String</li>
+</ul>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">int</span> age = <span class="hljs-number">25</span>;
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"User is %d years old.\n"</span>, age);
+
+<span class="hljs-comment">// Input (Pass the address using &amp;)</span>
+<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;age);</code></pre></div><hr>
+<h2>II. Apprentice (Control &amp; Arrays)</h2>
+<p>Handling logic flow and collections of data.</p>
+<h3>Control Flow</h3>
+<p>Standard logic structures. Braces <code>{}</code> are mandatory for multi-line blocks.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-keyword">if</span> (score &gt; <span class="hljs-number">90</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Rank: S"</span>);
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt; <span class="hljs-number">75</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Rank: A"</span>);
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Rank: B"</span>);
+}
+
+<span class="hljs-comment">// Loops</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d "</span>, i);
+}
+
+<span class="hljs-keyword">while</span> (is_running) {
+    <span class="hljs-comment">// Game loop logic</span>
+}</code></pre></div><h3>Arrays</h3>
+<p>Fixed-size collections. <strong>Warning:</strong> C does not check array bounds. Accessing index 10 of a size 5 array will crash or corrupt memory.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">int</span> numbers[<span class="hljs-number">5</span>] = {<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>};
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, numbers[<span class="hljs-number">0</span>]); <span class="hljs-comment">// 10</span></code></pre></div><h3>Strings</h3>
+<p>C has no <code>string</code> type. Strings are just arrays of characters ending with a <strong>Null Terminator</strong> (<code>\0</code>).</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">char</span> name[] = <span class="hljs-string">"Aether"</span>;
+<span class="hljs-comment">// In memory: ['A', 'e', 't', 'h', 'e', 'r', '\0']</span></code></pre></div><hr>
+<h2>III. Journeyman (Pointers)</h2>
+<p>The barrier to entry. A pointer is a variable that stores a memory address.</p>
+<h3>The Syntax</h3>
+<ul>
+<li><code>&amp;</code>: Address-of operator (Get the address).</li>
+<li><code>*</code>: Dereference operator (Go to the address and get the value).</li>
+</ul>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">int</span> val = <span class="hljs-number">10</span>;
+<span class="hljs-type">int</span> *ptr = &amp;val; <span class="hljs-comment">// ptr holds the address of val</span>
+
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p"</span>, ptr);  <span class="hljs-comment">// Prints memory address (e.g., 0x7ffee...)</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, *ptr); <span class="hljs-comment">// Prints 10 (Value at that address)</span>
+
+*ptr = <span class="hljs-number">20</span>; <span class="hljs-comment">// val is now 20</span></code></pre></div><h3>Pointer Arithmetic</h3>
+<p>Arrays decay into pointers. Moving a pointer moves it by the size of the data type.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">int</span> arr[] = {<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>};
+<span class="hljs-type">int</span> *p = arr; <span class="hljs-comment">// Points to arr[0]</span>
+
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, *(p + <span class="hljs-number">1</span>)); <span class="hljs-comment">// Prints 20 (arr[1])</span></code></pre></div><hr>
+<h2>IV. Expert (Memory &amp; Structs)</h2>
+<p>Building complex data types and managing the Heap.</p>
+<h3>Structs</h3>
+<p>Grouping related data. The precursor to Objects.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Player</span> {</span>
+    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];
+    <span class="hljs-type">int</span> hp;
+    <span class="hljs-type">int</span> score;
+};
+
+<span class="hljs-comment">// Initialization</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Player</span> <span class="hljs-title">p1</span> =</span> {<span class="hljs-string">"Shadow"</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>};
+
+<span class="hljs-comment">// Accessing fields</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s"</span>, p1.name);
+
+<span class="hljs-comment">// Pointers to Structs (Arrow Operator)</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Player</span> *<span class="hljs-title">ptr</span> =</span> &amp;p1;
+ptr-&gt;hp -= <span class="hljs-number">10</span>; <span class="hljs-comment">// Same as (*ptr).hp</span></code></pre></div><h3>Dynamic Memory (The Heap)</h3>
+<p>Stack memory is automatic. Heap memory must be manually requested (<code>malloc</code>) and released (<code>free</code>).</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-comment">// Allocate memory for 10 integers</span>
+<span class="hljs-type">int</span> *arr = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-number">10</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));
+
+<span class="hljs-keyword">if</span> (arr != <span class="hljs-literal">NULL</span>) {
+    arr[<span class="hljs-number">0</span>] = <span class="hljs-number">5</span>;
+}
+
+<span class="hljs-comment">// CRITICAL: You must free memory to prevent leaks</span>
+<span class="hljs-built_in">free</span>(arr);
+arr = <span class="hljs-literal">NULL</span>; <span class="hljs-comment">// Good practice to avoid dangling pointers</span></code></pre></div><hr>
+<h2>V. Grandmaster (Systems Programming)</h2>
+<p>Code that talks directly to hardware and the compiler.</p>
+<h3>Preprocessor Macros</h3>
+<p>Directives that run <em>before</em> compilation.</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> PI 3.14159</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> SQUARE(x) ((x) * (x))</span>
+
+<span class="hljs-comment">// Conditional Compilation</span>
+<span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> DEBUG</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Debug Mode ON"</span>);
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span></code></pre></div><h3>Bitwise Operations</h3>
+<p>Manipulating individual bits. Essential for embedded systems and drivers.</p>
+<ul>
+<li><code>&amp;</code>: AND</li>
+<li><code>|</code>: OR</li>
+<li><code>^</code>: XOR</li>
+<li><code>&lt;&lt;</code>: Left Shift</li>
+<li><code>&gt;&gt;</code>: Right Shift</li>
+</ul>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> flags = <span class="hljs-number">0x01</span>; <span class="hljs-comment">// 0000 0001</span>
+
+<span class="hljs-comment">// Set the 3rd bit</span>
+flags |= (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>); <span class="hljs-comment">// Result: 0000 0101</span>
+
+<span class="hljs-comment">// Check if 3rd bit is set</span>
+<span class="hljs-keyword">if</span> (flags &amp; (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>)) {
+    <span class="hljs-comment">// True</span>
+}</code></pre></div><h3>Function Pointers</h3>
+<p>Storing a function in a variable to pass logic around (Callbacks).</p>
+<div class="code-wrapper"><div class="code-header"><span>c</span></div><pre><code class="hljs language-c"><span class="hljs-type">void</span> <span class="hljs-title function_">execute</span><span class="hljs-params">(<span class="hljs-type">void</span> (*func)(<span class="hljs-type">int</span>))</span> {
+    func(<span class="hljs-number">42</span>);
+}
+
+<span class="hljs-type">void</span> <span class="hljs-title function_">print_val</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Val: %d"</span>, x);
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    execute(print_val); <span class="hljs-comment">// Passes function as argument</span>
+}</code></pre></div>
+    </div>
+    <button class="theme-switch-fab" onclick="toggle()">Switch Theme</button>
+    <script>
+        function toggle() {
+            const h = document.documentElement;
+            const current = h.getAttribute('data-theme');
+            h.setAttribute('data-theme', current === 'eclipse' ? 'bliss' : 'eclipse');
+        }
+    </script>
+</body>
+</html>
