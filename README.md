@@ -28,7 +28,7 @@
 
 ### Option 1:
 
-Visit the live github page [here](aethersyscall.github.io/AetherSyntax)
+Visit the live github page [here](https://aethersyscall.github.io/AetherSyntax)
 
 ### Option 2:
 
