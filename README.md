@@ -1,61 +1,88 @@
 <div align=center>
-    
+
 # AetherSyntax
 
-**A zero-dependency, static cheatsheet library for modern developers.**
+ **Psychological Syntax Highlighting.**  
+ A cognitive documentation library engineered for flow state.
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-9580FF?style=for-the-badge)](LICENSE)
+[![Status](https://img.shields.io/badge/System-Nominal-FF70B8?style=for-the-badge)](https://aethersyscall.github.io/AetherSyntax)
+[![Theme](https://img.shields.io/badge/Theme-Aether_Amethyst-80FFEA?style=for-the-badge)](https://github.com/AetherSyscall/AetherAmethyst)
 
-![AetherSyntax Banner](https://img.shields.io/badge/Aether-Syntax-9580FF?style=for-the-badge&labelColor=13111B)
-![Engine](https://img.shields.io/badge/Engine-Stable_v1.0.0-80FFEA?style=for-the-badge&labelColor=13111B)
-![License](https://img.shields.io/badge/License-MIT-FF70B8?style=for-the-badge&labelColor=13111B)
+[Live here ](https://aethersyscall.github.io/AetherSyntax)
 
-**AetherSyntax** is a lightweight documentation hub designed for speed and readability. It provides instant access to syntax guides for languages like Rust, C++, and JavaScript without the bloat of heavy frameworks.
 </div>
 
 ---
 
-## ⚡ Key Features
+## 🏗 Architecture
 
-*   **Zero Build Step:** No Webpack, React, or Node.js required. Runs natively in the browser.
-*   **JSON-Driven:** The dashboard is generated dynamically from a simple `cheatsheets.json` manifest.
-*   **Instant Search:** Real-time filtering by title and tags.
-*   **Dual Environment:** Built-in Dark (Eclipse) and Light (Bliss) modes with state persistence.
-*   **Mobile First:** Responsive grid layout that adapts to any device.
+AetherSyntax is a **Distributed Static System**. It does not rely on a backend database.
+
+### 1. The Dashboard (`index.html`)
+The entry point. It acts as a registry to generate a searchable constellation of knowledge fragments.
+
+### 2. The Fragments (`/cheatsheets/*.html`)
+Each cheatsheet is a **Self-Contained Polyglot**.
+*   **Zero Dependencies:** Each HTML file contains its own CSS, JS, and Theme Engine.
+*   **Portable:** You can email a single `.html` file to a colleague, and it will retain its theming, interactivity, and toggle states perfectly offline.
+
+### 3. The Generator (`AetherMarkdown`)
+I do not write HTML manually. I use the [AetherMarkdown Engine](https://aethersyscall.github.io/AetherFragments/fragments/AetherMarkdown.html) to transpile Markdown into the Aether HTML bundle.
+
+---
+
+## 🚀 Quick Start
+
+### Running Locally
+Because this is a vanilla stack, you only need a basic HTTP server.
+
+```bash
+# Clone the constellation
+git clone https://github.com/your-username/AetherSyntax.git
+cd AetherSyntax
+
+# Ignite (Python)
+python3 -m http.server 8080
+
+# Ignite (Node)
+npx serve .
+```
+
+### The Dual Environment
+The system comes equipped with two distinct psychological modes:
+The theme used here: [AetherAmethyst](https://aethersyscall.github.io/AetherAmethyst)
+*   **🌑 Eclipse (The Void):** Deep Indigo (`#13111B`) for high-contrast architectural focus.
+*   **🌸 Bliss (The Paper):** Lavender White (`#FDF7FF`) for high-clarity review in daylight.
 
 ---
 
-## 🚀 Usage
+## 🛠 Workflow
 
-### Option 1:
+To expand the library, follow the **Generator Pipeline**:
 
-Visit the live github page [here](https://aethersyscall.github.io/AetherSyntax)
+1.  **Draft:** Open `AetherMarkdown.html`.
+2.  **Write:** Create your documentation using standard Markdown.
+3.  **Export:** Click **"HTML"** to generate the self-contained bundle.
+4.  **Deploy:** Move the file to `cheatsheets/` and register it in `cheatsheets.json`.
 
-### Option 2:
-
-Since this is a static site, you only need a web server to run it (to handle JSON fetching via CORS).
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/AetherSyscall/AetherSyntax.git
-    cd AetherSyntax
-    ```
-
-2.  **Run locally:**
-    ```bash
-    # Using Python 3
-    python3 -m http.server 8000
-    
-    # Or using Node
-    npx serve .
-    ```
-
-3.  **Open:** Navigate to `http://localhost:8000` in your browser.
+*See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed rendering standards.*
 
 ---
-## How to Contribute?
 
-Visit [CONTRIBUTING.md](./CONTRIBUTING.md)
+## 📂 Project Structure
 
-## 📜 License
+```text
+AetherSyntax/
+├── cheatsheets/           # The Knowledge Fragments
+│   ├── rust.html          # Generated via AetherMarkdown
+│   ├── cpp.html
+│   └── ...
+├── index.html             # The Dashboard UI
+├── README.md              # You are here
+└── CONTRIBUTING.md        # The Standards
+```
 
-Distributed under the Apache 2.0 License.
+---
+
+&copy; 2026 AetherSyscall. Licensed under Apache 2.0.

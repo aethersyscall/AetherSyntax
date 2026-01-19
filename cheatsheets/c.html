@@ -1,0 +1,596 @@
+<!DOCTYPE html><html data-theme="eclipse"><head><meta charset="UTF-8"><title>Export</title><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet"><style>
+    :root {
+      --font-ui: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 8px;
+      --header-h: 60px;
+    }
+
+    [data-theme="eclipse"] {
+      --bg: #13111B;
+      --surface: #1B1824;
+      --element: #252130;
+      --active: #2F2942;
+      --border: #2E283B;
+      --fg: #EDE8F5;
+      --fg-dim: #9B94A8;
+      --acc-p: #9580FF;
+      --acc-k: #FF70B8;
+      --acc-c: #80FFEA;
+      --scroll-track: #13111B;
+      --scroll-thumb: #2E283B;
+    }
+
+    [data-theme="bliss"] {
+      --bg: #FDF7FF;
+      --surface: #F4EBFA;
+      --element: #EADCF5;
+      --active: #DCC2F0;
+      --border: #DCC2F0;
+      --fg: #3E3245;
+      --fg-dim: #746880;
+      --acc-p: #624CAB;
+      --acc-k: #D1006B;
+      --acc-c: #008B8B;
+      --scroll-track: #FDF7FF;
+      --scroll-thumb: #DCC2F0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      outline: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-ui);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      height: var(--header-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--acc-p);
+    }
+
+    .brand span {
+      color: var(--fg);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acc-c);
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+
+    .status-dot.saving {
+      background: var(--acc-k);
+      box-shadow: 0 0 8px var(--acc-k);
+      opacity: 1;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      background: var(--element);
+      color: var(--fg-dim);
+      border: 1px solid transparent;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--active);
+      color: var(--fg);
+      border-color: var(--border);
+    }
+
+    .btn.primary {
+      background: var(--acc-p);
+      color: #fff;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* WORKSPACE */
+    .workspace {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - var(--header-h));
+    }
+
+    .pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* EDITOR */
+    .pane-editor {
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+    }
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      resize: none;
+      padding: 30px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--fg);
+      caret-color: var(--acc-k);
+    }
+
+    /* PREVIEW */
+    .pane-preview {
+      background: var(--bg);
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .preview-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    /* CLEAN MARKDOWN TYPOGRAPHY */
+    .md-body {
+      line-height: 1.8;
+      font-size: 16px;
+      color: var(--fg);
+    }
+
+    .md-body h1,
+    .md-body h2,
+    .md-body h3 {
+      color: var(--acc-p);
+      margin-top: 1.5em;
+      margin-bottom: 0.8em;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .md-body h1 {
+      font-size: 2.2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3em;
+      margin-top: 0;
+    }
+
+    .md-body h2 {
+      font-size: 1.6rem;
+    }
+
+    .md-body h3 {
+      font-size: 1.3rem;
+      color: var(--acc-k);
+    }
+
+    .md-body p {
+      margin-bottom: 1.2em;
+      color: var(--fg-dim);
+    }
+
+    .md-body strong {
+      color: var(--fg);
+      font-weight: 700;
+    }
+
+    .md-body em {
+      color: var(--acc-c);
+      font-style: normal;
+    }
+
+    /* Highlight for emphasis */
+
+    .md-body ul,
+    .md-body ol {
+      margin-bottom: 1.2em;
+      padding-left: 1.5em;
+      color: var(--fg-dim);
+    }
+
+    .md-body li {
+      margin-bottom: 0.4em;
+    }
+
+    .md-body blockquote {
+      border-left: 4px solid var(--acc-p);
+      margin: 1.5em 0;
+      padding: 0.5em 1em;
+      background: var(--surface);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      color: var(--fg);
+      font-style: italic;
+    }
+
+    /* INLINE CODE */
+    .md-body code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--element);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--acc-c);
+    }
+
+    /* CODE BLOCKS */
+    .md-body pre {
+      background: var(--surface);
+      padding: 16px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 1.5em 0;
+      border: 1px solid var(--border);
+    }
+
+    .md-body pre code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: 0.9em;
+    }
+
+    /* SYNTAX HIGHLIGHTING (High Specificity) */
+    .md-body .hljs-keyword,
+    .md-body .hljs-selector-tag {
+      color: var(--acc-p);
+      font-weight: 700;
+    }
+
+    .md-body .hljs-function,
+    .md-body .hljs-title,
+    .md-body .hljs-section {
+      color: var(--acc-k);
+    }
+
+    .md-body .hljs-type,
+    .md-body .hljs-built_in,
+    .md-body .hljs-class {
+      color: var(--acc-c);
+    }
+
+    .md-body .hljs-string,
+    .md-body .hljs-regexp {
+      color: #FF9CE6;
+    }
+
+    /* Rose */
+    .md-body .hljs-number,
+    .md-body .hljs-literal {
+      color: #C26BFF;
+    }
+
+    /* Violet */
+    .md-body .hljs-comment,
+    .md-body .hljs-quote {
+      color: var(--fg-dim);
+      font-style: italic;
+    }
+
+    .md-body .hljs-variable,
+    .md-body .hljs-attr {
+      color: var(--fg);
+    }
+
+    /* SCROLLBARS */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    @media (max-width: 768px) {
+      .workspace {
+        flex-direction: column;
+      }
+
+      .pane-editor {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .preview-content,
+      textarea {
+        padding: 20px;
+      }
+
+      .btn span {
+        display: none;
+      }
+    }
+   body { overflow-y:auto; padding:40px; display:block; height:auto; } .preview-content { max-width:800px; margin:0 auto; } .theme-fab { position:fixed; bottom:20px; right:20px; background:var(--acc-p); color:#fff; border:none; padding:10px 20px; border-radius:99px; font-family:var(--font-ui); font-weight:700; cursor:pointer; }</style></head><body><div class="md-body preview-content"><h1>C Programming</h1>
+<h3>1. Basic Structure</h3>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// Standard Input/Output library</span></span>
+
+<span class="hljs-comment">// Entry point</span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Hello, World!\n"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// Exit status (0 = success)</span>
+}</code></pre><h3>2. Variables &amp; Data Types</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Primitive Types</span>
+<span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;               <span class="hljs-comment">// Integer (usually 4 bytes)</span>
+<span class="hljs-type">float</span> b = <span class="hljs-number">3.14f</span>;          <span class="hljs-comment">// Float (4 bytes)</span>
+<span class="hljs-type">double</span> c = <span class="hljs-number">3.14159</span>;       <span class="hljs-comment">// Double precision (8 bytes)</span>
+<span class="hljs-type">char</span> d = <span class="hljs-string">'A'</span>;             <span class="hljs-comment">// Character (1 byte)</span>
+
+<span class="hljs-comment">// Modifiers</span>
+<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> u = <span class="hljs-number">10</span>;      <span class="hljs-comment">// Positive only</span>
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> l = <span class="hljs-number">1000000</span>;    <span class="hljs-comment">// Extended range (at least 8 bytes)</span>
+<span class="hljs-type">short</span> s = <span class="hljs-number">5</span>;              <span class="hljs-comment">// Smaller range (usually 2 bytes)</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> CONSTANT = <span class="hljs-number">100</span>; <span class="hljs-comment">// Read-only</span>
+
+<span class="hljs-comment">// Booleans (requires C99+)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdbool.h&gt;</span></span>
+<span class="hljs-type">bool</span> isValid = <span class="hljs-literal">true</span>;      <span class="hljs-comment">// true (1) or false (0)</span></code></pre><h3>3. Input &amp; Output (printf/scanf)</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Format Specifiers:</span>
+<span class="hljs-comment">// %d (int), %f (float), %lf (double), %c (char), %s (string), %p (pointer), %x (hex)</span>
+
+<span class="hljs-type">int</span> age;
+<span class="hljs-type">float</span> height;
+
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"Age: %d, Height: %.2f\n"</span>, <span class="hljs-number">25</span>, <span class="hljs-number">1.75</span>); <span class="hljs-comment">// .2f limits decimal places</span>
+
+<span class="hljs-comment">// Input (Note the &amp; address-of operator)</span>
+<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;age);
+<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%f"</span>, &amp;height);</code></pre><h3>4. Control Flow</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// If-Else</span>
+<span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">10</span>) {
+    <span class="hljs-comment">// code</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (a == <span class="hljs-number">10</span>) {
+    <span class="hljs-comment">// code</span>
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// code</span>
+}
+
+<span class="hljs-comment">// Ternary Operator</span>
+<span class="hljs-type">int</span> max = (a &gt; b) ? a : b;
+
+<span class="hljs-comment">// Switch</span>
+<span class="hljs-keyword">switch</span> (op) {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+        <span class="hljs-comment">// code</span>
+        <span class="hljs-keyword">break</span>; <span class="hljs-comment">// Prevent fall-through</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+        <span class="hljs-comment">// code</span>
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+        <span class="hljs-comment">// code</span>
+}
+
+<span class="hljs-comment">// Loops</span>
+<span class="hljs-keyword">while</span> (condition) { <span class="hljs-comment">/* ... */</span> }
+
+<span class="hljs-keyword">do</span> {
+    <span class="hljs-comment">// Runs at least once</span>
+} <span class="hljs-keyword">while</span> (condition);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+    <span class="hljs-keyword">if</span> (i == <span class="hljs-number">5</span>) <span class="hljs-keyword">continue</span>; <span class="hljs-comment">// Skip iteration</span>
+    <span class="hljs-keyword">if</span> (i == <span class="hljs-number">8</span>) <span class="hljs-keyword">break</span>;    <span class="hljs-comment">// Exit loop</span>
+}</code></pre><h3>5. Arrays &amp; Strings</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Arrays (0-indexed, fixed size)</span>
+<span class="hljs-type">int</span> numbers[<span class="hljs-number">5</span>] = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>};
+<span class="hljs-type">int</span> zeros[<span class="hljs-number">10</span>] = {<span class="hljs-number">0</span>}; <span class="hljs-comment">// Initialize all to 0</span>
+numbers[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;
+
+<span class="hljs-comment">// Strings (Null-terminated character arrays)</span>
+<span class="hljs-type">char</span> str1[] = <span class="hljs-string">"Hello"</span>;        <span class="hljs-comment">// Size is 6 (5 chars + '\0')</span>
+<span class="hljs-type">char</span> str2[<span class="hljs-number">10</span>] = <span class="hljs-string">"World"</span>;      <span class="hljs-comment">// Explicit size (rest filled with \0)</span>
+
+<span class="hljs-comment">// String Functions (requires &lt;string.h&gt;)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-built_in">strlen</span>(str1);           <span class="hljs-comment">// Length (5)</span>
+<span class="hljs-built_in">strcpy</span>(dest, src);      <span class="hljs-comment">// Copy src to dest</span>
+<span class="hljs-built_in">strcat</span>(dest, src);      <span class="hljs-comment">// Concatenate</span>
+<span class="hljs-built_in">strcmp</span>(s1, s2);         <span class="hljs-comment">// Compare (0 if equal)</span></code></pre><h3>6. Pointers (The Core of C)</h3>
+<pre><code class="hljs language-c"><span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;
+
+<span class="hljs-comment">// Declaration &amp; Initialization</span>
+<span class="hljs-type">int</span> *ptr = &amp;x;     <span class="hljs-comment">// ptr stores the address of x</span>
+                   <span class="hljs-comment">// &amp; is "Address of" operator</span>
+
+<span class="hljs-comment">// Dereferencing</span>
+<span class="hljs-type">int</span> val = *ptr;    <span class="hljs-comment">// Get value at address (val = 10)</span>
+*ptr = <span class="hljs-number">20</span>;         <span class="hljs-comment">// Change value at address (x becomes 20)</span>
+
+<span class="hljs-comment">// Null Pointer</span>
+<span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;     <span class="hljs-comment">// Point to nothing (safest default)</span>
+
+<span class="hljs-comment">// Generic Pointer</span>
+<span class="hljs-type">void</span> *gp = &amp;x;     <span class="hljs-comment">// Can hold any address, needs cast to dereference</span></code></pre><h3>7. Pointer Arithmetic &amp; Arrays</h3>
+<pre><code class="hljs language-c"><span class="hljs-type">int</span> arr[<span class="hljs-number">3</span>] = {<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>};
+<span class="hljs-type">int</span> *p = arr;      <span class="hljs-comment">// Array name decays to pointer to first element</span>
+
+<span class="hljs-type">int</span> first = *p;        <span class="hljs-comment">// 10</span>
+<span class="hljs-type">int</span> second = *(p + <span class="hljs-number">1</span>); <span class="hljs-comment">// 20 (moves pointer sizeof(int) bytes forward)</span>
+
+<span class="hljs-comment">// Array access using pointers</span>
+p[<span class="hljs-number">1</span>] == *(p + <span class="hljs-number">1</span>);  <span class="hljs-comment">// True</span></code></pre><h3>8. Dynamic Memory (Heap)</h3>
+<p>Requires <code>&lt;stdlib.h&gt;</code>. You must manually manage memory.</p>
+<pre><code class="hljs language-c"><span class="hljs-comment">// malloc: Allocate bytes (uninitialized)</span>
+<span class="hljs-type">int</span> *arr = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-number">5</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));
+
+<span class="hljs-keyword">if</span> (arr == <span class="hljs-literal">NULL</span>) { <span class="hljs-comment">/* Allocation failed */</span> }
+
+<span class="hljs-comment">// calloc: Allocate and zero-initialize</span>
+<span class="hljs-type">int</span> *zero_arr = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">calloc</span>(<span class="hljs-number">5</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));
+
+<span class="hljs-comment">// realloc: Resize existing memory block</span>
+arr = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">realloc</span>(arr, <span class="hljs-number">10</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));
+
+<span class="hljs-comment">// free: Release memory (Crucial to prevent leaks)</span>
+<span class="hljs-built_in">free</span>(arr);
+arr = <span class="hljs-literal">NULL</span>; <span class="hljs-comment">// Good practice to prevent dangling pointer</span></code></pre><h3>9. Functions</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Declaration (Prototype)</span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>;
+
+<span class="hljs-comment">// Definition</span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> {
+    <span class="hljs-keyword">return</span> x + y;
+}
+
+<span class="hljs-comment">// Pass by Value (Default)</span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">modifyVal</span><span class="hljs-params">(<span class="hljs-type">int</span> a)</span> { a = <span class="hljs-number">99</span>; } <span class="hljs-comment">// Doesn't affect caller</span>
+
+<span class="hljs-comment">// Pass by Reference (using Pointers)</span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">modifyRef</span><span class="hljs-params">(<span class="hljs-type">int</span> *a)</span> { *a = <span class="hljs-number">99</span>; } <span class="hljs-comment">// Affects caller</span>
+<span class="hljs-comment">// Call: modifyRef(&amp;val);</span></code></pre><h3>10. Structs &amp; Unions</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Struct definition</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> {</span>
+    <span class="hljs-type">int</span> x;
+    <span class="hljs-type">int</span> y;
+};
+
+<span class="hljs-comment">// Initialization</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> <span class="hljs-title">p1</span> =</span> {<span class="hljs-number">10</span>, <span class="hljs-number">20</span>};
+
+<span class="hljs-comment">// Accessing fields</span>
+p1.x = <span class="hljs-number">15</span>;
+
+<span class="hljs-comment">// Pointers to Structs</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> *<span class="hljs-title">ptr</span> =</span> &amp;p1;
+ptr-&gt;x = <span class="hljs-number">30</span>;    <span class="hljs-comment">// Arrow operator (equivalent to (*ptr).x)</span>
+
+<span class="hljs-comment">// Typedef (Aliases)</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span>
+    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];
+    <span class="hljs-type">int</span> age;
+} Person; <span class="hljs-comment">// "Person" is now the type name</span>
+
+Person person1;
+
+<span class="hljs-comment">// Union (Shared memory location for all members)</span>
+<span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">Data</span> {</span>
+    <span class="hljs-type">int</span> i;
+    <span class="hljs-type">float</span> f;
+    <span class="hljs-type">char</span> str[<span class="hljs-number">20</span>];
+}; <span class="hljs-comment">// Size is size of largest member</span></code></pre><h3>11. Function Pointers</h3>
+<pre><code class="hljs language-c"><span class="hljs-type">void</span> <span class="hljs-title function_">say_hello</span><span class="hljs-params">()</span> { <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Hello\n"</span>); }
+
+<span class="hljs-comment">// Declare function pointer</span>
+<span class="hljs-type">void</span> (*func_ptr)();
+
+<span class="hljs-comment">// Assign and Call</span>
+func_ptr = &amp;say_hello;
+func_ptr(); <span class="hljs-comment">// or (*func_ptr)();</span></code></pre><h3>12. Preprocessor Directives</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Constants</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_SIZE 100</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PI 3.14159</span>
+
+<span class="hljs-comment">// Macros</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> SQUARE(x) ((x) * (x))</span>
+
+<span class="hljs-comment">// Conditional Compilation</span>
+<span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> DEBUG</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Debug mode\n"</span>);
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+
+<span class="hljs-comment">// Include Guard (in header files)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> HEADER_FILE_H</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> HEADER_FILE_H</span>
+    <span class="hljs-comment">// Declarations...</span>
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span></code></pre><h3>13. File I/O</h3>
+<pre><code class="hljs language-c">FILE *fptr;
+
+<span class="hljs-comment">// Open file</span>
+fptr = fopen(<span class="hljs-string">"file.txt"</span>, <span class="hljs-string">"w"</span>); <span class="hljs-comment">// "w" (write), "r" (read), "a" (append)</span>
+
+<span class="hljs-keyword">if</span> (fptr == <span class="hljs-literal">NULL</span>) { <span class="hljs-comment">/* Error */</span> }
+
+<span class="hljs-comment">// Write</span>
+<span class="hljs-built_in">fprintf</span>(fptr, <span class="hljs-string">"Value: %d"</span>, <span class="hljs-number">100</span>);
+<span class="hljs-built_in">fputs</span>(<span class="hljs-string">"Hello World"</span>, fptr);
+
+<span class="hljs-comment">// Read</span>
+<span class="hljs-type">char</span> buffer[<span class="hljs-number">100</span>];
+fgets(buffer, <span class="hljs-number">100</span>, fptr); <span class="hljs-comment">// Reads line</span>
+<span class="hljs-built_in">fscanf</span>(fptr, <span class="hljs-string">"%s"</span>, buffer);
+
+<span class="hljs-comment">// Close</span>
+fclose(fptr);</code></pre><h3>14. Storage Classes</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// Global (available everywhere)</span>
+<span class="hljs-type">int</span> globalVar; 
+
+<span class="hljs-comment">// Static (Global lifetime, local scope)</span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">counter</span><span class="hljs-params">()</span> {
+    <span class="hljs-type">static</span> <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// Initialized only once</span>
+    count++;
+}
+
+<span class="hljs-comment">// Extern (Defined in another file)</span>
+<span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> sharedVar;
+
+<span class="hljs-comment">// Volatile (Prevent compiler optimization - mostly embedded)</span>
+<span class="hljs-keyword">volatile</span> <span class="hljs-type">int</span> hardware_register;</code></pre><h3>15. Bitwise Operators</h3>
+<pre><code class="hljs language-c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;  <span class="hljs-comment">// 0101</span>
+<span class="hljs-type">int</span> b = <span class="hljs-number">3</span>;  <span class="hljs-comment">// 0011</span>
+
+<span class="hljs-type">int</span> and = a &amp; b; <span class="hljs-comment">// 0001 (1)</span>
+<span class="hljs-type">int</span> or  = a | b; <span class="hljs-comment">// 0111 (7)</span>
+<span class="hljs-type">int</span> xor = a ^ b; <span class="hljs-comment">// 0110 (6)</span>
+<span class="hljs-type">int</span> not = ~a;    <span class="hljs-comment">// 1010... (inverted bits)</span>
+<span class="hljs-type">int</span> shl = a &lt;&lt; <span class="hljs-number">1</span>;<span class="hljs-comment">// 1010 (10) - Left Shift</span>
+<span class="hljs-type">int</span> shr = a &gt;&gt; <span class="hljs-number">1</span>;<span class="hljs-comment">// 0010 (2)  - Right Shift</span></code></pre><h3>16. Command Line Arguments</h3>
+<pre><code class="hljs language-c"><span class="hljs-comment">// argc: argument count</span>
+<span class="hljs-comment">// argv: argument vector (array of strings)</span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span> {
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; argc; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Arg %d: %s\n"</span>, i, argv[i]);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><button class="theme-fab" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch Theme</button></body></html>
