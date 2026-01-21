@@ -1,0 +1,584 @@
+<!DOCTYPE html><html data-theme="eclipse"><head><meta charset="UTF-8"><title>Export</title><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet"><style>
+    :root {
+      --font-ui: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 8px;
+      --header-h: 60px;
+    }
+
+    [data-theme="eclipse"] {
+      --bg: #13111B;
+      --surface: #1B1824;
+      --element: #252130;
+      --active: #2F2942;
+      --border: #2E283B;
+      --fg: #EDE8F5;
+      --fg-dim: #9B94A8;
+      --acc-p: #9580FF;
+      --acc-k: #FF70B8;
+      --acc-c: #80FFEA;
+      --scroll-track: #13111B;
+      --scroll-thumb: #2E283B;
+    }
+
+    [data-theme="bliss"] {
+      --bg: #FDF7FF;
+      --surface: #F4EBFA;
+      --element: #EADCF5;
+      --active: #DCC2F0;
+      --border: #DCC2F0;
+      --fg: #3E3245;
+      --fg-dim: #746880;
+      --acc-p: #624CAB;
+      --acc-k: #D1006B;
+      --acc-c: #008B8B;
+      --scroll-track: #FDF7FF;
+      --scroll-thumb: #DCC2F0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      outline: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-ui);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      height: var(--header-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--acc-p);
+    }
+
+    .brand span {
+      color: var(--fg);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acc-c);
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+
+    .status-dot.saving {
+      background: var(--acc-k);
+      box-shadow: 0 0 8px var(--acc-k);
+      opacity: 1;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      background: var(--element);
+      color: var(--fg-dim);
+      border: 1px solid transparent;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--active);
+      color: var(--fg);
+      border-color: var(--border);
+    }
+
+    .btn.primary {
+      background: var(--acc-p);
+      color: #fff;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* WORKSPACE */
+    .workspace {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - var(--header-h));
+    }
+
+    .pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* EDITOR */
+    .pane-editor {
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+    }
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      resize: none;
+      padding: 30px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--fg);
+      caret-color: var(--acc-k);
+    }
+
+    /* PREVIEW */
+    .pane-preview {
+      background: var(--bg);
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .preview-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    /* CLEAN MARKDOWN TYPOGRAPHY */
+    .md-body {
+      line-height: 1.8;
+      font-size: 16px;
+      color: var(--fg);
+    }
+
+    .md-body h1,
+    .md-body h2,
+    .md-body h3 {
+      color: var(--acc-p);
+      margin-top: 1.5em;
+      margin-bottom: 0.8em;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .md-body h1 {
+      font-size: 2.2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3em;
+      margin-top: 0;
+    }
+
+    .md-body h2 {
+      font-size: 1.6rem;
+    }
+
+    .md-body h3 {
+      font-size: 1.3rem;
+      color: var(--acc-k);
+    }
+
+    .md-body p {
+      margin-bottom: 1.2em;
+      color: var(--fg-dim);
+    }
+
+    .md-body strong {
+      color: var(--fg);
+      font-weight: 700;
+    }
+
+    .md-body em {
+      color: var(--acc-c);
+      font-style: normal;
+    }
+
+    /* Highlight for emphasis */
+
+    .md-body ul,
+    .md-body ol {
+      margin-bottom: 1.2em;
+      padding-left: 1.5em;
+      color: var(--fg-dim);
+    }
+
+    .md-body li {
+      margin-bottom: 0.4em;
+    }
+
+    .md-body blockquote {
+      border-left: 4px solid var(--acc-p);
+      margin: 1.5em 0;
+      padding: 0.5em 1em;
+      background: var(--surface);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      color: var(--fg);
+      font-style: italic;
+    }
+
+    /* INLINE CODE */
+    .md-body code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--element);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--acc-c);
+    }
+
+    /* CODE BLOCKS */
+    .md-body pre {
+      background: var(--surface);
+      padding: 16px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 1.5em 0;
+      border: 1px solid var(--border);
+    }
+
+    .md-body pre code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: 0.9em;
+    }
+
+    /* SYNTAX HIGHLIGHTING (High Specificity) */
+    .md-body .hljs-keyword,
+    .md-body .hljs-selector-tag {
+      color: var(--acc-p);
+      font-weight: 700;
+    }
+
+    .md-body .hljs-function,
+    .md-body .hljs-title,
+    .md-body .hljs-section {
+      color: var(--acc-k);
+    }
+
+    .md-body .hljs-type,
+    .md-body .hljs-built_in,
+    .md-body .hljs-class {
+      color: var(--acc-c);
+    }
+
+    .md-body .hljs-string,
+    .md-body .hljs-regexp {
+      color: #FF9CE6;
+    }
+
+    /* Rose */
+    .md-body .hljs-number,
+    .md-body .hljs-literal {
+      color: #C26BFF;
+    }
+
+    /* Violet */
+    .md-body .hljs-comment,
+    .md-body .hljs-quote {
+      color: var(--fg-dim);
+      font-style: italic;
+    }
+
+    .md-body .hljs-variable,
+    .md-body .hljs-attr {
+      color: var(--fg);
+    }
+
+    /* SCROLLBARS */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    @media (max-width: 768px) {
+      .workspace {
+        flex-direction: column;
+      }
+
+      .pane-editor {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .preview-content,
+      textarea {
+        padding: 20px;
+      }
+
+      .btn span {
+        display: none;
+      }
+    }
+   body { overflow-y:auto; padding:40px; display:block; height:auto; } .preview-content { max-width:800px; margin:0 auto; } .theme-fab { position:fixed; bottom:20px; right:20px; background:var(--acc-p); color:#fff; border:none; padding:10px 20px; border-radius:99px; font-family:var(--font-ui); font-weight:700; cursor:pointer; }</style></head><body><div class="md-body preview-content"><h1>HTML 5</h1>
+<h3>1. Document Structure</h3>
+<pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span> <span class="hljs-comment">&lt;!-- Defines HTML5 document --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span> <span class="hljs-comment">&lt;!-- Root element --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span> <span class="hljs-comment">&lt;!-- Character encoding --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span> <span class="hljs-comment">&lt;!-- Responsive --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Page Title<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"favicon.ico"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Content goes here --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><h3>2. Text Formatting</h3>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Headings (h1 to h6) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Main Heading<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Subheading<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Paragraphs &amp; Breaks --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This is a paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span> <span class="hljs-comment">&lt;!-- Line break (self-closing) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span> <span class="hljs-comment">&lt;!-- Horizontal Rule (line) --&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Inline Formatting --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Bold (Important)<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>Bold (Visual)<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>Italic (Emphasis)<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>Italic (Visual)<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">u</span>&gt;</span>Underline<span class="hljs-tag">&lt;/<span class="hljs-name">u</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">s</span>&gt;</span>Strikethrough<span class="hljs-tag">&lt;/<span class="hljs-name">s</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mark</span>&gt;</span>Highlighted<span class="hljs-tag">&lt;/<span class="hljs-name">mark</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>Code snippet<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">sub</span>&gt;</span>Subscript<span class="hljs-tag">&lt;/<span class="hljs-name">sub</span>&gt;</span> and <span class="hljs-tag">&lt;<span class="hljs-name">sup</span>&gt;</span>Superscript<span class="hljs-tag">&lt;/<span class="hljs-name">sup</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Generic Containers --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Block-level container<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Inline container<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></code></pre><h3>3. Inline CSS</h3>
+<p>Use the <code>style</code> attribute to apply CSS directly to an element.
+<strong>Syntax:</strong> <code>style="property: value; property: value;"</code></p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Text Styling --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color: blue; text-align: center;"</span>&gt;</span>Centered Blue Title<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"font-size: 18px; font-weight: bold; font-family: Arial;"</span>&gt;</span>Styled Text<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Backgrounds &amp; Borders --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background-color: #f0f0f0; border: 1px solid black; padding: 10px;"</span>&gt;</span>
+    Box content
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Dimensions &amp; Spacing --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"logo.png"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 100px; height: auto; margin-bottom: 20px;"</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Visibility --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display: none;"</span>&gt;</span>Hidden<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display: block;"</span>&gt;</span>Visible<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Layout (Flexbox inline) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display: flex; justify-content: space-between;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Right<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><h3>4. Links &amp; Media</h3>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Anchors (Links) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://google.com"</span>&gt;</span>Visit Google<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"about.html"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>Open in new tab<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"mailto:me@example.com"</span>&gt;</span>Send Email<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#section1"</span>&gt;</span>Jump to ID<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Images --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"image.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Description"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"200"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"200"</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Audio --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">audio</span> <span class="hljs-attr">controls</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"song.mp3"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"audio/mpeg"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">audio</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Video --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"320"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"240"</span> <span class="hljs-attr">controls</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">"thumb.jpg"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"movie.mp4"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"video/mp4"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span></code></pre><h3>5. Inline JavaScript (Events)</h3>
+<p>Execute JavaScript directly within HTML attributes.
+<strong>Syntax:</strong> <code>event="javascript_code"</code></p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Click Events --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"alert('Hello World!')"</span>&gt;</span>Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"this.innerHTML = 'Clicked!';"</span>&gt;</span>Change Text<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Input Events --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">oninput</span>=<span class="hljs-string">"console.log(this.value)"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Type here..."</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onchange</span>=<span class="hljs-string">"alert('Value changed!')"</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Mouse Events --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">onmouseover</span>=<span class="hljs-string">"this.style.backgroundColor='red'"</span> 
+     <span class="hljs-attr">onmouseout</span>=<span class="hljs-string">"this.style.backgroundColor='white'"</span>&gt;</span>
+    Hover over me
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Form Submission --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">onsubmit</span>=<span class="hljs-string">"alert('Submitting!'); return false;"</span>&gt;</span> <span class="hljs-comment">&lt;!-- return false prevents reload --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Window Events (on Body) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">"console.log('Page Loaded')"</span>&gt;</span></code></pre><h3>6. Lists</h3>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Unordered List (Bullets) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Item 1<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Item 2<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Ordered List (Numbers) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ol</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"1"</span>&gt;</span> <span class="hljs-comment">&lt;!-- types: 1, A, a, I, i --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>First<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Second<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Definition List --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>HTML<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>HyperText Markup Language<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span></code></pre><h3>7. Tables</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">border</span>=<span class="hljs-string">"1"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"border-collapse: collapse; width: 100%;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Name<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Age<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Alice<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>25<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-comment">&lt;!-- Colspan merges columns --&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">colspan</span>=<span class="hljs-string">"2"</span>&gt;</span>No more data<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span></code></pre><h3>8. Forms &amp; Inputs</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"/submit"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Label --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"fname"</span>&gt;</span>First name:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Text Input --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fname"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"fname"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"John"</span> <span class="hljs-attr">required</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Password --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"pass"</span> <span class="hljs-attr">minlength</span>=<span class="hljs-string">"8"</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Number --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"number"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"age"</span> <span class="hljs-attr">min</span>=<span class="hljs-string">"1"</span> <span class="hljs-attr">max</span>=<span class="hljs-string">"100"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"18"</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Radio Buttons (Single choice) --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"radio"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"gender"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"male"</span>&gt;</span> Male
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"radio"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"gender"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"female"</span>&gt;</span> Female
+    
+    <span class="hljs-comment">&lt;!-- Checkbox (Multiple choice) --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"newsletter"</span> <span class="hljs-attr">checked</span>&gt;</span> Subscribe
+    
+    <span class="hljs-comment">&lt;!-- Dropdown --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"cars"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"volvo"</span>&gt;</span>Volvo<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"saab"</span>&gt;</span>Saab<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Multi-line text --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">"4"</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">"50"</span>&gt;</span>Enter message...<span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Buttons --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Submit"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"reset"</span>&gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><h3>9. Semantic HTML5 (Structural)</h3>
+<p>Better for SEO and Screen Readers than using <code>&lt;div&gt;</code> for everything.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span> <span class="hljs-comment">&lt;!-- Logo, Nav --&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span> <span class="hljs-comment">&lt;!-- Navigation links --&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span> <span class="hljs-comment">&lt;!-- Dominant content --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span> <span class="hljs-comment">&lt;!-- Thematic grouping --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">article</span>&gt;</span> <span class="hljs-comment">&lt;!-- Self-contained content (blog post) --&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+    
+    <span class="hljs-tag">&lt;<span class="hljs-name">aside</span>&gt;</span> <span class="hljs-comment">&lt;!-- Sidebar, ads --&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">aside</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span> <span class="hljs-comment">&lt;!-- Copyright, footer links --&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span></code></pre><h3>10. HTML Entities (Special Characters)</h3>
+<p>Used to display reserved characters or symbols.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Character</th>
+<th align="left">Entity</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>&lt;</code></td>
+<td align="left"><code>&amp;lt;</code></td>
+<td align="left">Less than</td>
+</tr>
+<tr>
+<td align="left"><code>&gt;</code></td>
+<td align="left"><code>&amp;gt;</code></td>
+<td align="left">Greater than</td>
+</tr>
+<tr>
+<td align="left"><code>&amp;</code></td>
+<td align="left"><code>&amp;amp;</code></td>
+<td align="left">Ampersand</td>
+</tr>
+<tr>
+<td align="left"><code>"</code></td>
+<td align="left"><code>&amp;quot;</code></td>
+<td align="left">Double Quote</td>
+</tr>
+<tr>
+<td align="left"><code>'</code></td>
+<td align="left"><code>&amp;apos;</code></td>
+<td align="left">Single Quote</td>
+</tr>
+<tr>
+<td align="left">(Space)</td>
+<td align="left"><code>&amp;nbsp;</code></td>
+<td align="left">Non-breaking space</td>
+</tr>
+<tr>
+<td align="left">©</td>
+<td align="left"><code>&amp;copy;</code></td>
+<td align="left">Copyright</td>
+</tr>
+</tbody></table>
+</div><button class="theme-fab" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch Theme</button></body></html>
