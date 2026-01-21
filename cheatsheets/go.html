@@ -1,4 +1,11 @@
-<!DOCTYPE html><html data-theme="eclipse"><head><meta charset="UTF-8"><title>Export</title><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html data-theme="eclipse">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap"
+    rel="stylesheet">
+  <style>
     :root {
       --font-ui: 'Outfit', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -353,278 +360,393 @@
         display: none;
       }
     }
-   body { overflow-y:auto; padding:40px; display:block; height:auto; } .preview-content { max-width:800px; margin:0 auto; } .theme-fab { position:fixed; bottom:20px; right:20px; background:var(--acc-p); color:#fff; border:none; padding:10px 20px; border-radius:99px; font-family:var(--font-ui); font-weight:700; cursor:pointer; }</style></head><body><div class="md-body preview-content"><h1>Golang</h1>
-<h3>1. Basic Structure</h3>
-<pre><code class="hljs language-go"><span class="hljs-keyword">package</span> main <span class="hljs-comment">// Executable package</span>
 
-<span class="hljs-keyword">import</span> (
-    <span class="hljs-string">"fmt"</span>
-    <span class="hljs-string">"math"</span>
-)
-
-<span class="hljs-comment">// Main entry point</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
-    fmt.Println(<span class="hljs-string">"Hello, World!"</span>)
-}</code></pre><h3>2. Variables &amp; Constants</h3>
-<pre><code class="hljs language-go"><span class="hljs-comment">// Standard declaration</span>
-<span class="hljs-keyword">var</span> x <span class="hljs-type">int</span> = <span class="hljs-number">5</span>
-
-<span class="hljs-comment">// Type inference</span>
-<span class="hljs-keyword">var</span> y = <span class="hljs-number">10</span>
-
-<span class="hljs-comment">// Short declaration (Inside functions only)</span>
-z := <span class="hljs-number">15</span>
-
-<span class="hljs-comment">// Multiple assignment</span>
-name, age := <span class="hljs-string">"Alice"</span>, <span class="hljs-number">30</span>
-
-<span class="hljs-comment">// Zero values (Default initialization)</span>
-<span class="hljs-keyword">var</span> i <span class="hljs-type">int</span>     <span class="hljs-comment">// 0</span>
-<span class="hljs-keyword">var</span> f <span class="hljs-type">float64</span> <span class="hljs-comment">// 0.0</span>
-<span class="hljs-keyword">var</span> b <span class="hljs-type">bool</span>    <span class="hljs-comment">// false</span>
-<span class="hljs-keyword">var</span> s <span class="hljs-type">string</span>  <span class="hljs-comment">// "" (empty string)</span>
-<span class="hljs-keyword">var</span> p *<span class="hljs-type">int</span>    <span class="hljs-comment">// nil</span>
-
-<span class="hljs-comment">// Constants</span>
-<span class="hljs-keyword">const</span> Pi = <span class="hljs-number">3.14</span>
-<span class="hljs-keyword">const</span> (
-    StatusOk = <span class="hljs-number">200</span>
-    StatusErr = <span class="hljs-number">404</span>
-)</code></pre><h3>3. Basic Types</h3>
-<pre><code class="hljs language-go"><span class="hljs-comment">// bool</span>
-<span class="hljs-comment">// string</span>
-<span class="hljs-comment">// int, int8, int16, int32, int64</span>
-<span class="hljs-comment">// uint, uint8, uint16, uint32, uint64, uintptr</span>
-<span class="hljs-comment">// byte (alias for uint8)</span>
-<span class="hljs-comment">// rune (alias for int32, represents a Unicode code point)</span>
-<span class="hljs-comment">// float32, float64</span>
-<span class="hljs-comment">// complex64, complex128</span></code></pre><h3>4. Control Flow</h3>
-<p>Go has only one looping construct: <code>for</code>.</p>
-<pre><code class="hljs language-go"><span class="hljs-comment">// If-Else</span>
-<span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">10</span> {
-    fmt.Println(<span class="hljs-string">"Big"</span>)
-} <span class="hljs-keyword">else</span> {
-    fmt.Println(<span class="hljs-string">"Small"</span>)
-}
-
-<span class="hljs-comment">// If with initialization (variable scope limited to block)</span>
-<span class="hljs-keyword">if</span> val := calculate(); val &gt; <span class="hljs-number">10</span> {
-    fmt.Println(val)
-}
-
-<span class="hljs-comment">// Standard For Loop</span>
-<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++ { <span class="hljs-comment">/* ... */</span> }
-
-<span class="hljs-comment">// While Loop equivalent</span>
-<span class="hljs-keyword">for</span> x &lt; <span class="hljs-number">100</span> { <span class="hljs-comment">/* ... */</span> }
-
-<span class="hljs-comment">// Infinite Loop</span>
-<span class="hljs-keyword">for</span> { <span class="hljs-keyword">break</span> }
-
-<span class="hljs-comment">// Range Loop (Slice, Map, Channel)</span>
-nums := []<span class="hljs-type">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
-<span class="hljs-keyword">for</span> index, value := <span class="hljs-keyword">range</span> nums {
-    fmt.Println(index, value)
-}
-
-<span class="hljs-comment">// Switch (No 'break' needed, implied)</span>
-<span class="hljs-keyword">switch</span> os {
-<span class="hljs-keyword">case</span> <span class="hljs-string">"darwin"</span>:
-    fmt.Println(<span class="hljs-string">"Mac"</span>)
-<span class="hljs-keyword">case</span> <span class="hljs-string">"linux"</span>:
-    fmt.Println(<span class="hljs-string">"Linux"</span>)
-<span class="hljs-keyword">default</span>:
-    fmt.Println(<span class="hljs-string">"Other"</span>)
-}</code></pre><h3>5. Arrays &amp; Slices</h3>
-<p><strong>Arrays</strong> are fixed length. <strong>Slices</strong> are dynamic wrappers around arrays (used 99% of the time).</p>
-<pre><code class="hljs language-go"><span class="hljs-comment">// Arrays</span>
-<span class="hljs-keyword">var</span> arr [<span class="hljs-number">5</span>]<span class="hljs-type">int</span>           <span class="hljs-comment">// [0 0 0 0 0]</span>
-arr2 := [<span class="hljs-number">3</span>]<span class="hljs-type">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
-
-<span class="hljs-comment">// Slices</span>
-<span class="hljs-keyword">var</span> s []<span class="hljs-type">int</span>              <span class="hljs-comment">// nil slice</span>
-s = <span class="hljs-built_in">make</span>([]<span class="hljs-type">int</span>, <span class="hljs-number">5</span>)       <span class="hljs-comment">// Allocate slice of size 5</span>
-s = <span class="hljs-built_in">make</span>([]<span class="hljs-type">int</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>)   <span class="hljs-comment">// Size 5, Capacity 10</span>
-
-<span class="hljs-comment">// Literal</span>
-nums := []<span class="hljs-type">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
-
-<span class="hljs-comment">// Operations</span>
-nums = <span class="hljs-built_in">append</span>(nums, <span class="hljs-number">4</span>)   <span class="hljs-comment">// Add element</span>
-val := nums[<span class="hljs-number">1</span>]           <span class="hljs-comment">// Access</span>
-
-<span class="hljs-comment">// Slicing syntax [low:high] (high is exclusive)</span>
-subset := nums[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>]      <span class="hljs-comment">// Index 1 up to (not including) 3</span></code></pre><h3>6. Maps (Hash Tables)</h3>
-<pre><code class="hljs language-go"><span class="hljs-comment">// Declaration</span>
-m := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-type">int</span>)
-
-<span class="hljs-comment">// Initialization</span>
-scores := <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-type">int</span>{
-    <span class="hljs-string">"Alice"</span>: <span class="hljs-number">10</span>,
-    <span class="hljs-string">"Bob"</span>:   <span class="hljs-number">20</span>,
-}
-
-<span class="hljs-comment">// Operations</span>
-scores[<span class="hljs-string">"Alice"</span>] = <span class="hljs-number">15</span>      <span class="hljs-comment">// Update</span>
-<span class="hljs-built_in">delete</span>(scores, <span class="hljs-string">"Bob"</span>)     <span class="hljs-comment">// Delete</span>
-
-<span class="hljs-comment">// Check existence (Comma ok idiom)</span>
-val, ok := scores[<span class="hljs-string">"Charlie"</span>]
-<span class="hljs-keyword">if</span> ok {
-    fmt.Println(<span class="hljs-string">"Found:"</span>, val)
-} <span class="hljs-keyword">else</span> {
-    fmt.Println(<span class="hljs-string">"Missing"</span>)
-}</code></pre><h3>7. Functions</h3>
-<pre><code class="hljs language-go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">add</span><span class="hljs-params">(x <span class="hljs-type">int</span>, y <span class="hljs-type">int</span>)</span></span> <span class="hljs-type">int</span> {
-    <span class="hljs-keyword">return</span> x + y
-}
-
-<span class="hljs-comment">// Multiple Return Values (Common in Go)</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">swap</span><span class="hljs-params">(a, b <span class="hljs-type">string</span>)</span></span> (<span class="hljs-type">string</span>, <span class="hljs-type">string</span>) {
-    <span class="hljs-keyword">return</span> b, a
-}
-val1, val2 := swap(<span class="hljs-string">"A"</span>, <span class="hljs-string">"B"</span>)
-
-<span class="hljs-comment">// Named Return Values</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">split</span><span class="hljs-params">(sum <span class="hljs-type">int</span>)</span></span> (x, y <span class="hljs-type">int</span>) {
-    x = sum * <span class="hljs-number">4</span> / <span class="hljs-number">9</span>
-    y = sum - x
-    <span class="hljs-keyword">return</span> <span class="hljs-comment">// Naked return (returns x, y)</span>
-}
-
-<span class="hljs-comment">// Variadic Functions</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">sum</span><span class="hljs-params">(nums ...<span class="hljs-type">int</span>)</span></span> { <span class="hljs-comment">/* nums is a slice */</span> }</code></pre><h3>8. Pointers</h3>
-<p>Go has pointers but <strong>no pointer arithmetic</strong>.</p>
-<pre><code class="hljs language-go">x := <span class="hljs-number">10</span>
-p := &amp;x         <span class="hljs-comment">// p is a pointer to x</span>
-*p = <span class="hljs-number">20</span>         <span class="hljs-comment">// dereference and assign</span>
-fmt.Println(x)  <span class="hljs-comment">// 20</span>
-
-<span class="hljs-comment">// Pass by value vs Pointer</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">modify</span><span class="hljs-params">(val <span class="hljs-type">int</span>)</span></span> { val = <span class="hljs-number">0</span> }     <span class="hljs-comment">// No change outside</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">modifyPtr</span><span class="hljs-params">(val *<span class="hljs-type">int</span>)</span></span> { *val = <span class="hljs-number">0</span> } <span class="hljs-comment">// Changes original</span></code></pre><h3>9. Structs &amp; Methods</h3>
-<p>Go does not have classes. It uses Structs.</p>
-<pre><code class="hljs language-go"><span class="hljs-keyword">type</span> Vertex <span class="hljs-keyword">struct</span> {
-    X, Y <span class="hljs-type">int</span>
-}
-
-v := Vertex{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>}
-v.X = <span class="hljs-number">4</span>
-
-<span class="hljs-comment">// Methods (Value Receiver)</span>
-<span class="hljs-comment">// Can read fields, but cannot modify original struct</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(v Vertex)</span></span> Abs() <span class="hljs-type">float64</span> {
-    <span class="hljs-keyword">return</span> math.Sqrt(<span class="hljs-type">float64</span>(v.X*v.X + v.Y*v.Y))
-}
-
-<span class="hljs-comment">// Methods (Pointer Receiver)</span>
-<span class="hljs-comment">// Can modify original struct (Preferred for large structs)</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(v *Vertex)</span></span> Scale(f <span class="hljs-type">int</span>) {
-    v.X = v.X * f
-    v.Y = v.Y * f
-}</code></pre><h3>10. Interfaces</h3>
-<p>Interfaces are implemented <strong>implicitly</strong>. If a struct has the methods, it implements the interface.</p>
-<pre><code class="hljs language-go"><span class="hljs-keyword">type</span> Abser <span class="hljs-keyword">interface</span> {
-    Abs() <span class="hljs-type">float64</span>
-}
-
-<span class="hljs-comment">// Since *Vertex has Abs(), it implements Abser</span>
-<span class="hljs-keyword">var</span> a Abser = &amp;Vertex{<span class="hljs-number">3</span>, <span class="hljs-number">4</span>}
-
-<span class="hljs-comment">// Empty Interface (Any type)</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">describe</span><span class="hljs-params">(i <span class="hljs-keyword">interface</span>{})</span></span> {
-    fmt.Printf(<span class="hljs-string">"(%v, %T)\n"</span>, i, i)
-}
-
-<span class="hljs-comment">// Type Assertion</span>
-s, ok := i.(<span class="hljs-type">string</span>) <span class="hljs-comment">// Check if i holds a string</span></code></pre><h3>11. Error Handling</h3>
-<p>Go treats errors as values, not exceptions.</p>
-<pre><code class="hljs language-go"><span class="hljs-keyword">import</span> <span class="hljs-string">"errors"</span>
-
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">divide</span><span class="hljs-params">(a, b <span class="hljs-type">float64</span>)</span></span> (<span class="hljs-type">float64</span>, <span class="hljs-type">error</span>) {
-    <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>, errors.New(<span class="hljs-string">"cannot divide by zero"</span>)
+    body {
+      overflow-y: auto;
+      padding: 40px;
+      display: block;
+      height: auto;
     }
-    <span class="hljs-keyword">return</span> a / b, <span class="hljs-literal">nil</span>
-}
 
-<span class="hljs-comment">// Usage</span>
-result, err := divide(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-    fmt.Println(<span class="hljs-string">"Error:"</span>, err)
-    <span class="hljs-keyword">return</span>
-}
-fmt.Println(<span class="hljs-string">"Result:"</span>, result)</code></pre><h3>12. Concurrency (Goroutines &amp; Channels)</h3>
-<p>The "killer feature" of Go.</p>
-<pre><code class="hljs language-go"><span class="hljs-comment">// Goroutine (Lightweight thread)</span>
-<span class="hljs-keyword">go</span> doSomething()
+    .preview-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-<span class="hljs-comment">// Channels (Typed conduit for data)</span>
-ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-type">int</span>)
+    .theme-fab {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--acc-p);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
-<span class="hljs-comment">// Send/Receive</span>
-<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> { ch &lt;- <span class="hljs-number">42</span> }() <span class="hljs-comment">// Send to channel</span>
-val := &lt;-ch              <span class="hljs-comment">// Receive from channel</span>
+<body>
+  <div class="md-body preview-content">
+    <h1>Golang</h1>
+    <h3>1. Basic Structure</h3>
+    <pre><code class="hljs language-go"><span class="hljs-keyword">package</span> main <span class="hljs-comment">//
+          Executable package</span>
 
-<span class="hljs-comment">// Buffered Channels (Don't block until full)</span>
-ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-type">int</span>, <span class="hljs-number">2</span>)
+        <span class="hljs-keyword">import</span> (
+        <span class="hljs-string">"fmt"</span>
+        <span class="hljs-string">"math"</span>
+        )
 
-<span class="hljs-comment">// Closing</span>
-<span class="hljs-built_in">close</span>(ch)
+        <span class="hljs-comment">// Main entry point</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span
+            class="hljs-params">()</span></span> {
+        fmt.Println(<span class="hljs-string">"Hello, World!"</span>)
+        }</code></pre>
+    <h3>2. Variables &amp; Constants</h3>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// Standard declaration</span>
+        <span class="hljs-keyword">var</span> x <span class="hljs-type">int</span> = <span class="hljs-number">5</span>
 
-<span class="hljs-comment">// Select (Wait on multiple channel operations)</span>
-<span class="hljs-keyword">select</span> {
-<span class="hljs-keyword">case</span> msg1 := &lt;-c1:
-    fmt.Println(<span class="hljs-string">"Received"</span>, msg1)
-<span class="hljs-keyword">case</span> c2 &lt;- <span class="hljs-string">"hello"</span>:
-    fmt.Println(<span class="hljs-string">"Sent hello"</span>)
-<span class="hljs-keyword">default</span>:
-    fmt.Println(<span class="hljs-string">"Non-blocking"</span>)
-}</code></pre><h3>13. Defer, Panic, Recover</h3>
-<pre><code class="hljs language-go"><span class="hljs-comment">// Defer: Schedules function call to run after surrounding function returns</span>
-<span class="hljs-comment">// Used for cleanup (closing files, unlocking mutexes)</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">process</span><span class="hljs-params">()</span></span> {
-    f := openFile()
-    <span class="hljs-keyword">defer</span> f.Close() <span class="hljs-comment">// Will run at end of process()</span>
-    <span class="hljs-comment">// ... use f</span>
-}
+        <span class="hljs-comment">// Type inference</span>
+        <span class="hljs-keyword">var</span> y = <span class="hljs-number">10</span>
 
-<span class="hljs-comment">// Panic: Aborts execution (Runtime Exception)</span>
-<span class="hljs-keyword">if</span> criticalError {
-    <span class="hljs-built_in">panic</span>(<span class="hljs-string">"Something went wrong"</span>)
-}
+        <span class="hljs-comment">// Short declaration (Inside functions only)</span>
+        z := <span class="hljs-number">15</span>
 
-<span class="hljs-comment">// Recover: Regain control of a panicking goroutine</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">safe</span><span class="hljs-params">()</span></span> {
-    <span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> {
-        <span class="hljs-keyword">if</span> r := <span class="hljs-built_in">recover</span>(); r != <span class="hljs-literal">nil</span> {
-            fmt.Println(<span class="hljs-string">"Recovered from:"</span>, r)
+        <span class="hljs-comment">// Multiple assignment</span>
+        name, age := <span class="hljs-string">"Alice"</span>, <span class="hljs-number">30</span>
+
+        <span class="hljs-comment">// Zero values (Default initialization)</span>
+        <span class="hljs-keyword">var</span> i <span class="hljs-type">int</span> <span class="hljs-comment">//
+          0</span>
+        <span class="hljs-keyword">var</span> f <span class="hljs-type">float64</span> <span class="hljs-comment">//
+          0.0</span>
+        <span class="hljs-keyword">var</span> b <span class="hljs-type">bool</span> <span class="hljs-comment">//
+          false</span>
+        <span class="hljs-keyword">var</span> s <span class="hljs-type">string</span> <span class="hljs-comment">// ""
+          (empty string)</span>
+        <span class="hljs-keyword">var</span> p *<span class="hljs-type">int</span> <span class="hljs-comment">//
+          nil</span>
+
+        <span class="hljs-comment">// Constants</span>
+        <span class="hljs-keyword">const</span> Pi = <span class="hljs-number">3.14</span>
+        <span class="hljs-keyword">const</span> (
+        StatusOk = <span class="hljs-number">200</span>
+        StatusErr = <span class="hljs-number">404</span>
+        )</code></pre>
+    <h3>3. Basic Types</h3>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// bool</span>
+        <span class="hljs-comment">// string</span>
+        <span class="hljs-comment">// int, int8, int16, int32, int64</span>
+        <span class="hljs-comment">// uint, uint8, uint16, uint32, uint64, uintptr</span>
+        <span class="hljs-comment">// byte (alias for uint8)</span>
+        <span class="hljs-comment">// rune (alias for int32, represents a Unicode code point)</span>
+        <span class="hljs-comment">// float32, float64</span>
+        <span class="hljs-comment">// complex64, complex128</span></code></pre>
+    <h3>4. Control Flow</h3>
+    <p>Go has only one looping construct: <code>for</code>.</p>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// If-Else</span>
+        <span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">10</span> {
+        fmt.Println(<span class="hljs-string">"Big"</span>)
+        } <span class="hljs-keyword">else</span> {
+        fmt.Println(<span class="hljs-string">"Small"</span>)
         }
-    }()
-    <span class="hljs-built_in">panic</span>(<span class="hljs-string">"Crash"</span>)
-}</code></pre><h3>14. JSON Handling</h3>
-<p>Standard library support via <code>encoding/json</code>.</p>
-<pre><code class="hljs language-go"><span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-    Name  <span class="hljs-type">string</span> <span class="hljs-string">`json:"username"`</span> <span class="hljs-comment">// Struct Tag</span>
-    Age   <span class="hljs-type">int</span>    <span class="hljs-string">`json:"age"`</span>
-    Email <span class="hljs-type">string</span> <span class="hljs-string">`json:"-"`</span>        <span class="hljs-comment">// Ignore field</span>
-}
 
-<span class="hljs-comment">// Marshal (Struct -&gt; JSON)</span>
-u := User{Name: <span class="hljs-string">"Bob"</span>, Age: <span class="hljs-number">30</span>}
-jsonData, _ := json.Marshal(u)
+        <span class="hljs-comment">// If with initialization (variable scope limited to block)</span>
+        <span class="hljs-keyword">if</span> val := calculate(); val &gt; <span class="hljs-number">10</span> {
+        fmt.Println(val)
+        }
 
-<span class="hljs-comment">// Unmarshal (JSON -&gt; Struct)</span>
-<span class="hljs-keyword">var</span> u2 User
-json.Unmarshal(jsonData, &amp;u2)</code></pre><h3>15. Testing</h3>
-<p>Go has a built-in testing framework. Files must end in <code>_test.go</code>.</p>
-<pre><code class="hljs language-go"><span class="hljs-keyword">import</span> <span class="hljs-string">"testing"</span>
+        <span class="hljs-comment">// Standard For Loop</span>
+        <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span
+          class="hljs-number">5</span>; i++ { <span class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestAdd</span><span class="hljs-params">(t *testing.T)</span></span> {
-    got := add(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
-    want := <span class="hljs-number">5</span>
-    <span class="hljs-keyword">if</span> got != want {
+        <span class="hljs-comment">// While Loop equivalent</span>
+        <span class="hljs-keyword">for</span> x &lt; <span class="hljs-number">100</span> { <span
+          class="hljs-comment">/* ... */</span> }
+
+        <span class="hljs-comment">// Infinite Loop</span>
+        <span class="hljs-keyword">for</span> { <span class="hljs-keyword">break</span> }
+
+        <span class="hljs-comment">// Range Loop (Slice, Map, Channel)</span>
+        nums := []<span class="hljs-type">int</span>{<span class="hljs-number">1</span>, <span
+          class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+        <span class="hljs-keyword">for</span> index, value := <span class="hljs-keyword">range</span> nums {
+        fmt.Println(index, value)
+        }
+
+        <span class="hljs-comment">// Switch (No 'break' needed, implied)</span>
+        <span class="hljs-keyword">switch</span> os {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">"darwin"</span>:
+        fmt.Println(<span class="hljs-string">"Mac"</span>)
+        <span class="hljs-keyword">case</span> <span class="hljs-string">"linux"</span>:
+        fmt.Println(<span class="hljs-string">"Linux"</span>)
+        <span class="hljs-keyword">default</span>:
+        fmt.Println(<span class="hljs-string">"Other"</span>)
+        }</code></pre>
+    <h3>5. Arrays &amp; Slices</h3>
+    <p><strong>Arrays</strong> are fixed length. <strong>Slices</strong> are dynamic wrappers around arrays (used 99% of
+      the time).</p>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// Arrays</span>
+        <span class="hljs-keyword">var</span> arr [<span class="hljs-number">5</span>]<span class="hljs-type">int</span>
+        <span class="hljs-comment">// [0 0 0 0 0]</span>
+        arr2 := [<span class="hljs-number">3</span>]<span class="hljs-type">int</span>{<span
+          class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+
+        <span class="hljs-comment">// Slices</span>
+        <span class="hljs-keyword">var</span> s []<span class="hljs-type">int</span> <span class="hljs-comment">// nil
+          slice</span>
+        s = <span class="hljs-built_in">make</span>([]<span class="hljs-type">int</span>, <span
+          class="hljs-number">5</span>) <span class="hljs-comment">// Allocate slice of size 5</span>
+        s = <span class="hljs-built_in">make</span>([]<span class="hljs-type">int</span>, <span
+          class="hljs-number">5</span>, <span class="hljs-number">10</span>) <span class="hljs-comment">// Size 5,
+          Capacity 10</span>
+
+        <span class="hljs-comment">// Literal</span>
+        nums := []<span class="hljs-type">int</span>{<span class="hljs-number">1</span>, <span
+          class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+
+        <span class="hljs-comment">// Operations</span>
+        nums = <span class="hljs-built_in">append</span>(nums, <span class="hljs-number">4</span>) <span
+          class="hljs-comment">// Add element</span>
+        val := nums[<span class="hljs-number">1</span>] <span class="hljs-comment">// Access</span>
+
+        <span class="hljs-comment">// Slicing syntax [low:high] (high is exclusive)</span>
+        subset := nums[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>] <span
+          class="hljs-comment">// Index 1 up to (not including) 3</span></code></pre>
+    <h3>6. Maps (Hash Tables)</h3>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// Declaration</span>
+        m := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span
+          class="hljs-type">string</span>]<span class="hljs-type">int</span>)
+
+        <span class="hljs-comment">// Initialization</span>
+        scores := <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span
+          class="hljs-type">int</span>{
+        <span class="hljs-string">"Alice"</span>: <span class="hljs-number">10</span>,
+        <span class="hljs-string">"Bob"</span>: <span class="hljs-number">20</span>,
+        }
+
+        <span class="hljs-comment">// Operations</span>
+        scores[<span class="hljs-string">"Alice"</span>] = <span class="hljs-number">15</span> <span
+          class="hljs-comment">// Update</span>
+        <span class="hljs-built_in">delete</span>(scores, <span class="hljs-string">"Bob"</span>) <span
+          class="hljs-comment">// Delete</span>
+
+        <span class="hljs-comment">// Check existence (Comma ok idiom)</span>
+        val, ok := scores[<span class="hljs-string">"Charlie"</span>]
+        <span class="hljs-keyword">if</span> ok {
+        fmt.Println(<span class="hljs-string">"Found:"</span>, val)
+        } <span class="hljs-keyword">else</span> {
+        fmt.Println(<span class="hljs-string">"Missing"</span>)
+        }</code></pre>
+    <h3>7. Functions</h3>
+    <pre><code class="hljs language-go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span
+            class="hljs-title">add</span><span class="hljs-params">(x <span class="hljs-type">int</span>, y <span
+              class="hljs-type">int</span>)</span></span> <span class="hljs-type">int</span> {
+        <span class="hljs-keyword">return</span> x + y
+        }
+
+        <span class="hljs-comment">// Multiple Return Values (Common in Go)</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">swap</span><span
+            class="hljs-params">(a, b <span class="hljs-type">string</span>)</span></span> (<span
+          class="hljs-type">string</span>, <span class="hljs-type">string</span>) {
+        <span class="hljs-keyword">return</span> b, a
+        }
+        val1, val2 := swap(<span class="hljs-string">"A"</span>, <span class="hljs-string">"B"</span>)
+
+        <span class="hljs-comment">// Named Return Values</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">split</span><span
+            class="hljs-params">(sum <span class="hljs-type">int</span>)</span></span> (x, y <span
+          class="hljs-type">int</span>) {
+        x = sum * <span class="hljs-number">4</span> / <span class="hljs-number">9</span>
+        y = sum - x
+        <span class="hljs-keyword">return</span> <span class="hljs-comment">// Naked return (returns x, y)</span>
+        }
+
+        <span class="hljs-comment">// Variadic Functions</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">sum</span><span
+            class="hljs-params">(nums ...<span class="hljs-type">int</span>)</span></span> { <span
+          class="hljs-comment">/* nums is a slice */</span> }</code></pre>
+    <h3>8. Pointers</h3>
+    <p>Go has pointers but <strong>no pointer arithmetic</strong>.</p>
+    <pre><code class="hljs language-go">x := <span class="hljs-number">10</span>
+        p := &amp;x <span class="hljs-comment">// p is a pointer to x</span>
+        *p = <span class="hljs-number">20</span> <span class="hljs-comment">// dereference and assign</span>
+        fmt.Println(x) <span class="hljs-comment">// 20</span>
+
+        <span class="hljs-comment">// Pass by value vs Pointer</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">modify</span><span
+            class="hljs-params">(val <span class="hljs-type">int</span>)</span></span> { val = <span
+          class="hljs-number">0</span> } <span class="hljs-comment">// No change outside</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span
+            class="hljs-title">modifyPtr</span><span class="hljs-params">(val *<span
+              class="hljs-type">int</span>)</span></span> { *val = <span class="hljs-number">0</span> } <span
+          class="hljs-comment">// Changes original</span></code></pre>
+    <h3>9. Structs &amp; Methods</h3>
+    <p>Go does not have classes. It uses Structs.</p>
+    <pre><code class="hljs language-go"><span class="hljs-keyword">type</span> Vertex <span
+          class="hljs-keyword">struct</span> {
+        X, Y <span class="hljs-type">int</span>
+        }
+
+        v := Vertex{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>}
+        v.X = <span class="hljs-number">4</span>
+
+        <span class="hljs-comment">// Methods (Value Receiver)</span>
+        <span class="hljs-comment">// Can read fields, but cannot modify original struct</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(v
+            Vertex)</span></span> Abs() <span class="hljs-type">float64</span> {
+        <span class="hljs-keyword">return</span> math.Sqrt(<span class="hljs-type">float64</span>(v.X*v.X + v.Y*v.Y))
+        }
+
+        <span class="hljs-comment">// Methods (Pointer Receiver)</span>
+        <span class="hljs-comment">// Can modify original struct (Preferred for large structs)</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(v
+            *Vertex)</span></span> Scale(f <span class="hljs-type">int</span>) {
+        v.X = v.X * f
+        v.Y = v.Y * f
+        }</code></pre>
+    <h3>10. Interfaces</h3>
+    <p>Interfaces are implemented <strong>implicitly</strong>. If a struct has the methods, it implements the interface.
+    </p>
+    <pre><code class="hljs language-go"><span class="hljs-keyword">type</span> Abser <span
+          class="hljs-keyword">interface</span> {
+        Abs() <span class="hljs-type">float64</span>
+        }
+
+        <span class="hljs-comment">// Since *Vertex has Abs(), it implements Abser</span>
+        <span class="hljs-keyword">var</span> a Abser = &amp;Vertex{<span class="hljs-number">3</span>, <span
+          class="hljs-number">4</span>}
+
+        <span class="hljs-comment">// Empty Interface (Any type)</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">describe</span><span
+            class="hljs-params">(i <span class="hljs-keyword">interface</span>{})</span></span> {
+        fmt.Printf(<span class="hljs-string">"(%v, %T)\n"</span>, i, i)
+        }
+
+        <span class="hljs-comment">// Type Assertion</span>
+        s, ok := i.(<span class="hljs-type">string</span>) <span class="hljs-comment">// Check if i holds a
+          string</span></code></pre>
+    <h3>11. Error Handling</h3>
+    <p>Go treats errors as values, not exceptions.</p>
+    <pre><code class="hljs language-go"><span class="hljs-keyword">import</span> <span
+          class="hljs-string">"errors"</span>
+
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">divide</span><span
+            class="hljs-params">(a, b <span class="hljs-type">float64</span>)</span></span> (<span
+          class="hljs-type">float64</span>, <span class="hljs-type">error</span>) {
+        <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>, errors.New(<span
+          class="hljs-string">"cannot divide by zero"</span>)
+        }
+        <span class="hljs-keyword">return</span> a / b, <span class="hljs-literal">nil</span>
+        }
+
+        <span class="hljs-comment">// Usage</span>
+        result, err := divide(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+        fmt.Println(<span class="hljs-string">"Error:"</span>, err)
+        <span class="hljs-keyword">return</span>
+        }
+        fmt.Println(<span class="hljs-string">"Result:"</span>, result)</code></pre>
+    <h3>12. Concurrency (Goroutines &amp; Channels)</h3>
+    <p>The "killer feature" of Go.</p>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// Goroutine (Lightweight thread)</span>
+        <span class="hljs-keyword">go</span> doSomething()
+
+        <span class="hljs-comment">// Channels (Typed conduit for data)</span>
+        ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span
+          class="hljs-type">int</span>)
+
+        <span class="hljs-comment">// Send/Receive</span>
+        <span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span
+            class="hljs-params">()</span></span> { ch &lt;- <span class="hljs-number">42</span> }() <span
+          class="hljs-comment">// Send to channel</span>
+        val := &lt;-ch <span class="hljs-comment">// Receive from channel</span>
+
+        <span class="hljs-comment">// Buffered Channels (Don't block until full)</span>
+        ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span
+          class="hljs-type">int</span>, <span class="hljs-number">2</span>)
+
+        <span class="hljs-comment">// Closing</span>
+        <span class="hljs-built_in">close</span>(ch)
+
+        <span class="hljs-comment">// Select (Wait on multiple channel operations)</span>
+        <span class="hljs-keyword">select</span> {
+        <span class="hljs-keyword">case</span> msg1 := &lt;-c1:
+        fmt.Println(<span class="hljs-string">"Received"</span>, msg1)
+        <span class="hljs-keyword">case</span> c2 &lt;- <span class="hljs-string">"hello"</span>:
+        fmt.Println(<span class="hljs-string">"Sent hello"</span>)
+        <span class="hljs-keyword">default</span>:
+        fmt.Println(<span class="hljs-string">"Non-blocking"</span>)
+        }</code></pre>
+    <h3>13. Defer, Panic, Recover</h3>
+    <pre><code class="hljs language-go"><span class="hljs-comment">// Defer: Schedules function call to run after
+          surrounding function returns</span>
+        <span class="hljs-comment">// Used for cleanup (closing files, unlocking mutexes)</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">process</span><span
+            class="hljs-params">()</span></span> {
+        f := openFile()
+        <span class="hljs-keyword">defer</span> f.Close() <span class="hljs-comment">// Will run at end of
+          process()</span>
+        <span class="hljs-comment">// ... use f</span>
+        }
+
+        <span class="hljs-comment">// Panic: Aborts execution (Runtime Exception)</span>
+        <span class="hljs-keyword">if</span> criticalError {
+        <span class="hljs-built_in">panic</span>(<span class="hljs-string">"Something went wrong"</span>)
+        }
+
+        <span class="hljs-comment">// Recover: Regain control of a panicking goroutine</span>
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">safe</span><span
+            class="hljs-params">()</span></span> {
+        <span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span
+            class="hljs-params">()</span></span> {
+        <span class="hljs-keyword">if</span> r := <span class="hljs-built_in">recover</span>(); r != <span
+          class="hljs-literal">nil</span> {
+        fmt.Println(<span class="hljs-string">"Recovered from:"</span>, r)
+        }
+        }()
+        <span class="hljs-built_in">panic</span>(<span class="hljs-string">"Crash"</span>)
+        }</code></pre>
+    <h3>14. JSON Handling</h3>
+    <p>Standard library support via <code>encoding/json</code>.</p>
+    <pre><code class="hljs language-go"><span class="hljs-keyword">type</span> User <span
+          class="hljs-keyword">struct</span> {
+        Name <span class="hljs-type">string</span> <span class="hljs-string">`json:"username"`</span> <span
+          class="hljs-comment">// Struct Tag</span>
+        Age <span class="hljs-type">int</span> <span class="hljs-string">`json:"age"`</span>
+        Email <span class="hljs-type">string</span> <span class="hljs-string">`json:"-"`</span> <span
+          class="hljs-comment">// Ignore field</span>
+        }
+
+        <span class="hljs-comment">// Marshal (Struct -&gt; JSON)</span>
+        u := User{Name: <span class="hljs-string">"Bob"</span>, Age: <span class="hljs-number">30</span>}
+        jsonData, _ := json.Marshal(u)
+
+        <span class="hljs-comment">// Unmarshal (JSON -&gt; Struct)</span>
+        <span class="hljs-keyword">var</span> u2 User
+        json.Unmarshal(jsonData, &amp;u2)</code></pre>
+    <h3>15. Testing</h3>
+    <p>Go has a built-in testing framework. Files must end in <code>_test.go</code>.</p>
+    <pre><code class="hljs language-go"><span class="hljs-keyword">import</span> <span
+          class="hljs-string">"testing"</span>
+
+        <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestAdd</span><span
+            class="hljs-params">(t *testing.T)</span></span> {
+        got := add(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
+        want := <span class="hljs-number">5</span>
+        <span class="hljs-keyword">if</span> got != want {
         t.Errorf(<span class="hljs-string">"got %d, want %d"</span>, got, want)
-    }
-}
-<span class="hljs-comment">// Run via terminal: go test</span></code></pre></div><button class="theme-fab" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch Theme</button></body></html>
+        }
+        }
+        <span class="hljs-comment">// Run via terminal: go test</span></code></pre>
+  </div><button class="theme-fab"
+    onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch
+    Theme</button>
+</body>
+
+</html>

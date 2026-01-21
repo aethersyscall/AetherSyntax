@@ -1,4 +1,11 @@
-<!DOCTYPE html><html data-theme="eclipse"><head><meta charset="UTF-8"><title>Export</title><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html data-theme="eclipse">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap"
+    rel="stylesheet">
+  <style>
     :root {
       --font-ui: 'Outfit', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -353,332 +360,561 @@
         display: none;
       }
     }
-   body { overflow-y:auto; padding:40px; display:block; height:auto; } .preview-content { max-width:800px; margin:0 auto; } .theme-fab { position:fixed; bottom:20px; right:20px; background:var(--acc-p); color:#fff; border:none; padding:10px 20px; border-radius:99px; font-family:var(--font-ui); font-weight:700; cursor:pointer; }</style></head><body><div class="md-body preview-content"><h1>Rust Cheatsheet</h1>
-<h3>1. Variables &amp; Types</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Immutable variable (default)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">5</span>;
 
-<span class="hljs-comment">// Mutable variable</span>
-<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">y</span> = <span class="hljs-number">5</span>;
-y = <span class="hljs-number">10</span>;
+    body {
+      overflow-y: auto;
+      padding: 40px;
+      display: block;
+      height: auto;
+    }
 
-<span class="hljs-comment">// Constants (MUST have type, uppercase convention)</span>
-<span class="hljs-keyword">const</span> MAX_POINTS: <span class="hljs-type">u32</span> = <span class="hljs-number">100_000</span>;
+    .preview-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-<span class="hljs-comment">// Static variables (global, fixed address)</span>
-<span class="hljs-keyword">static</span> HELLO: &amp;<span class="hljs-type">str</span> = <span class="hljs-string">"Hello, world!"</span>;
+    .theme-fab {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--acc-p);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
-<span class="hljs-comment">// Type annotation</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">guess</span>: <span class="hljs-type">u32</span> = <span class="hljs-string">"42"</span>.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">expect</span>(<span class="hljs-string">"Not a number!"</span>);
+<body>
+  <div class="md-body preview-content">
+    <h1>Rust Cheatsheet</h1>
+    <h3>1. Variables &amp; Types</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Immutable variable (default)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">5</span>;
 
-<span class="hljs-comment">// Shadowing</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">5</span>;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x + <span class="hljs-number">1</span>; <span class="hljs-comment">// x is now 6, new variable</span></code></pre><h3>2. Primitive Types</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Scalar Types</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">i</span>: <span class="hljs-type">i32</span> = -<span class="hljs-number">42</span>;        <span class="hljs-comment">// Signed: i8, i16, i32, i64, i128, isize</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">u</span>: <span class="hljs-type">u32</span> = <span class="hljs-number">42</span>;         <span class="hljs-comment">// Unsigned: u8, u16, u32, u64, u128, usize</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">f</span>: <span class="hljs-type">f64</span> = <span class="hljs-number">3.14</span>;       <span class="hljs-comment">// Floats: f32, f64</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">b</span>: <span class="hljs-type">bool</span> = <span class="hljs-literal">true</span>;      <span class="hljs-comment">// Booleans: true, false</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">c</span>: <span class="hljs-type">char</span> = <span class="hljs-string">'z'</span>;       <span class="hljs-comment">// Character (4 bytes, Unicode)</span>
+        <span class="hljs-comment">// Mutable variable</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">y</span>
+        = <span class="hljs-number">5</span>;
+        y = <span class="hljs-number">10</span>;
 
-<span class="hljs-comment">// Compound Types</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">tup</span>: (<span class="hljs-type">i32</span>, <span class="hljs-type">f64</span>, <span class="hljs-type">u8</span>) = (<span class="hljs-number">500</span>, <span class="hljs-number">6.4</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// Tuple</span>
-<span class="hljs-keyword">let</span> (x, y, z) = tup;                     <span class="hljs-comment">// Destructuring</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = tup.<span class="hljs-number">0</span>;                         <span class="hljs-comment">// Access by index</span>
+        <span class="hljs-comment">// Constants (MUST have type, uppercase convention)</span>
+        <span class="hljs-keyword">const</span> MAX_POINTS: <span class="hljs-type">u32</span> = <span
+          class="hljs-number">100_000</span>;
 
-<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span>: [<span class="hljs-type">i32</span>; <span class="hljs-number">5</span>] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];     <span class="hljs-comment">// Array (fixed size, stack)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">same</span>: [<span class="hljs-type">i32</span>; <span class="hljs-number">5</span>] = [<span class="hljs-number">3</span>; <span class="hljs-number">5</span>];             <span class="hljs-comment">// [3, 3, 3, 3, 3]</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">first</span> = arr[<span class="hljs-number">0</span>];                      <span class="hljs-comment">// Access</span></code></pre><h3>3. Functions</h3>
-<pre><code class="hljs language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">main</span>() {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Hello"</span>);
-}
+        <span class="hljs-comment">// Static variables (global, fixed address)</span>
+        <span class="hljs-keyword">static</span> HELLO: &amp;<span class="hljs-type">str</span> = <span
+          class="hljs-string">"Hello, world!"</span>;
 
-<span class="hljs-comment">// Parameters and return type</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">add</span>(x: <span class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-    x + y  <span class="hljs-comment">// Implicit return (no semicolon)</span>
-}
+        <span class="hljs-comment">// Type annotation</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">guess</span>: <span
+          class="hljs-type">u32</span> = <span class="hljs-string">"42"</span>.<span
+          class="hljs-title function_ invoke__">parse</span>().<span
+          class="hljs-title function_ invoke__">expect</span>(<span class="hljs-string">"Not a number!"</span>);
 
-<span class="hljs-comment">// Diverging function (never returns)</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">crash</span>() <span class="hljs-punctuation">-&gt;</span> ! {
-    <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"Crash and burn"</span>);
-}</code></pre><h3>4. Control Flow</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// If expression</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">number</span> = <span class="hljs-number">3</span>;
-<span class="hljs-keyword">if</span> number &lt; <span class="hljs-number">5</span> {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"True"</span>);
-} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> number == <span class="hljs-number">5</span> {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Equal"</span>);
-} <span class="hljs-keyword">else</span> {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"False"</span>);
-}
+        <span class="hljs-comment">// Shadowing</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">5</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x + <span
+          class="hljs-number">1</span>; <span class="hljs-comment">// x is now 6, new variable</span></code></pre>
+    <h3>2. Primitive Types</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Scalar Types</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">i</span>: <span class="hljs-type">i32</span> =
+        -<span class="hljs-number">42</span>; <span class="hljs-comment">// Signed: i8, i16, i32, i64, i128,
+          isize</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">u</span>: <span class="hljs-type">u32</span> =
+        <span class="hljs-number">42</span>; <span class="hljs-comment">// Unsigned: u8, u16, u32, u64, u128,
+          usize</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">f</span>: <span class="hljs-type">f64</span> =
+        <span class="hljs-number">3.14</span>; <span class="hljs-comment">// Floats: f32, f64</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">b</span>: <span class="hljs-type">bool</span>
+        = <span class="hljs-literal">true</span>; <span class="hljs-comment">// Booleans: true, false</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">c</span>: <span class="hljs-type">char</span>
+        = <span class="hljs-string">'z'</span>; <span class="hljs-comment">// Character (4 bytes, Unicode)</span>
 
-<span class="hljs-comment">// If as an expression</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">condition</span> = <span class="hljs-literal">true</span>;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">number</span> = <span class="hljs-keyword">if</span> condition { <span class="hljs-number">5</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">6</span> };
+        <span class="hljs-comment">// Compound Types</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">tup</span>: (<span
+          class="hljs-type">i32</span>, <span class="hljs-type">f64</span>, <span class="hljs-type">u8</span>) = (<span
+          class="hljs-number">500</span>, <span class="hljs-number">6.4</span>, <span class="hljs-number">1</span>);
+        <span class="hljs-comment">// Tuple</span>
+        <span class="hljs-keyword">let</span> (x, y, z) = tup; <span class="hljs-comment">// Destructuring</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = tup.<span
+          class="hljs-number">0</span>; <span class="hljs-comment">// Access by index</span>
 
-<span class="hljs-comment">// Loops</span>
-<span class="hljs-keyword">loop</span> { <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Infinite"</span>); <span class="hljs-keyword">break</span>; } <span class="hljs-comment">// "break" to exit</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span>: [<span
+          class="hljs-type">i32</span>; <span class="hljs-number">5</span>] = [<span class="hljs-number">1</span>, <span
+          class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span
+          class="hljs-number">5</span>]; <span class="hljs-comment">// Array (fixed size, stack)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">same</span>: [<span
+          class="hljs-type">i32</span>; <span class="hljs-number">5</span>] = [<span class="hljs-number">3</span>; <span
+          class="hljs-number">5</span>]; <span class="hljs-comment">// [3, 3, 3, 3, 3]</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">first</span> = arr[<span
+          class="hljs-number">0</span>]; <span class="hljs-comment">// Access</span></code></pre>
+    <h3>3. Functions</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-keyword">fn</span> <span
+          class="hljs-title function_">main</span>() {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Hello"</span>);
+        }
 
-<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">count</span> = <span class="hljs-number">0</span>;
-<span class="hljs-symbol">'label</span>: <span class="hljs-keyword">loop</span> { <span class="hljs-comment">// Loop labels</span>
-    count += <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">if</span> count == <span class="hljs-number">2</span> { <span class="hljs-keyword">continue</span> <span class="hljs-symbol">'label</span>; } <span class="hljs-comment">// Skip iteration</span>
-    <span class="hljs-keyword">if</span> count == <span class="hljs-number">5</span> { <span class="hljs-keyword">break</span> <span class="hljs-symbol">'label</span>; }    <span class="hljs-comment">// Break outer loop</span>
-}
+        <span class="hljs-comment">// Parameters and return type</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">add</span>(x: <span
+          class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span>) <span
+          class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+        x + y <span class="hljs-comment">// Implicit return (no semicolon)</span>
+        }
 
-<span class="hljs-keyword">while</span> number != <span class="hljs-number">0</span> { <span class="hljs-comment">/* ... */</span> }
+        <span class="hljs-comment">// Diverging function (never returns)</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">crash</span>() <span
+          class="hljs-punctuation">-&gt;</span> ! {
+        <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"Crash and burn"</span>);
+        }</code></pre>
+    <h3>4. Control Flow</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// If expression</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">number</span> = <span
+          class="hljs-number">3</span>;
+        <span class="hljs-keyword">if</span> number &lt; <span class="hljs-number">5</span> {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"True"</span>);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> number == <span
+          class="hljs-number">5</span> {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Equal"</span>);
+        } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"False"</span>);
+        }
 
-<span class="hljs-keyword">for</span> <span class="hljs-variable">element</span> <span class="hljs-keyword">in</span> [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>].<span class="hljs-title function_ invoke__">iter</span>() { <span class="hljs-comment">/* ... */</span> }
-<span class="hljs-keyword">for</span> <span class="hljs-variable">number</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..<span class="hljs-number">4</span> { <span class="hljs-comment">/* ... */</span> } <span class="hljs-comment">// Range 1 to 3 (exclusive)</span>
-<span class="hljs-keyword">for</span> <span class="hljs-variable">number</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=<span class="hljs-number">4</span> { <span class="hljs-comment">/* ... */</span> } <span class="hljs-comment">// Range 1 to 4 (inclusive)</span></code></pre><h3>5. Ownership &amp; References</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Move semantics</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">s1</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hello"</span>);
-<span class="hljs-keyword">let</span> <span class="hljs-variable">s2</span> = s1; <span class="hljs-comment">// s1 is moved to s2, s1 is now invalid</span>
+        <span class="hljs-comment">// If as an expression</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">condition</span> = <span
+          class="hljs-literal">true</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">number</span> = <span
+          class="hljs-keyword">if</span> condition { <span class="hljs-number">5</span> } <span
+          class="hljs-keyword">else</span> { <span class="hljs-number">6</span> };
 
-<span class="hljs-comment">// Clone</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">s3</span> = s2.<span class="hljs-title function_ invoke__">clone</span>(); <span class="hljs-comment">// Deep copy, s2 is still valid</span>
+        <span class="hljs-comment">// Loops</span>
+        <span class="hljs-keyword">loop</span> { <span class="hljs-built_in">println!</span>(<span
+          class="hljs-string">"Infinite"</span>); <span class="hljs-keyword">break</span>; } <span
+          class="hljs-comment">// "break" to exit</span>
 
-<span class="hljs-comment">// References (Borrowing)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = <span class="hljs-title function_ invoke__">calculate_len</span>(&amp;s3); <span class="hljs-comment">// Immutable reference</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">calculate_len</span>(s: &amp;<span class="hljs-type">String</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> { s.<span class="hljs-title function_ invoke__">len</span>() }
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span
+          class="hljs-variable">count</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-symbol">'label</span>: <span class="hljs-keyword">loop</span> { <span class="hljs-comment">//
+          Loop labels</span>
+        count += <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span> count == <span class="hljs-number">2</span> { <span
+          class="hljs-keyword">continue</span> <span class="hljs-symbol">'label</span>; } <span class="hljs-comment">//
+          Skip iteration</span>
+        <span class="hljs-keyword">if</span> count == <span class="hljs-number">5</span> { <span
+          class="hljs-keyword">break</span> <span class="hljs-symbol">'label</span>; } <span class="hljs-comment">//
+          Break outer loop</span>
+        }
 
-<span class="hljs-comment">// Mutable References</span>
-<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">s</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hello"</span>);
-<span class="hljs-title function_ invoke__">change</span>(&amp;<span class="hljs-keyword">mut</span> s);
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">change</span>(some_string: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-type">String</span>) { some_string.<span class="hljs-title function_ invoke__">push_str</span>(<span class="hljs-string">", world"</span>); }
+        <span class="hljs-keyword">while</span> number != <span class="hljs-number">0</span> { <span
+          class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-comment">// Slices (Reference to a contiguous sequence)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">s</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"hello world"</span>);
-<span class="hljs-keyword">let</span> <span class="hljs-variable">hello</span>: &amp;<span class="hljs-type">str</span> = &amp;s[<span class="hljs-number">0</span>..<span class="hljs-number">5</span>];
-<span class="hljs-keyword">let</span> <span class="hljs-variable">world</span>: &amp;<span class="hljs-type">str</span> = &amp;s[<span class="hljs-number">6</span>..<span class="hljs-number">11</span>];
-<span class="hljs-keyword">let</span> <span class="hljs-variable">slice</span>: &amp;[<span class="hljs-type">i32</span>] = &amp;[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];</code></pre><h3>6. Structs</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Definition</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">User</span> {
-    username: <span class="hljs-type">String</span>,
-    email: <span class="hljs-type">String</span>,
-    sign_in_count: <span class="hljs-type">u64</span>,
-    active: <span class="hljs-type">bool</span>,
-}
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">element</span> <span
+          class="hljs-keyword">in</span> [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>,
+        <span class="hljs-number">30</span>].<span class="hljs-title function_ invoke__">iter</span>() { <span
+          class="hljs-comment">/* ... */</span> }
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">number</span> <span
+          class="hljs-keyword">in</span> <span class="hljs-number">1</span>..<span class="hljs-number">4</span> { <span
+          class="hljs-comment">/* ... */</span> } <span class="hljs-comment">// Range 1 to 3 (exclusive)</span>
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">number</span> <span
+          class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=<span class="hljs-number">4</span> { <span
+          class="hljs-comment">/* ... */</span> } <span class="hljs-comment">// Range 1 to 4 (inclusive)</span></code>
+    </pre>
+    <h3>5. Ownership &amp; References</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Move semantics</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">s1</span> = <span
+          class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span
+          class="hljs-string">"hello"</span>);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">s2</span> = s1; <span class="hljs-comment">//
+          s1 is moved to s2, s1 is now invalid</span>
 
-<span class="hljs-comment">// Instantiation</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">user1</span> = User {
-    email: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"someone@example.com"</span>),
-    username: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"someusername123"</span>),
-    active: <span class="hljs-literal">true</span>,
-    sign_in_count: <span class="hljs-number">1</span>,
-};
+        <span class="hljs-comment">// Clone</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">s3</span> = s2.<span
+          class="hljs-title function_ invoke__">clone</span>(); <span class="hljs-comment">// Deep copy, s2 is still
+          valid</span>
 
-<span class="hljs-comment">// Update syntax</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">user2</span> = User {
-    email: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">"another@example.com"</span>),
-    ..user1 <span class="hljs-comment">// Copy remaining fields from user1</span>
-};
+        <span class="hljs-comment">// References (Borrowing)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = <span
+          class="hljs-title function_ invoke__">calculate_len</span>(&amp;s3); <span class="hljs-comment">// Immutable
+          reference</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">calculate_len</span>(s: &amp;<span
+          class="hljs-type">String</span>) <span class="hljs-punctuation">-&gt;</span> <span
+          class="hljs-type">usize</span> { s.<span class="hljs-title function_ invoke__">len</span>() }
 
-<span class="hljs-comment">// Tuple Structs</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Color</span>(<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>);
-<span class="hljs-keyword">let</span> <span class="hljs-variable">black</span> = <span class="hljs-title function_ invoke__">Color</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+        <span class="hljs-comment">// Mutable References</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">s</span>
+        = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span
+          class="hljs-string">"hello"</span>);
+        <span class="hljs-title function_ invoke__">change</span>(&amp;<span class="hljs-keyword">mut</span> s);
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">change</span>(some_string: &amp;<span
+          class="hljs-keyword">mut</span> <span class="hljs-type">String</span>) { some_string.<span
+          class="hljs-title function_ invoke__">push_str</span>(<span class="hljs-string">", world"</span>); }
 
-<span class="hljs-comment">// Unit-like Structs (No fields)</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">AlwaysEqual</span>;</code></pre><h3>7. Enums &amp; Pattern Matching</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Definition</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Message</span> {
-    Quit,
-    Move { x: <span class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span> },
-    <span class="hljs-title function_ invoke__">Write</span>(<span class="hljs-type">String</span>),
-    <span class="hljs-title function_ invoke__">ChangeColor</span>(<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>),
-}
+        <span class="hljs-comment">// Slices (Reference to a contiguous sequence)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">s</span> = <span
+          class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span
+          class="hljs-string">"hello world"</span>);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">hello</span>: &amp;<span
+          class="hljs-type">str</span> = &amp;s[<span class="hljs-number">0</span>..<span class="hljs-number">5</span>];
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">world</span>: &amp;<span
+          class="hljs-type">str</span> = &amp;s[<span class="hljs-number">6</span>..<span
+          class="hljs-number">11</span>];
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">slice</span>: &amp;[<span
+          class="hljs-type">i32</span>] = &amp;[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>,
+        <span class="hljs-number">3</span>];</code></pre>
+    <h3>6. Structs</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Definition</span>
+        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">User</span> {
+        username: <span class="hljs-type">String</span>,
+        email: <span class="hljs-type">String</span>,
+        sign_in_count: <span class="hljs-type">u64</span>,
+        active: <span class="hljs-type">bool</span>,
+        }
 
-<span class="hljs-comment">// Match expression</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">msg</span> = Message::Move { x: <span class="hljs-number">10</span>, y: <span class="hljs-number">20</span> };
-<span class="hljs-keyword">match</span> msg {
-    Message::Quit =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Quit"</span>),
-    Message::Move { x, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Move to {}, {}"</span>, x, y),
-    Message::<span class="hljs-title function_ invoke__">Write</span>(text) =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Text: {}"</span>, text),
-    _ =&gt; (), <span class="hljs-comment">// Catch-all</span>
-}
+        <span class="hljs-comment">// Instantiation</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">user1</span> = User {
+        email: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span
+          class="hljs-string">"someone@example.com"</span>),
+        username: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span
+          class="hljs-string">"someusername123"</span>),
+        active: <span class="hljs-literal">true</span>,
+        sign_in_count: <span class="hljs-number">1</span>,
+        };
 
-<span class="hljs-comment">// if let (concise control flow)</span>
-<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Message</span>::<span class="hljs-title function_ invoke__">Write</span>(text) = msg {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, text);
-}</code></pre><h3>8. Methods &amp; Associated Functions</h3>
-<pre><code class="hljs language-rust"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Rectangle</span> { width: <span class="hljs-type">u32</span>, height: <span class="hljs-type">u32</span> }
+        <span class="hljs-comment">// Update syntax</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">user2</span> = User {
+        email: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span
+          class="hljs-string">"another@example.com"</span>),
+        ..user1 <span class="hljs-comment">// Copy remaining fields from user1</span>
+        };
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Rectangle</span> {
-    <span class="hljs-comment">// Method (takes &amp;self)</span>
-    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">area</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+        <span class="hljs-comment">// Tuple Structs</span>
+        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Color</span>(<span
+          class="hljs-type">i32</span>, <span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">black</span> = <span
+          class="hljs-title function_ invoke__">Color</span>(<span class="hljs-number">0</span>, <span
+          class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+
+        <span class="hljs-comment">// Unit-like Structs (No fields)</span>
+        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">AlwaysEqual</span>;</code></pre>
+    <h3>7. Enums &amp; Pattern Matching</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Definition</span>
+        <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Message</span> {
+        Quit,
+        Move { x: <span class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span> },
+        <span class="hljs-title function_ invoke__">Write</span>(<span class="hljs-type">String</span>),
+        <span class="hljs-title function_ invoke__">ChangeColor</span>(<span class="hljs-type">i32</span>, <span
+          class="hljs-type">i32</span>, <span class="hljs-type">i32</span>),
+        }
+
+        <span class="hljs-comment">// Match expression</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">msg</span> = Message::Move { x: <span
+          class="hljs-number">10</span>, y: <span class="hljs-number">20</span> };
+        <span class="hljs-keyword">match</span> msg {
+        Message::Quit =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Quit"</span>),
+        Message::Move { x, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Move to {},
+          {}"</span>, x, y),
+        Message::<span class="hljs-title function_ invoke__">Write</span>(text) =&gt; <span
+          class="hljs-built_in">println!</span>(<span class="hljs-string">"Text: {}"</span>, text),
+        _ =&gt; (), <span class="hljs-comment">// Catch-all</span>
+        }
+
+        <span class="hljs-comment">// if let (concise control flow)</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span
+          class="hljs-variable">Message</span>::<span class="hljs-title function_ invoke__">Write</span>(text) = msg {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, text);
+        }</code></pre>
+    <h3>8. Methods &amp; Associated Functions</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-keyword">struct</span> <span
+          class="hljs-title class_">Rectangle</span> { width: <span class="hljs-type">u32</span>, height: <span
+          class="hljs-type">u32</span> }
+
+        <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Rectangle</span> {
+        <span class="hljs-comment">// Method (takes &amp;self)</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">area</span>(&amp;<span
+          class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span
+          class="hljs-type">u32</span> {
         <span class="hljs-keyword">self</span>.width * <span class="hljs-keyword">self</span>.height
-    }
+        }
 
-    <span class="hljs-comment">// Associated function (no self, like static method)</span>
-    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(width: <span class="hljs-type">u32</span>, height: <span class="hljs-type">u32</span>) <span class="hljs-punctuation">-&gt;</span> Rectangle {
+        <span class="hljs-comment">// Associated function (no self, like static method)</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(width: <span
+          class="hljs-type">u32</span>, height: <span class="hljs-type">u32</span>) <span
+          class="hljs-punctuation">-&gt;</span> Rectangle {
         Rectangle { width, height }
-    }
-}
+        }
+        }
 
-<span class="hljs-keyword">let</span> <span class="hljs-variable">rect</span> = Rectangle::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">30</span>, <span class="hljs-number">50</span>);
-rect.<span class="hljs-title function_ invoke__">area</span>();</code></pre><h3>9. Error Handling</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Result enum: Ok(T) or Err(E)</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Result</span>&lt;T, E&gt; { <span class="hljs-title function_ invoke__">Ok</span>(T), <span class="hljs-title function_ invoke__">Err</span>(E) }
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">rect</span> = Rectangle::<span
+          class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">30</span>, <span
+          class="hljs-number">50</span>);
+        rect.<span class="hljs-title function_ invoke__">area</span>();</code></pre>
+    <h3>9. Error Handling</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Result enum: Ok(T) or Err(E)</span>
+        <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Result</span>&lt;T, E&gt; { <span
+          class="hljs-title function_ invoke__">Ok</span>(T), <span class="hljs-title function_ invoke__">Err</span>(E)
+        }
 
-<span class="hljs-comment">// Option enum: Some(T) or None</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Option</span>&lt;T&gt; { <span class="hljs-title function_ invoke__">Some</span>(T), <span class="hljs-literal">None</span> }
+        <span class="hljs-comment">// Option enum: Some(T) or None</span>
+        <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Option</span>&lt;T&gt; { <span
+          class="hljs-title function_ invoke__">Some</span>(T), <span class="hljs-literal">None</span> }
 
-<span class="hljs-comment">// Propagation operator (?)</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_username</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;<span class="hljs-type">String</span>, io::Error&gt; {
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">f</span> = File::<span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>)?; <span class="hljs-comment">// Return Err immediately if failed</span>
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">s</span> = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">new</span>();
-    f.<span class="hljs-title function_ invoke__">read_to_string</span>(&amp;<span class="hljs-keyword">mut</span> s)?;
-    <span class="hljs-title function_ invoke__">Ok</span>(s)
-}
+        <span class="hljs-comment">// Propagation operator (?)</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_username</span>() <span
+          class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;<span
+          class="hljs-type">String</span>, io::Error&gt; {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">f</span>
+        = File::<span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>)?;
+        <span class="hljs-comment">// Return Err immediately if failed</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">s</span>
+        = <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">new</span>();
+        f.<span class="hljs-title function_ invoke__">read_to_string</span>(&amp;<span class="hljs-keyword">mut</span>
+        s)?;
+        <span class="hljs-title function_ invoke__">Ok</span>(s)
+        }
 
-<span class="hljs-comment">// Unwrapping (Panic on Err/None)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">f</span> = File::<span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
-<span class="hljs-keyword">let</span> <span class="hljs-variable">f</span> = File::<span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>).<span class="hljs-title function_ invoke__">expect</span>(<span class="hljs-string">"Failed to open file"</span>);</code></pre><h3>10. Generics &amp; Traits</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Generic Function</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">largest</span>&lt;T: <span class="hljs-built_in">PartialOrd</span>&gt;(list: &amp;[T]) <span class="hljs-punctuation">-&gt;</span> &amp;T { <span class="hljs-comment">/* ... */</span> }
+        <span class="hljs-comment">// Unwrapping (Panic on Err/None)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">f</span> = File::<span
+          class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>).<span
+          class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">f</span> = File::<span
+          class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">"hello.txt"</span>).<span
+          class="hljs-title function_ invoke__">expect</span>(<span class="hljs-string">"Failed to open
+          file"</span>);</code></pre>
+    <h3>10. Generics &amp; Traits</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Generic Function</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">largest</span>&lt;T: <span
+          class="hljs-built_in">PartialOrd</span>&gt;(list: &amp;[T]) <span class="hljs-punctuation">-&gt;</span> &amp;T
+        { <span class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-comment">// Generic Struct</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt; { x: T, y: T }
+        <span class="hljs-comment">// Generic Struct</span>
+        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt; { x: T, y: T }
 
-<span class="hljs-comment">// Trait Definition</span>
-<span class="hljs-keyword">trait</span> <span class="hljs-title class_">Summary</span> {
-    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">summarize</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span>;
-    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">default_impl</span>(&amp;<span class="hljs-keyword">self</span>) { <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Default"</span>); }
-}
+        <span class="hljs-comment">// Trait Definition</span>
+        <span class="hljs-keyword">trait</span> <span class="hljs-title class_">Summary</span> {
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">summarize</span>(&amp;<span
+          class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span
+          class="hljs-type">String</span>;
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">default_impl</span>(&amp;<span
+          class="hljs-keyword">self</span>) { <span class="hljs-built_in">println!</span>(<span
+          class="hljs-string">"Default"</span>); }
+        }
 
-<span class="hljs-comment">// Implementing a Trait</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Summary</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">Point</span>&lt;<span class="hljs-type">i32</span>&gt; {
-    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">summarize</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span> { <span class="hljs-built_in">format!</span>(<span class="hljs-string">"Point({}, {})"</span>, <span class="hljs-keyword">self</span>.x, <span class="hljs-keyword">self</span>.y) }
-}
+        <span class="hljs-comment">// Implementing a Trait</span>
+        <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Summary</span> <span
+          class="hljs-keyword">for</span> <span class="hljs-title class_">Point</span>&lt;<span
+          class="hljs-type">i32</span>&gt; {
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">summarize</span>(&amp;<span
+          class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span
+          class="hljs-type">String</span> { <span class="hljs-built_in">format!</span>(<span
+          class="hljs-string">"Point({}, {})"</span>, <span class="hljs-keyword">self</span>.x, <span
+          class="hljs-keyword">self</span>.y) }
+        }
 
-<span class="hljs-comment">// Trait Bounds</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">notify</span>&lt;T: Summary&gt;(item: &amp;T) { <span class="hljs-comment">/* ... */</span> }
+        <span class="hljs-comment">// Trait Bounds</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">notify</span>&lt;T: Summary&gt;(item:
+        &amp;T) { <span class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-comment">// Where clause (cleaner bounds)</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">some_fn</span>&lt;T, U&gt;(t: &amp;T, u: &amp;U) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span>
-    <span class="hljs-keyword">where</span> T: Display + <span class="hljs-built_in">Clone</span>,
-          U: <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Debug</span>
-{ <span class="hljs-comment">/* ... */</span> }
+        <span class="hljs-comment">// Where clause (cleaner bounds)</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">some_fn</span>&lt;T, U&gt;(t: &amp;T, u:
+        &amp;U) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span>
+        <span class="hljs-keyword">where</span> T: Display + <span class="hljs-built_in">Clone</span>,
+        U: <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Debug</span>
+        { <span class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-comment">// Returning types that implement Traits</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">returns_summarizable</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Summary</span> { <span class="hljs-comment">/* ... */</span> }</code></pre><h3>11. Lifetimes</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Explicit lifetime annotation</span>
-<span class="hljs-comment">// 'a relates the lifetime of x, y, and the return value</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">longest</span>&lt;<span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>, y: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span> {
-    <span class="hljs-keyword">if</span> x.<span class="hljs-title function_ invoke__">len</span>() &gt; y.<span class="hljs-title function_ invoke__">len</span>() { x } <span class="hljs-keyword">else</span> { y }
-}
+        <span class="hljs-comment">// Returning types that implement Traits</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">returns_summarizable</span>() <span
+          class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">impl</span> <span
+          class="hljs-title class_">Summary</span> { <span class="hljs-comment">/* ... */</span> }</code></pre>
+    <h3>11. Lifetimes</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Explicit lifetime annotation</span>
+        <span class="hljs-comment">// 'a relates the lifetime of x, y, and the return value</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">longest</span>&lt;<span
+          class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span
+          class="hljs-type">str</span>, y: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>)
+        <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-symbol">'a</span> <span
+          class="hljs-type">str</span> {
+        <span class="hljs-keyword">if</span> x.<span class="hljs-title function_ invoke__">len</span>() &gt; y.<span
+          class="hljs-title function_ invoke__">len</span>() { x } <span class="hljs-keyword">else</span> { y }
+        }
 
-<span class="hljs-comment">// Struct with references</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">ImportantExcerpt</span>&lt;<span class="hljs-symbol">'a</span>&gt; {
-    part: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>,
-}
+        <span class="hljs-comment">// Struct with references</span>
+        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">ImportantExcerpt</span>&lt;<span
+          class="hljs-symbol">'a</span>&gt; {
+        part: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>,
+        }
 
-<span class="hljs-comment">// Static lifetime (lives for entire program duration)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">s</span>: &amp;<span class="hljs-symbol">'static</span> <span class="hljs-type">str</span> = <span class="hljs-string">"I have a static lifetime."</span>;</code></pre><h3>12. Closures &amp; Iterators</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Closure syntax</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">add_one</span> = |x: <span class="hljs-type">i32</span>| <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> { x + <span class="hljs-number">1</span> };
-<span class="hljs-keyword">let</span> <span class="hljs-variable">plain</span> = |x| x + <span class="hljs-number">1</span>; <span class="hljs-comment">// Type inference</span>
+        <span class="hljs-comment">// Static lifetime (lives for entire program duration)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">s</span>: &amp;<span
+          class="hljs-symbol">'static</span> <span class="hljs-type">str</span> = <span class="hljs-string">"I have a
+          static lifetime."</span>;</code></pre>
+    <h3>12. Closures &amp; Iterators</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Closure syntax</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">add_one</span> = |x: <span
+          class="hljs-type">i32</span>| <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+        x + <span class="hljs-number">1</span> };
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">plain</span> = |x| x + <span
+          class="hljs-number">1</span>; <span class="hljs-comment">// Type inference</span>
 
-<span class="hljs-comment">// Capturing environment</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">4</span>;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">equal_to_x</span> = |z| z == x;
+        <span class="hljs-comment">// Capturing environment</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">4</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">equal_to_x</span> = |z| z == x;
 
-<span class="hljs-comment">// Move semantics in closures</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">equal_to_x</span> = <span class="hljs-keyword">move</span> |z| z == x; <span class="hljs-comment">// 'x' is moved into closure</span>
+        <span class="hljs-comment">// Move semantics in closures</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">equal_to_x</span> = <span
+          class="hljs-keyword">move</span> |z| z == x; <span class="hljs-comment">// 'x' is moved into closure</span>
 
-<span class="hljs-comment">// Iterators</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">v1</span> = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
-<span class="hljs-keyword">let</span> <span class="hljs-variable">v2</span>: <span class="hljs-type">Vec</span>&lt;_&gt; = v1.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|x| x + <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">collect</span>();</code></pre><h3>13. Advanced Pattern Matching</h3>
-<pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = <span class="hljs-number">1</span>;
-<span class="hljs-keyword">match</span> x {
-    <span class="hljs-number">1</span> | <span class="hljs-number">2</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"One or Two"</span>),      <span class="hljs-comment">// Or pattern</span>
-    <span class="hljs-number">1</span>..=<span class="hljs-number">5</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"1 through 5"</span>),     <span class="hljs-comment">// Range pattern</span>
-    _ =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Something else"</span>),
-}
+        <span class="hljs-comment">// Iterators</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">v1</span> = <span
+          class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>,
+        <span class="hljs-number">3</span>];
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">v2</span>: <span
+          class="hljs-type">Vec</span>&lt;_&gt; = v1.<span class="hljs-title function_ invoke__">iter</span>().<span
+          class="hljs-title function_ invoke__">map</span>(|x| x + <span class="hljs-number">1</span>).<span
+          class="hljs-title function_ invoke__">collect</span>();</code></pre>
+    <h3>13. Advanced Pattern Matching</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> =
+        <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">match</span> x {
+        <span class="hljs-number">1</span> | <span class="hljs-number">2</span> =&gt; <span
+          class="hljs-built_in">println!</span>(<span class="hljs-string">"One or Two"</span>), <span
+          class="hljs-comment">// Or pattern</span>
+        <span class="hljs-number">1</span>..=<span class="hljs-number">5</span> =&gt; <span
+          class="hljs-built_in">println!</span>(<span class="hljs-string">"1 through 5"</span>), <span
+          class="hljs-comment">// Range pattern</span>
+        _ =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Something else"</span>),
+        }
 
-<span class="hljs-comment">// Destructuring Structs</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">p</span> = Point { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">7</span> };
-<span class="hljs-keyword">match</span> p {
-    Point { x, y: <span class="hljs-number">0</span> } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"On x axis at {}"</span>, x),
-    Point { x: <span class="hljs-number">0</span>, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"On y axis at {}"</span>, y),
-    Point { x, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"On neither axis: ({}, {})"</span>, x, y),
-}
+        <span class="hljs-comment">// Destructuring Structs</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">p</span> = Point { x: <span
+          class="hljs-number">0</span>, y: <span class="hljs-number">7</span> };
+        <span class="hljs-keyword">match</span> p {
+        Point { x, y: <span class="hljs-number">0</span> } =&gt; <span class="hljs-built_in">println!</span>(<span
+          class="hljs-string">"On x axis at {}"</span>, x),
+        Point { x: <span class="hljs-number">0</span>, y } =&gt; <span class="hljs-built_in">println!</span>(<span
+          class="hljs-string">"On y axis at {}"</span>, y),
+        Point { x, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"On neither axis:
+          ({}, {})"</span>, x, y),
+        }
 
-<span class="hljs-comment">// Ignoring values</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">_</span> = <span class="hljs-number">5</span>;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">Point</span> { x, .. } = p; <span class="hljs-comment">// Ignore y</span>
+        <span class="hljs-comment">// Ignoring values</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">_</span> = <span class="hljs-number">5</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">Point</span> { x, .. } = p; <span
+          class="hljs-comment">// Ignore y</span>
 
-<span class="hljs-comment">// Match Guards</span>
-<span class="hljs-keyword">match</span> <span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-number">4</span>) {
-    <span class="hljs-title function_ invoke__">Some</span>(x) <span class="hljs-keyword">if</span> x &lt; <span class="hljs-number">5</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"less than five: {}"</span>, x),
-    _ =&gt; (),
-}
+        <span class="hljs-comment">// Match Guards</span>
+        <span class="hljs-keyword">match</span> <span class="hljs-title function_ invoke__">Some</span>(<span
+          class="hljs-number">4</span>) {
+        <span class="hljs-title function_ invoke__">Some</span>(x) <span class="hljs-keyword">if</span> x &lt; <span
+          class="hljs-number">5</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"less
+          than five: {}"</span>, x),
+        _ =&gt; (),
+        }
 
-<span class="hljs-comment">// @ Binding (Test and save value)</span>
-<span class="hljs-keyword">match</span> msg {
-    Message::Move { x: val @ <span class="hljs-number">3</span>..=<span class="hljs-number">7</span>, y } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"x in range: {}"</span>, val),
-    _ =&gt; (),
-}</code></pre><h3>14. Modules &amp; Visibility</h3>
-<pre><code class="hljs language-rust"><span class="hljs-keyword">mod</span> front_of_house {
-    <span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> hosting { <span class="hljs-comment">// 'pub' makes it accessible from parent</span>
-        <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">add_to_waitlist</span>() {}
-    }
-}
+        <span class="hljs-comment">// @ Binding (Test and save value)</span>
+        <span class="hljs-keyword">match</span> msg {
+        Message::Move { x: val @ <span class="hljs-number">3</span>..=<span class="hljs-number">7</span>, y } =&gt;
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"x in range: {}"</span>, val),
+        _ =&gt; (),
+        }</code></pre>
+    <h3>14. Modules &amp; Visibility</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-keyword">mod</span> front_of_house {
+        <span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> hosting { <span
+          class="hljs-comment">// 'pub' makes it accessible from parent</span>
+        <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span
+          class="hljs-title function_">add_to_waitlist</span>() {}
+        }
+        }
 
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">use</span> crate::front_of_house::hosting; <span class="hljs-comment">// Re-export</span>
+        <span class="hljs-keyword">pub</span> <span class="hljs-keyword">use</span> crate::front_of_house::hosting;
+        <span class="hljs-comment">// Re-export</span>
 
-<span class="hljs-keyword">use</span> std::collections::HashMap; <span class="hljs-comment">// Bring into scope</span></code></pre><h3>15. Smart Pointers</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Box&lt;T&gt; (Heap allocation)</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">b</span> = <span class="hljs-type">Box</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
+        <span class="hljs-keyword">use</span> std::collections::HashMap; <span class="hljs-comment">// Bring into
+          scope</span></code></pre>
+    <h3>15. Smart Pointers</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Box&lt;T&gt; (Heap allocation)</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">b</span> = <span
+          class="hljs-type">Box</span>::<span class="hljs-title function_ invoke__">new</span>(<span
+          class="hljs-number">5</span>);
 
-<span class="hljs-comment">// Rc&lt;T&gt; (Reference Counting - Single Thread)</span>
-<span class="hljs-keyword">use</span> std::rc::Rc;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">a</span> = Rc::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
-<span class="hljs-keyword">let</span> <span class="hljs-variable">b</span> = Rc::<span class="hljs-title function_ invoke__">clone</span>(&amp;a);
+        <span class="hljs-comment">// Rc&lt;T&gt; (Reference Counting - Single Thread)</span>
+        <span class="hljs-keyword">use</span> std::rc::Rc;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">a</span> = Rc::<span
+          class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">b</span> = Rc::<span
+          class="hljs-title function_ invoke__">clone</span>(&amp;a);
 
-<span class="hljs-comment">// Arc&lt;T&gt; (Atomic Reference Counting - Thread Safe)</span>
-<span class="hljs-keyword">use</span> std::sync::Arc;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">a</span> = Arc::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
+        <span class="hljs-comment">// Arc&lt;T&gt; (Atomic Reference Counting - Thread Safe)</span>
+        <span class="hljs-keyword">use</span> std::sync::Arc;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">a</span> = Arc::<span
+          class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
 
-<span class="hljs-comment">// RefCell&lt;T&gt; (Interior Mutability)</span>
-<span class="hljs-keyword">use</span> std::cell::RefCell;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = RefCell::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
-*x.<span class="hljs-title function_ invoke__">borrow_mut</span>() += <span class="hljs-number">1</span>;</code></pre><h3>16. Macros</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Declarative Macros (macro_rules!)</span>
-<span class="hljs-built_in">macro_rules!</span> say_hello {
-    () =&gt; { <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Hello!"</span>); };
-}
+        <span class="hljs-comment">// RefCell&lt;T&gt; (Interior Mutability)</span>
+        <span class="hljs-keyword">use</span> std::cell::RefCell;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = RefCell::<span
+          class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">5</span>);
+        *x.<span class="hljs-title function_ invoke__">borrow_mut</span>() += <span class="hljs-number">1</span>;</code>
+    </pre>
+    <h3>16. Macros</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Declarative Macros (macro_rules!)</span>
+        <span class="hljs-built_in">macro_rules!</span> say_hello {
+        () =&gt; { <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Hello!"</span>); };
+        }
 
-<span class="hljs-comment">// Usage</span>
-say_hello!();</code></pre><h3>17. Async / Await</h3>
-<pre><code class="hljs language-rust"><span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">hello_world</span>() {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"hello, world!"</span>);
-}
+        <span class="hljs-comment">// Usage</span>
+        say_hello!();</code></pre>
+    <h3>17. Async / Await</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span>
+        <span class="hljs-title function_">hello_world</span>() {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"hello, world!"</span>);
+        }
 
-<span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">run</span>() {
-    <span class="hljs-comment">// .await suspends execution until future completes</span>
-    <span class="hljs-title function_ invoke__">hello_world</span>().<span class="hljs-keyword">await</span>;
-}</code></pre><h3>18. Unsafe Rust</h3>
-<pre><code class="hljs language-rust"><span class="hljs-comment">// Dereferencing raw pointers</span>
-<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">num</span> = <span class="hljs-number">5</span>;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">r1</span> = &amp;num <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-type">i32</span>;
-<span class="hljs-keyword">let</span> <span class="hljs-variable">r2</span> = &amp;<span class="hljs-keyword">mut</span> num <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-type">i32</span>;
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span> <span
+          class="hljs-title function_">run</span>() {
+        <span class="hljs-comment">// .await suspends execution until future completes</span>
+        <span class="hljs-title function_ invoke__">hello_world</span>().<span class="hljs-keyword">await</span>;
+        }</code></pre>
+    <h3>18. Unsafe Rust</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-comment">// Dereferencing raw pointers</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span
+          class="hljs-variable">num</span> = <span class="hljs-number">5</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">r1</span> = &amp;num <span
+          class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-type">i32</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">r2</span> = &amp;<span
+          class="hljs-keyword">mut</span> num <span class="hljs-keyword">as</span> *<span
+          class="hljs-keyword">mut</span> <span class="hljs-type">i32</span>;
 
-<span class="hljs-keyword">unsafe</span> {
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"r1 is: {}"</span>, *r1);
-    *r2 = <span class="hljs-number">10</span>;
-}
+        <span class="hljs-keyword">unsafe</span> {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"r1 is: {}"</span>, *r1);
+        *r2 = <span class="hljs-number">10</span>;
+        }
 
-<span class="hljs-comment">// Calling unsafe functions</span>
-<span class="hljs-keyword">unsafe</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">dangerous</span>() {}
-<span class="hljs-keyword">unsafe</span> { <span class="hljs-title function_ invoke__">dangerous</span>(); }</code></pre><h3>19. Attributes</h3>
-<pre><code class="hljs language-rust"><span class="hljs-meta">#[derive(Debug, PartialEq)]</span> <span class="hljs-comment">// Auto-implement Traits</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span> { x: <span class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span> }
+        <span class="hljs-comment">// Calling unsafe functions</span>
+        <span class="hljs-keyword">unsafe</span> <span class="hljs-keyword">fn</span> <span
+          class="hljs-title function_">dangerous</span>() {}
+        <span class="hljs-keyword">unsafe</span> { <span class="hljs-title function_ invoke__">dangerous</span>();
+        }</code></pre>
+    <h3>19. Attributes</h3>
+    <pre><code class="hljs language-rust"><span class="hljs-meta">#[derive(Debug, PartialEq)]</span> <span
+          class="hljs-comment">// Auto-implement Traits</span>
+        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span> { x: <span
+          class="hljs-type">i32</span>, y: <span class="hljs-type">i32</span> }
 
-<span class="hljs-meta">#[cfg(test)]</span> <span class="hljs-comment">// Conditional compilation (only for tests)</span>
-<span class="hljs-keyword">mod</span> tests { <span class="hljs-comment">/* ... */</span> }
+        <span class="hljs-meta">#[cfg(test)]</span> <span class="hljs-comment">// Conditional compilation (only for
+          tests)</span>
+        <span class="hljs-keyword">mod</span> tests { <span class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-meta">#[test]</span> <span class="hljs-comment">// Marks a test function</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">it_works</span>() { <span class="hljs-comment">/* ... */</span> }
+        <span class="hljs-meta">#[test]</span> <span class="hljs-comment">// Marks a test function</span>
+        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">it_works</span>() { <span
+          class="hljs-comment">/* ... */</span> }
 
-<span class="hljs-meta">#![allow(unused_variables)]</span> <span class="hljs-comment">// Crate-level attribute (notice the !)</span></code></pre></div><button class="theme-fab" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch Theme</button></body></html>
+        <span class="hljs-meta">#![allow(unused_variables)]</span> <span class="hljs-comment">// Crate-level attribute
+          (notice the !)</span></code></pre>
+  </div><button class="theme-fab"
+    onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch
+    Theme</button>
+</body>
+
+</html>

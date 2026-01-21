@@ -1,4 +1,11 @@
-<!DOCTYPE html><html data-theme="eclipse"><head><meta charset="UTF-8"><title>Export</title><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html data-theme="eclipse">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap"
+    rel="stylesheet">
+  <style>
     :root {
       --font-ui: 'Outfit', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -353,238 +360,377 @@
         display: none;
       }
     }
-   body { overflow-y:auto; padding:40px; display:block; height:auto; } .preview-content { max-width:800px; margin:0 auto; } .theme-fab { position:fixed; bottom:20px; right:20px; background:var(--acc-p); color:#fff; border:none; padding:10px 20px; border-radius:99px; font-family:var(--font-ui); font-weight:700; cursor:pointer; }</style></head><body><div class="md-body preview-content"><h1>C++ Cheatsheet</h1>
-<h3>1. Basic Structure</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span> <span class="hljs-comment">// Input/Output streams</span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span>   <span class="hljs-comment">// STL Container</span></span>
 
-<span class="hljs-comment">// Standard namespace (avoids typing std:: repeatedly)</span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; 
+    body {
+      overflow-y: auto;
+      padding: 40px;
+      display: block;
+      height: auto;
+    }
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-    cout &lt;&lt; <span class="hljs-string">"Hello, World!"</span> &lt;&lt; endl;
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}</code></pre><h3>2. Variables &amp; Initialization</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// Explicit types</span>
-<span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;
-<span class="hljs-type">double</span> b = <span class="hljs-number">3.14</span>;
-<span class="hljs-type">bool</span> c = <span class="hljs-literal">true</span>;
-<span class="hljs-type">char</span> d = <span class="hljs-string">'A'</span>;
+    .preview-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-<span class="hljs-comment">// Type Inference (auto)</span>
-<span class="hljs-keyword">auto</span> x = <span class="hljs-number">10</span>;        <span class="hljs-comment">// int</span>
-<span class="hljs-keyword">auto</span> y = <span class="hljs-number">5.5</span>;       <span class="hljs-comment">// double</span>
-<span class="hljs-keyword">auto</span>&amp; z = x;        <span class="hljs-comment">// int&amp; (reference)</span>
+    .theme-fab {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--acc-p);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
-<span class="hljs-comment">// Uniform Initialization (C++11) - Prevents narrowing conversions</span>
-<span class="hljs-type">int</span> n {<span class="hljs-number">5</span>};          <span class="hljs-comment">// Preferred in modern C++</span>
-string s {<span class="hljs-string">"Hello"</span>};
-<span class="hljs-type">int</span> empty {};       <span class="hljs-comment">// Initializes to 0</span>
+<body>
+  <div class="md-body preview-content">
+    <h1>C++ Cheatsheet</h1>
+    <h3>1. Basic Structure</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span
+            class="hljs-string">&lt;iostream&gt;</span> <span class="hljs-comment">// Input/Output streams</span></span>
+        <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span
+            class="hljs-string">&lt;vector&gt;</span> <span class="hljs-comment">// STL Container</span></span>
 
-<span class="hljs-comment">// References (Aliases)</span>
-<span class="hljs-type">int</span> original = <span class="hljs-number">10</span>;
-<span class="hljs-type">int</span>&amp; ref = original; <span class="hljs-comment">// ref references original</span>
-ref = <span class="hljs-number">20</span>;            <span class="hljs-comment">// original is now 20</span></code></pre><h3>3. Input &amp; Output (<code>&lt;iostream&gt;</code>)</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-type">int</span> age;
-cout &lt;&lt; <span class="hljs-string">"Enter age: "</span>;      <span class="hljs-comment">// Print to console</span>
-cin &gt;&gt; age;                 <span class="hljs-comment">// Read from console</span>
+        <span class="hljs-comment">// Standard namespace (avoids typing std:: repeatedly)</span>
+        <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
 
-<span class="hljs-comment">// Error stream</span>
-cerr &lt;&lt; <span class="hljs-string">"Error occurred!"</span>;
+        <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span
+            class="hljs-params">()</span> </span>{
+        cout &lt;&lt; <span class="hljs-string">"Hello, World!"</span> &lt;&lt; endl;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        }</code></pre>
+    <h3>2. Variables &amp; Initialization</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// Explicit types</span>
+        <span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;
+        <span class="hljs-type">double</span> b = <span class="hljs-number">3.14</span>;
+        <span class="hljs-type">bool</span> c = <span class="hljs-literal">true</span>;
+        <span class="hljs-type">char</span> d = <span class="hljs-string">'A'</span>;
 
-<span class="hljs-comment">// Format manipulators (&lt;iomanip&gt;)</span>
-cout &lt;&lt; fixed &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">2</span>) &lt;&lt; <span class="hljs-number">3.14159</span>; <span class="hljs-comment">// 3.14</span></code></pre><h3>4. Control Flow</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// If-Else with Initializer (C++17)</span>
-<span class="hljs-keyword">if</span> (<span class="hljs-type">int</span> val = <span class="hljs-built_in">getValue</span>(); val &gt; <span class="hljs-number">0</span>) {
-    cout &lt;&lt; val;
-} <span class="hljs-keyword">else</span> {
-    cout &lt;&lt; <span class="hljs-string">"Invalid"</span>;
-}
+        <span class="hljs-comment">// Type Inference (auto)</span>
+        <span class="hljs-keyword">auto</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">//
+          int</span>
+        <span class="hljs-keyword">auto</span> y = <span class="hljs-number">5.5</span>; <span class="hljs-comment">//
+          double</span>
+        <span class="hljs-keyword">auto</span>&amp; z = x; <span class="hljs-comment">// int&amp; (reference)</span>
 
-<span class="hljs-comment">// Range-based For Loop (Foreach)</span>
-vector&lt;<span class="hljs-type">int</span>&gt; nums = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>};
-<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> n : nums) { cout &lt;&lt; n; }       <span class="hljs-comment">// Copy</span>
-<span class="hljs-keyword">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span>&amp; n : nums) { cout &lt;&lt; n; } <span class="hljs-comment">// Read-only Reference (Efficient)</span>
+        <span class="hljs-comment">// Uniform Initialization (C++11) - Prevents narrowing conversions</span>
+        <span class="hljs-type">int</span> n {<span class="hljs-number">5</span>}; <span class="hljs-comment">//
+          Preferred in modern C++</span>
+        string s {<span class="hljs-string">"Hello"</span>};
+        <span class="hljs-type">int</span> empty {}; <span class="hljs-comment">// Initializes to 0</span>
 
-<span class="hljs-comment">// Switch</span>
-<span class="hljs-keyword">switch</span> (x) {
-    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: [[fallthrough]]; <span class="hljs-comment">// C++17 attribute</span>
-    <span class="hljs-keyword">default</span>: <span class="hljs-keyword">break</span>;
-}</code></pre><h3>5. Functions</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// Default Arguments</span>
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b = <span class="hljs-number">10</span>)</span> </span>{ <span class="hljs-keyword">return</span> a + b; }
+        <span class="hljs-comment">// References (Aliases)</span>
+        <span class="hljs-type">int</span> original = <span class="hljs-number">10</span>;
+        <span class="hljs-type">int</span>&amp; ref = original; <span class="hljs-comment">// ref references
+          original</span>
+        ref = <span class="hljs-number">20</span>; <span class="hljs-comment">// original is now 20</span></code></pre>
+    <h3>3. Input &amp; Output (<code>&lt;iostream&gt;</code>)</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-type">int</span> age;
+        cout &lt;&lt; <span class="hljs-string">"Enter age: "</span>; <span class="hljs-comment">// Print to
+          console</span>
+        cin &gt;&gt; age; <span class="hljs-comment">// Read from console</span>
 
-<span class="hljs-comment">// Pass by Reference (Modifies original)</span>
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">increment</span><span class="hljs-params">(<span class="hljs-type">int</span>&amp; n)</span> </span>{ n++; }
+        <span class="hljs-comment">// Error stream</span>
+        cerr &lt;&lt; <span class="hljs-string">"Error occurred!"</span>;
 
-<span class="hljs-comment">// Pass by Const Reference (Read-only, avoids copying large objects)</span>
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printString</span><span class="hljs-params">(<span class="hljs-type">const</span> string&amp; str)</span> </span>{ cout &lt;&lt; str; }
+        <span class="hljs-comment">// Format manipulators (&lt;iomanip&gt;)</span>
+        cout &lt;&lt; fixed &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">2</span>)
+        &lt;&lt; <span class="hljs-number">3.14159</span>; <span class="hljs-comment">// 3.14</span></code></pre>
+    <h3>4. Control Flow</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// If-Else with Initializer (C++17)</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-type">int</span> val = <span
+          class="hljs-built_in">getValue</span>(); val &gt; <span class="hljs-number">0</span>) {
+        cout &lt;&lt; val;
+        } <span class="hljs-keyword">else</span> {
+        cout &lt;&lt; <span class="hljs-string">"Invalid"</span>;
+        }
 
-<span class="hljs-comment">// Function Overloading</span>
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> </span>{ cout &lt;&lt; <span class="hljs-string">"Int: "</span> &lt;&lt; i; }
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-type">double</span> d)</span> </span>{ cout &lt;&lt; <span class="hljs-string">"Double: "</span> &lt;&lt; d; }
+        <span class="hljs-comment">// Range-based For Loop (Foreach)</span>
+        vector&lt;<span class="hljs-type">int</span>&gt; nums = {<span class="hljs-number">1</span>, <span
+          class="hljs-number">2</span>, <span class="hljs-number">3</span>};
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> n : nums) { cout &lt;&lt; n; } <span
+          class="hljs-comment">// Copy</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">const</span> <span
+          class="hljs-keyword">auto</span>&amp; n : nums) { cout &lt;&lt; n; } <span class="hljs-comment">// Read-only
+          Reference (Efficient)</span>
 
-<span class="hljs-comment">// Inline (Suggestion to compiler to embed code)</span>
-<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">square</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>{ <span class="hljs-keyword">return</span> x * x; }</code></pre><h3>6. Strings (<code>&lt;string&gt;</code>)</h3>
-<pre><code class="hljs language-cpp">string s1 = <span class="hljs-string">"Hello"</span>;
-string s2 = <span class="hljs-string">"World"</span>;
+        <span class="hljs-comment">// Switch</span>
+        <span class="hljs-keyword">switch</span> (x) {
+        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span
+          class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: [[fallthrough]]; <span
+          class="hljs-comment">// C++17 attribute</span>
+        <span class="hljs-keyword">default</span>: <span class="hljs-keyword">break</span>;
+        }</code></pre>
+    <h3>5. Functions</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// Default Arguments</span>
+        <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">add</span><span
+            class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b = <span
+              class="hljs-number">10</span>)</span> </span>{ <span class="hljs-keyword">return</span> a + b; }
 
-<span class="hljs-comment">// Concatenation</span>
-string s3 = s1 + <span class="hljs-string">" "</span> + s2;
+        <span class="hljs-comment">// Pass by Reference (Modifies original)</span>
+        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">increment</span><span
+            class="hljs-params">(<span class="hljs-type">int</span>&amp; n)</span> </span>{ n++; }
 
-<span class="hljs-comment">// Access</span>
-<span class="hljs-type">char</span> c = s1[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 'H'</span>
-s1.<span class="hljs-built_in">at</span>(<span class="hljs-number">0</span>);       <span class="hljs-comment">// 'H' (Bounds checked)</span>
+        <span class="hljs-comment">// Pass by Const Reference (Read-only, avoids copying large objects)</span>
+        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printString</span><span
+            class="hljs-params">(<span class="hljs-type">const</span> string&amp; str)</span> </span>{ cout &lt;&lt;
+        str; }
 
-<span class="hljs-comment">// Modification</span>
-s1.<span class="hljs-built_in">push_back</span>(<span class="hljs-string">'!'</span>);
-s1.<span class="hljs-built_in">append</span>(<span class="hljs-string">" There"</span>);
-s1.<span class="hljs-built_in">length</span>();    <span class="hljs-comment">// or s1.size()</span>
+        <span class="hljs-comment">// Function Overloading</span>
+        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span
+            class="hljs-params">(<span class="hljs-type">int</span> i)</span> </span>{ cout &lt;&lt; <span
+          class="hljs-string">"Int: "</span> &lt;&lt; i; }
+        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span
+            class="hljs-params">(<span class="hljs-type">double</span> d)</span> </span>{ cout &lt;&lt; <span
+          class="hljs-string">"Double: "</span> &lt;&lt; d; }
 
-<span class="hljs-comment">// C++17 String View (Lightweight, non-owning reference)</span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string_view&gt;</span></span>
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">analyze</span><span class="hljs-params">(string_view sv)</span> </span>{ <span class="hljs-comment">/* No copy made */</span> }</code></pre><h3>7. Classes &amp; OOP</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Rectangle</span> {
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-type">int</span> width, height; <span class="hljs-comment">// Private members</span>
+        <span class="hljs-comment">// Inline (Suggestion to compiler to embed code)</span>
+        <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span
+            class="hljs-title">square</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+        </span>{ <span class="hljs-keyword">return</span> x * x; }</code></pre>
+    <h3>6. Strings (<code>&lt;string&gt;</code>)</h3>
+    <pre><code class="hljs language-cpp">string s1 = <span class="hljs-string">"Hello"</span>;
+        string s2 = <span class="hljs-string">"World"</span>;
 
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-comment">// Constructor (Initializer List is preferred)</span>
-    <span class="hljs-built_in">Rectangle</span>(<span class="hljs-type">int</span> w, <span class="hljs-type">int</span> h) : <span class="hljs-built_in">width</span>(w), <span class="hljs-built_in">height</span>(h) {}
+        <span class="hljs-comment">// Concatenation</span>
+        string s3 = s1 + <span class="hljs-string">" "</span> + s2;
 
-    <span class="hljs-comment">// Method</span>
-    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">area</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>{ <span class="hljs-comment">// 'const' means it won't modify members</span>
+        <span class="hljs-comment">// Access</span>
+        <span class="hljs-type">char</span> c = s1[<span class="hljs-number">0</span>]; <span class="hljs-comment">//
+          'H'</span>
+        s1.<span class="hljs-built_in">at</span>(<span class="hljs-number">0</span>); <span class="hljs-comment">// 'H'
+          (Bounds checked)</span>
+
+        <span class="hljs-comment">// Modification</span>
+        s1.<span class="hljs-built_in">push_back</span>(<span class="hljs-string">'!'</span>);
+        s1.<span class="hljs-built_in">append</span>(<span class="hljs-string">" There"</span>);
+        s1.<span class="hljs-built_in">length</span>(); <span class="hljs-comment">// or s1.size()</span>
+
+        <span class="hljs-comment">// C++17 String View (Lightweight, non-owning reference)</span>
+        <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span
+            class="hljs-string">&lt;string_view&gt;</span></span>
+        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">analyze</span><span
+            class="hljs-params">(string_view sv)</span> </span>{ <span class="hljs-comment">/* No copy made */</span>
+        }</code></pre>
+    <h3>7. Classes &amp; OOP</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-keyword">class</span> <span
+          class="hljs-title class_">Rectangle</span> {
+        <span class="hljs-keyword">private</span>:
+        <span class="hljs-type">int</span> width, height; <span class="hljs-comment">// Private members</span>
+
+        <span class="hljs-keyword">public</span>:
+        <span class="hljs-comment">// Constructor (Initializer List is preferred)</span>
+        <span class="hljs-built_in">Rectangle</span>(<span class="hljs-type">int</span> w, <span
+          class="hljs-type">int</span> h) : <span class="hljs-built_in">width</span>(w), <span
+          class="hljs-built_in">height</span>(h) {}
+
+        <span class="hljs-comment">// Method</span>
+        <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">area</span><span
+            class="hljs-params">()</span> <span class="hljs-type">const</span> </span>{ <span class="hljs-comment">//
+          'const' means it won't modify members</span>
         <span class="hljs-keyword">return</span> width * height;
-    }
-    
-    <span class="hljs-comment">// Destructor</span>
-    ~<span class="hljs-built_in">Rectangle</span>() { <span class="hljs-comment">/* Cleanup */</span> }
-};
+        }
 
-<span class="hljs-comment">// Inheritance</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Square</span> : <span class="hljs-keyword">public</span> Rectangle {
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-built_in">Square</span>(<span class="hljs-type">int</span> size) : <span class="hljs-built_in">Rectangle</span>(size, size) {}
-};</code></pre><h3>8. Polymorphism</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span> {
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-comment">// Virtual function allows override</span>
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">speak</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>{ cout &lt;&lt; <span class="hljs-string">"???"</span>; }
-    
-    <span class="hljs-comment">// Virtual Destructor (Crucial for base classes)</span>
-    <span class="hljs-keyword">virtual</span> ~<span class="hljs-built_in">Animal</span>() = <span class="hljs-keyword">default</span>; 
-};
+        <span class="hljs-comment">// Destructor</span>
+        ~<span class="hljs-built_in">Rectangle</span>() { <span class="hljs-comment">/* Cleanup */</span> }
+        };
 
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> : <span class="hljs-keyword">public</span> Animal {
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-comment">// 'override' keyword ensures you are actually overriding</span>
-    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">speak</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> <span class="hljs-keyword">override</span> </span>{ cout &lt;&lt; <span class="hljs-string">"Woof"</span>; }
-};
+        <span class="hljs-comment">// Inheritance</span>
+        <span class="hljs-keyword">class</span> <span class="hljs-title class_">Square</span> : <span
+          class="hljs-keyword">public</span> Rectangle {
+        <span class="hljs-keyword">public</span>:
+        <span class="hljs-built_in">Square</span>(<span class="hljs-type">int</span> size) : <span
+          class="hljs-built_in">Rectangle</span>(size, size) {}
+        };</code></pre>
+    <h3>8. Polymorphism</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-keyword">class</span> <span
+          class="hljs-title class_">Animal</span> {
+        <span class="hljs-keyword">public</span>:
+        <span class="hljs-comment">// Virtual function allows override</span>
+        <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span
+            class="hljs-title">speak</span><span class="hljs-params">()</span> <span class="hljs-type">const</span>
+        </span>{ cout &lt;&lt; <span class="hljs-string">"???"</span>; }
 
-<span class="hljs-comment">// Usage</span>
-Animal* a = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Dog</span>();
-a-&gt;<span class="hljs-built_in">speak</span>(); <span class="hljs-comment">// Prints "Woof"</span>
-<span class="hljs-keyword">delete</span> a;</code></pre><h3>9. Memory Management (Smart Pointers)</h3>
-<p>Forget <code>new</code> and <code>delete</code> (mostly). Use <code>&lt;memory&gt;</code>.</p>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// unique_ptr: Exclusive ownership (Automatically deleted when out of scope)</span>
-std::unique_ptr&lt;<span class="hljs-type">int</span>&gt; p1 = std::<span class="hljs-built_in">make_unique</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">10</span>);
-<span class="hljs-comment">// auto p2 = p1; // ERROR: Cannot copy unique_ptr</span>
-<span class="hljs-keyword">auto</span> p2 = std::<span class="hljs-built_in">move</span>(p1); <span class="hljs-comment">// OK: Ownership transferred to p2, p1 is now null</span>
+        <span class="hljs-comment">// Virtual Destructor (Crucial for base classes)</span>
+        <span class="hljs-keyword">virtual</span> ~<span class="hljs-built_in">Animal</span>() = <span
+          class="hljs-keyword">default</span>;
+        };
 
-<span class="hljs-comment">// shared_ptr: Shared ownership (Reference counted)</span>
-std::shared_ptr&lt;<span class="hljs-type">int</span>&gt; sp1 = std::<span class="hljs-built_in">make_shared</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">20</span>);
-<span class="hljs-keyword">auto</span> sp2 = sp1; <span class="hljs-comment">// OK: Ref count = 2. Deleted only when all owners are gone.</span>
+        <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> : <span
+          class="hljs-keyword">public</span> Animal {
+        <span class="hljs-keyword">public</span>:
+        <span class="hljs-comment">// 'override' keyword ensures you are actually overriding</span>
+        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">speak</span><span
+            class="hljs-params">()</span> <span class="hljs-type">const</span> <span
+            class="hljs-keyword">override</span> </span>{ cout &lt;&lt; <span class="hljs-string">"Woof"</span>; }
+        };
 
-<span class="hljs-comment">// weak_ptr: Non-owning reference (Breaks circular dependencies)</span>
-std::weak_ptr&lt;<span class="hljs-type">int</span>&gt; wp = sp1;</code></pre><h3>10. STL Containers</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// Vector (Dynamic Array)</span>
-vector&lt;<span class="hljs-type">int</span>&gt; v = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>};
-v.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">4</span>);
-v[<span class="hljs-number">0</span>]; <span class="hljs-comment">// Access</span>
+        <span class="hljs-comment">// Usage</span>
+        Animal* a = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Dog</span>();
+        a-&gt;<span class="hljs-built_in">speak</span>(); <span class="hljs-comment">// Prints "Woof"</span>
+        <span class="hljs-keyword">delete</span> a;</code></pre>
+    <h3>9. Memory Management (Smart Pointers)</h3>
+    <p>Forget <code>new</code> and <code>delete</code> (mostly). Use <code>&lt;memory&gt;</code>.</p>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// unique_ptr: Exclusive ownership (Automatically
+          deleted when out of scope)</span>
+        std::unique_ptr&lt;<span class="hljs-type">int</span>&gt; p1 = std::<span
+          class="hljs-built_in">make_unique</span>&lt;<span class="hljs-type">int</span>&gt;(<span
+          class="hljs-number">10</span>);
+        <span class="hljs-comment">// auto p2 = p1; // ERROR: Cannot copy unique_ptr</span>
+        <span class="hljs-keyword">auto</span> p2 = std::<span class="hljs-built_in">move</span>(p1); <span
+          class="hljs-comment">// OK: Ownership transferred to p2, p1 is now null</span>
 
-<span class="hljs-comment">// Array (Fixed size array, safer than C-arrays)</span>
-array&lt;<span class="hljs-type">int</span>, 3&gt; arr = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>};
+        <span class="hljs-comment">// shared_ptr: Shared ownership (Reference counted)</span>
+        std::shared_ptr&lt;<span class="hljs-type">int</span>&gt; sp1 = std::<span
+          class="hljs-built_in">make_shared</span>&lt;<span class="hljs-type">int</span>&gt;(<span
+          class="hljs-number">20</span>);
+        <span class="hljs-keyword">auto</span> sp2 = sp1; <span class="hljs-comment">// OK: Ref count = 2. Deleted only
+          when all owners are gone.</span>
 
-<span class="hljs-comment">// Map (Key-Value pairs, sorted by key)</span>
-map&lt;string, <span class="hljs-type">int</span>&gt; ages;
-ages[<span class="hljs-string">"Alice"</span>] = <span class="hljs-number">30</span>;
-<span class="hljs-keyword">if</span> (ages.<span class="hljs-built_in">count</span>(<span class="hljs-string">"Alice"</span>)) { <span class="hljs-comment">/* Exists */</span> }
+        <span class="hljs-comment">// weak_ptr: Non-owning reference (Breaks circular dependencies)</span>
+        std::weak_ptr&lt;<span class="hljs-type">int</span>&gt; wp = sp1;</code></pre>
+    <h3>10. STL Containers</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// Vector (Dynamic Array)</span>
+        vector&lt;<span class="hljs-type">int</span>&gt; v = {<span class="hljs-number">1</span>, <span
+          class="hljs-number">2</span>, <span class="hljs-number">3</span>};
+        v.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">4</span>);
+        v[<span class="hljs-number">0</span>]; <span class="hljs-comment">// Access</span>
 
-<span class="hljs-comment">// Unordered Map (Hash Map - O(1) access)</span>
-unordered_map&lt;string, <span class="hljs-type">int</span>&gt; scores;
+        <span class="hljs-comment">// Array (Fixed size array, safer than C-arrays)</span>
+        array&lt;<span class="hljs-type">int</span>, 3&gt; arr = {<span class="hljs-number">1</span>, <span
+          class="hljs-number">2</span>, <span class="hljs-number">3</span>};
 
-<span class="hljs-comment">// Pair &amp; Tuple</span>
-pair&lt;<span class="hljs-type">int</span>, string&gt; p = {<span class="hljs-number">1</span>, <span class="hljs-string">"Apple"</span>};
-tuple&lt;<span class="hljs-type">int</span>, <span class="hljs-type">double</span>, <span class="hljs-type">int</span>&gt; t = {<span class="hljs-number">1</span>, <span class="hljs-number">3.14</span>, <span class="hljs-number">99</span>};</code></pre><h3>11. Iterators &amp; Algorithms (<code>&lt;algorithm&gt;</code>)</h3>
-<pre><code class="hljs language-cpp">vector&lt;<span class="hljs-type">int</span>&gt; v = {<span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">8</span>, <span class="hljs-number">1</span>};
+        <span class="hljs-comment">// Map (Key-Value pairs, sorted by key)</span>
+        map&lt;string, <span class="hljs-type">int</span>&gt; ages;
+        ages[<span class="hljs-string">"Alice"</span>] = <span class="hljs-number">30</span>;
+        <span class="hljs-keyword">if</span> (ages.<span class="hljs-built_in">count</span>(<span
+          class="hljs-string">"Alice"</span>)) { <span class="hljs-comment">/* Exists */</span> }
 
-<span class="hljs-comment">// Sorting</span>
-<span class="hljs-built_in">sort</span>(v.<span class="hljs-built_in">begin</span>(), v.<span class="hljs-built_in">end</span>()); <span class="hljs-comment">// 1, 2, 5, 8</span>
+        <span class="hljs-comment">// Unordered Map (Hash Map - O(1) access)</span>
+        unordered_map&lt;string, <span class="hljs-type">int</span>&gt; scores;
 
-<span class="hljs-comment">// Find</span>
-<span class="hljs-keyword">auto</span> it = <span class="hljs-built_in">find</span>(v.<span class="hljs-built_in">begin</span>(), v.<span class="hljs-built_in">end</span>(), <span class="hljs-number">8</span>);
-<span class="hljs-keyword">if</span> (it != v.<span class="hljs-built_in">end</span>()) { <span class="hljs-comment">/* Found */</span> }
+        <span class="hljs-comment">// Pair &amp; Tuple</span>
+        pair&lt;<span class="hljs-type">int</span>, string&gt; p = {<span class="hljs-number">1</span>, <span
+          class="hljs-string">"Apple"</span>};
+        tuple&lt;<span class="hljs-type">int</span>, <span class="hljs-type">double</span>, <span
+          class="hljs-type">int</span>&gt; t = {<span class="hljs-number">1</span>, <span
+          class="hljs-number">3.14</span>, <span class="hljs-number">99</span>};</code></pre>
+    <h3>11. Iterators &amp; Algorithms (<code>&lt;algorithm&gt;</code>)</h3>
+    <pre><code class="hljs language-cpp">vector&lt;<span class="hljs-type">int</span>&gt; v = {<span
+          class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">8</span>, <span
+          class="hljs-number">1</span>};
 
-<span class="hljs-comment">// Transform (Map)</span>
-<span class="hljs-built_in">transform</span>(v.<span class="hljs-built_in">begin</span>(), v.<span class="hljs-built_in">end</span>(), v.<span class="hljs-built_in">begin</span>(), [](<span class="hljs-type">int</span> n){ <span class="hljs-keyword">return</span> n * <span class="hljs-number">2</span>; });</code></pre><h3>12. Lambdas (Anonymous Functions)</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// [capture](parameters) -&gt; return_type { body }</span>
+        <span class="hljs-comment">// Sorting</span>
+        <span class="hljs-built_in">sort</span>(v.<span class="hljs-built_in">begin</span>(), v.<span
+          class="hljs-built_in">end</span>()); <span class="hljs-comment">// 1, 2, 5, 8</span>
 
-<span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;
-<span class="hljs-keyword">auto</span> addX = [x](<span class="hljs-type">int</span> a) { <span class="hljs-keyword">return</span> a + x; }; <span class="hljs-comment">// Capture x by value</span>
-<span class="hljs-keyword">auto</span> modX = [&amp;x]() { x = <span class="hljs-number">20</span>; };           <span class="hljs-comment">// Capture x by reference</span>
+        <span class="hljs-comment">// Find</span>
+        <span class="hljs-keyword">auto</span> it = <span class="hljs-built_in">find</span>(v.<span
+          class="hljs-built_in">begin</span>(), v.<span class="hljs-built_in">end</span>(), <span
+          class="hljs-number">8</span>);
+        <span class="hljs-keyword">if</span> (it != v.<span class="hljs-built_in">end</span>()) { <span
+          class="hljs-comment">/* Found */</span> }
 
-<span class="hljs-comment">// Generic Lambda (C++14)</span>
-<span class="hljs-keyword">auto</span> print = [](<span class="hljs-keyword">auto</span> val) { cout &lt;&lt; val; };</code></pre><h3>13. Templates (Generics)</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// Function Template</span>
-<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
-<span class="hljs-function">T <span class="hljs-title">add</span><span class="hljs-params">(T a, T b)</span> </span>{
-    <span class="hljs-keyword">return</span> a + b;
-}
-<span class="hljs-type">int</span> sum = <span class="hljs-built_in">add</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+        <span class="hljs-comment">// Transform (Map)</span>
+        <span class="hljs-built_in">transform</span>(v.<span class="hljs-built_in">begin</span>(), v.<span
+          class="hljs-built_in">end</span>(), v.<span class="hljs-built_in">begin</span>(), [](<span
+          class="hljs-type">int</span> n){ <span class="hljs-keyword">return</span> n * <span
+          class="hljs-number">2</span>; });</code></pre>
+    <h3>12. Lambdas (Anonymous Functions)</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// [capture](parameters) -&gt; return_type { body
+          }</span>
 
-<span class="hljs-comment">// Class Template</span>
-<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span> {
-    T data;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-built_in">Box</span>(T d) : <span class="hljs-built_in">data</span>(d) {}
-};
-<span class="hljs-function">Box&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">intBox</span><span class="hljs-params">(<span class="hljs-number">123</span>)</span></span>;</code></pre><h3>14. Modern C++ Features</h3>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// nullptr (Type-safe null pointer)</span>
-<span class="hljs-type">int</span>* p = <span class="hljs-literal">nullptr</span>; 
+        <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;
+        <span class="hljs-keyword">auto</span> addX = [x](<span class="hljs-type">int</span> a) { <span
+          class="hljs-keyword">return</span> a + x; }; <span class="hljs-comment">// Capture x by value</span>
+        <span class="hljs-keyword">auto</span> modX = [&amp;x]() { x = <span class="hljs-number">20</span>; }; <span
+          class="hljs-comment">// Capture x by reference</span>
 
-<span class="hljs-comment">// Structured Binding (C++17) - Unpack tuples/structs</span>
-pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; coords = {<span class="hljs-number">10</span>, <span class="hljs-number">20</span>};
-<span class="hljs-keyword">auto</span> [x, y] = coords; 
+        <span class="hljs-comment">// Generic Lambda (C++14)</span>
+        <span class="hljs-keyword">auto</span> print = [](<span class="hljs-keyword">auto</span> val) { cout &lt;&lt;
+        val; };</code></pre>
+    <h3>13. Templates (Generics)</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// Function Template</span>
+        <span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+        <span class="hljs-function">T <span class="hljs-title">add</span><span class="hljs-params">(T a, T b)</span>
+        </span>{
+        <span class="hljs-keyword">return</span> a + b;
+        }
+        <span class="hljs-type">int</span> sum = <span class="hljs-built_in">add</span>&lt;<span
+          class="hljs-type">int</span>&gt;(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
 
-<span class="hljs-comment">// Optional (C++17) - Value may or may not exist</span>
-<span class="hljs-function">std::optional&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">getValue</span><span class="hljs-params">(<span class="hljs-type">bool</span> valid)</span> </span>{
-    <span class="hljs-keyword">if</span> (valid) <span class="hljs-keyword">return</span> <span class="hljs-number">5</span>;
-    <span class="hljs-keyword">return</span> std::<span class="hljs-literal">nullopt</span>;
-}
+        <span class="hljs-comment">// Class Template</span>
+        <span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+        <span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span> {
+        T data;
+        <span class="hljs-keyword">public</span>:
+        <span class="hljs-built_in">Box</span>(T d) : <span class="hljs-built_in">data</span>(d) {}
+        };
+        <span class="hljs-function">Box&lt;<span class="hljs-type">int</span>&gt; <span
+            class="hljs-title">intBox</span><span class="hljs-params">(<span
+              class="hljs-number">123</span>)</span></span>;</code></pre>
+    <h3>14. Modern C++ Features</h3>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// nullptr (Type-safe null pointer)</span>
+        <span class="hljs-type">int</span>* p = <span class="hljs-literal">nullptr</span>;
 
-<span class="hljs-comment">// Variant (C++17) - Type-safe union</span>
-std::variant&lt;<span class="hljs-type">int</span>, string&gt; data;
-data = <span class="hljs-number">10</span>;
-data = <span class="hljs-string">"Hello"</span>;
+        <span class="hljs-comment">// Structured Binding (C++17) - Unpack tuples/structs</span>
+        pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; coords = {<span
+          class="hljs-number">10</span>, <span class="hljs-number">20</span>};
+        <span class="hljs-keyword">auto</span> [x, y] = coords;
 
-<span class="hljs-comment">// Constexpr (Compile-time evaluation)</span>
-<span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>{ <span class="hljs-keyword">return</span> (n &lt;= <span class="hljs-number">1</span>) ? n : <span class="hljs-built_in">fib</span>(n<span class="hljs-number">-1</span>) + <span class="hljs-built_in">fib</span>(n<span class="hljs-number">-2</span>); }
-<span class="hljs-type">int</span> val = <span class="hljs-built_in">fib</span>(<span class="hljs-number">10</span>); <span class="hljs-comment">// Calculated at compile time</span></code></pre><h3>15. Move Semantics (Advanced)</h3>
-<p>Crucial for performance (avoids deep copies).</p>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// L-value: Has a name, address (int a)</span>
-<span class="hljs-comment">// R-value: Temporary, no address (5, x + y)</span>
+        <span class="hljs-comment">// Optional (C++17) - Value may or may not exist</span>
+        <span class="hljs-function">std::optional&lt;<span class="hljs-type">int</span>&gt; <span
+            class="hljs-title">getValue</span><span class="hljs-params">(<span class="hljs-type">bool</span>
+            valid)</span> </span>{
+        <span class="hljs-keyword">if</span> (valid) <span class="hljs-keyword">return</span> <span
+          class="hljs-number">5</span>;
+        <span class="hljs-keyword">return</span> std::<span class="hljs-literal">nullopt</span>;
+        }
 
-<span class="hljs-comment">// Move Constructor</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Buffer</span> {
-    <span class="hljs-type">int</span>* data;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-comment">// Move Ctor: Steals resources from 'other'</span>
-    <span class="hljs-built_in">Buffer</span>(Buffer&amp;&amp; other) <span class="hljs-keyword">noexcept</span> : <span class="hljs-built_in">data</span>(other.data) {
-        other.data = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// Nullify source so destructor doesn't free it</span>
-    }
-};
+        <span class="hljs-comment">// Variant (C++17) - Type-safe union</span>
+        std::variant&lt;<span class="hljs-type">int</span>, string&gt; data;
+        data = <span class="hljs-number">10</span>;
+        data = <span class="hljs-string">"Hello"</span>;
 
-string a = <span class="hljs-string">"Heavy String"</span>;
-string b = std::<span class="hljs-built_in">move</span>(a); <span class="hljs-comment">// 'a' is now empty/valid state, 'b' owns the data</span></code></pre></div><button class="theme-fab" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch Theme</button></body></html>
+        <span class="hljs-comment">// Constexpr (Compile-time evaluation)</span>
+        <span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span
+            class="hljs-title">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>
+        </span>{ <span class="hljs-keyword">return</span> (n &lt;= <span class="hljs-number">1</span>) ? n : <span
+          class="hljs-built_in">fib</span>(n<span class="hljs-number">-1</span>) + <span
+          class="hljs-built_in">fib</span>(n<span class="hljs-number">-2</span>); }
+        <span class="hljs-type">int</span> val = <span class="hljs-built_in">fib</span>(<span
+          class="hljs-number">10</span>); <span class="hljs-comment">// Calculated at compile time</span></code></pre>
+    <h3>15. Move Semantics (Advanced)</h3>
+    <p>Crucial for performance (avoids deep copies).</p>
+    <pre><code class="hljs language-cpp"><span class="hljs-comment">// L-value: Has a name, address (int a)</span>
+        <span class="hljs-comment">// R-value: Temporary, no address (5, x + y)</span>
+
+        <span class="hljs-comment">// Move Constructor</span>
+        <span class="hljs-keyword">class</span> <span class="hljs-title class_">Buffer</span> {
+        <span class="hljs-type">int</span>* data;
+        <span class="hljs-keyword">public</span>:
+        <span class="hljs-comment">// Move Ctor: Steals resources from 'other'</span>
+        <span class="hljs-built_in">Buffer</span>(Buffer&amp;&amp; other) <span class="hljs-keyword">noexcept</span> :
+        <span class="hljs-built_in">data</span>(other.data) {
+        other.data = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// Nullify source so
+          destructor doesn't free it</span>
+        }
+        };
+
+        string a = <span class="hljs-string">"Heavy String"</span>;
+        string b = std::<span class="hljs-built_in">move</span>(a); <span class="hljs-comment">// 'a' is now empty/valid
+          state, 'b' owns the data</span></code></pre>
+  </div><button class="theme-fab"
+    onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'eclipse' ? 'bliss' : 'eclipse'">Switch
+    Theme</button>
+</body>
+
+</html>
